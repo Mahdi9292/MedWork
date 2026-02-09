@@ -52,7 +52,7 @@
     <!-- Notyf -->
     <link type="text/css" href="{{ asset('assets/vendor/notyf/notyf.min.css') }}" rel="stylesheet">
     <!-- Volt CSS -->
-    <link type="text/css" href="./css/volt.css" rel="stylesheet">
+    <link type="text/css" href="{{ asset('css/volt.css" rel="stylesheet') }}">
     <!-- NOTICE: You can use the _analytics.html partial to include production code specific code & trackers -->
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-141734189-6"></script>
@@ -70,7 +70,7 @@
                 'gtm.start':
                     new Date().getTime(), event: 'gtm.js'
             }); var f = d.getElementsByTagName(s)[0],
-                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                j = d.createElement(s), dl = l !== 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
                 'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
         })(window, document, 'script', 'dataLayer', 'GTM-THQTXJ7');
     </script>
@@ -85,7 +85,7 @@
                 <div class="navbar-collapse-header">
                     <div class="row">
                         <div class="col-6 collapse-brand">
-                            <a href="./index.html"><img src="{{ asset('/assets/img/brand/light.svg') }}" alt="Volt logo"></a>
+                            <a href="#l"><img src="{{ asset('/assets/img/brand/light.svg') }}" alt="Volt logo"></a>
                         </div>
                         <div class="col-6 collapse-close">
                             <a href="#navbar_global" class="fas fa-times" data-toggle="collapse" data-target="#navbar_global" aria-controls="navbar_global" aria-expanded="false" title="close" aria-label="Toggle navigation"></a>
