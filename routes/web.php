@@ -3,10 +3,10 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('index');
 })->name('home');
 
-Route::view('dashboard', 'dashboard')
+Route::view('dashboard', 'dashboard_old')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
