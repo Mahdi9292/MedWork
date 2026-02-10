@@ -13,7 +13,7 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-        dd('hi invoices index');
+        return view('templates.invoice.index');
     }
 
     /**
@@ -21,7 +21,7 @@ class InvoiceController extends Controller
      */
     public function create()
     {
-        //
+       return view('templates.invoice.create');
     }
 
     /**

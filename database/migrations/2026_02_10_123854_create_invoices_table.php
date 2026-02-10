@@ -36,9 +36,9 @@ class Invoice extends Migration
             $table->enum('type', ['AMVU'])->nullable();
             $table->string('title', 255)->nullable();
             $table->text('description')->nullable();
-            $table->date('date')->nullable();
+            $table->date('service_date');
             $table->enum('quantity', [1, 2, 3, 4, 5, 6, 7, 8, 9, 10])->default(1);
-            $table->decimal('unit_price', 10, 2);
+            $table->decimal('unit_price', 10, 2)->default(0);
 
             $table->timestamps();
             $table->softDeletes();
