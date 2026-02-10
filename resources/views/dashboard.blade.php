@@ -31,7 +31,7 @@
                         </a>
                     </li>
                     <li class="breadcrumb-item"><a href="#">Volt</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Transactions</li>
+                    <li class="breadcrumb-item active" aria-current="page">Rechnungen</li>
                 </ol>
             </nav>
             <h2 class="h4">All Orders</h2>
