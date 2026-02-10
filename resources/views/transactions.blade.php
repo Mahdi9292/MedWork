@@ -18,19 +18,6 @@
 
 @extends('layouts.app')
 
-<!-- sections.default._head -->
-
-
-<!-- Tablet view Navbar -->
-    <!-- sections.default._nav -->
-<!-- Tablet view Navbar end -->
-
-<!-- Side Navbar -->
-    <!-- sections.default._sidenav -->
-<!-- Side Navbar end -->
-
-
-    <!-- sections.default._topbar -->
 
 @section('content')
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
@@ -125,9 +112,8 @@
             <div class="fw-normal small mt-4 mt-lg-0">Showing <b>5</b> out of <b>25</b> entries</div>
         </div>
     </div>
-@endsection
 
-    <!-- sections.default._scripts -->
+@endsection
 
 
 

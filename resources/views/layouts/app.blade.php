@@ -8,7 +8,7 @@
     @show
 </head>
 <body>
-<!-- NOTICE: You can use the _analytics.html partial to include production code specific code & trackers -->
+
 <!-- Google Tag Manager (noscript) -->
 <noscript>
     <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-THQTXJ7" height="0" width="0" style="display:none;visibility:hidden"></iframe>
