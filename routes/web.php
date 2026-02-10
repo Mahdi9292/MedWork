@@ -3,9 +3,9 @@
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('dashboard');
-})->name('home');
+Route::get('/', [UserController::class, 'home'])->middleware('auth')->name('home');
+Route::get('/home', [UserController::class, 'home'])->middleware('auth');
+Route::get('/logout', [UserController::class, 'logout']);
 
 Route::get('/welcome', function () {
     return view('welcome');
@@ -13,8 +13,7 @@ Route::get('/welcome', function () {
 
 Route::get('/dashboard', function () {
     return view('dashboard');
-})->name('dashboard');
+})->middleware('auth')->name('dashboard');
 
-Route::get('/logout', [UserController::class, 'logout']);
 
 require __DIR__.'/settings.php';
