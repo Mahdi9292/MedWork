@@ -13,7 +13,36 @@ class Invoice extends Migration
     {
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
+
+            $table->string('invoice_number');
+            $table->string('name', 255);
+            $table->string('street', 255);
+            $table->string('house_number', 255);
+            $table->string('city', 255);
+            $table->string('postcode', 255);
+            $table->string('phone', 191)->nullable();
+            $table->string('mobile', 191)->nullable();
+
+            $table->date('invoice_date')->nullable();
+
             $table->timestamps();
+            $table->softDeletes();
+        });
+
+        Schema::create('invoice_services', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('invoice_id')->constrained('invoices')->cascadeOnDelete();
+
+            $table->enum('type', ['AMVU'])->nullable();
+            $table->string('title', 255)->nullable();
+            $table->text('description')->nullable();
+            $table->date('date')->nullable();
+            $table->enum('quantity', [1, 2, 3, 4, 5, 6, 7, 8, 9, 10])->default(1);
+            $table->decimal('unit_price', 10, 2);
+
+            $table->timestamps();
+            $table->softDeletes();
+
         });
     }
 
@@ -23,5 +52,6 @@ class Invoice extends Migration
     public function down(): void
     {
         Schema::dropIfExists('invoices');
+        Schema::dropIfExists('invoice_services');
     }
-};
+}
