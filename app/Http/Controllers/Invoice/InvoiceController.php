@@ -21,7 +21,7 @@ class InvoiceController extends Controller
      */
     public function create()
     {
-       return view('templates.invoice.create');
+        return view('templates.invoice.create');
     }
 
     /**

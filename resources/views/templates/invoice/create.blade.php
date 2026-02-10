@@ -48,76 +48,40 @@
         </div>
     </div>
 
-    <x-form.form :action="route('toffer.offers.store')" id="createOfferForm" novalidate hasJsValidation>
+    <x-form.form :action="route('invoices.store')" id="createOfferForm" novalidate hasJsValidation>
         <div class="row">
             <div class="col-12 mb-4">
                 <div class="card border-light shadow-sm components-section">
                     <div class="card-header">
-                        {{ __('Kopfdaten') }}
+                        {{ __('Rechnung Empfänger') }}
                     </div>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-6">
-                                <x-form.tom-select name="creator_id" :label="__('Ersteller')" :options="$creatorOptions" :labelClass="'col-sm-3'" :value="Auth::user()->id"  required />
-                                <x-form.show name="created_at" :label="__('Erstelldatum')"  :value="Carbon\Carbon::now()->format('d.m.Y')" :labelClass="'col-sm-3'" required />
-                                <x-form.tom-select name="contract_type_id" :label="__('Vertragsart')" :options="$contractTypeOptions" :labelClass="'col-sm-3'" required />
-                                <x-form.input name="rental_start" :label="__('Mietbeginn')" :labelClass="'col-sm-3'" />
-                                <x-form.select name="transport_type_id" :label="__('Transportart')" :options="$transportTypeOptions" :labelClass="'col-sm-3'" />
-                                <x-form.textarea name="internal_comment" :label="__(' Interner Kommentar')" :labelClass="'col-sm-3'" />
+                                <x-form.input name="rental_start" :label="__('Rechnung Nr.')" :labelClass="'col-sm-3'" />
+                                <x-form.input name="rental_start" :label="__('Straße')" :labelClass="'col-sm-3'" />
+                                <x-form.input name="rental_start" :label="__('Stadt')" :labelClass="'col-sm-3'" />
+                            </div>
+
+                            <div class="col-sm-6">
+                                <x-form.input name="rental_start" :label="__('Name')" :labelClass="'col-sm-3'" />
+                                <x-form.input name="rental_start" :label="__('Haus Nr.')" :labelClass="'col-sm-3'" />
+                                <x-form.input name="rental_start" :label="__('PLZ')" :labelClass="'col-sm-3'" />
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+
         <div class="row">
             <div class="col-12 mb-4">
                 <div class="card border-light shadow-sm components-section">
                     <div class="card-header">
                         {{ __('Kunde') }}
                     </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-sm-8">
-                                <div>
-                                    <livewire:customers.search :fields="collect([
-                                        'id'=> 'customer_id',
-                                        'name' => 'customer_name',
-                                        'first_name' => 'customer_first_name',
-                                        'last_name' => 'customer_last_name',
-                                        'street' => 'customer_street',
-                                        'postcode' => 'customer_postcode',
-                                        'city' => 'customer_city',
-                                        'phone' => 'customer_phone',
-                                        'mobile' => 'customer_mobile',
-                                        'mail' => 'customer_mail',
-                                        ])">
-                                    </livewire:customers.search>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <x-form.input name="customer_id" :label="__('ID')" :labelClass="'col-sm-3'" />
-                                    <x-form.input name="customer_name" :label="__('Name')" :labelClass="'col-sm-3'"  />
-                                    <x-form.input name="customer_name_2" :label="__('Zusatz')" :labelClass="'col-sm-3'" />
-                                    <x-form.input name="customer_first_name" :label="__('Vorname')" :labelClass="'col-sm-3'"  />
-                                    <x-form.input name="customer_last_name" :label="__('Nachname')" :labelClass="'col-sm-3'"  />
-                                    <x-form.input name="customer_mail" :label="__('eMail')" :labelClass="'col-sm-3'"  />
-                                    <x-form.input name="salutation" :label="__('Anrede')" :labelClass="'col-sm-3'" required />
-                                </div>
-                                <div class="col-sm-6">
-                                    <x-form.input name="customer_street" :label="__('Straße')" :labelClass="'col-sm-3'" />
-                                    <x-form.input name="customer_postcode" :label="__('PLZ')" :labelClass="'col-sm-3'" />
-                                    <x-form.input name="customer_city" :label="__('Stadt')" :labelClass="'col-sm-3'" />
-                                    <x-form.input name="customer_phone" :label="__('Tel:')" :labelClass="'col-sm-3'"  />
-                                    <x-form.input name="customer_mobile" :label="__('Mobil:')" :labelClass="'col-sm-3'"  />
-                                    <x-form.textarea name="customer_location" :label="__('Einsatzort:')" :labelClass="'col-sm-3'"  />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
                     <div class="card-footer border-success p-2 footer-light">
                         <button type="submit" id="btnFormSubmit" class="btn btn-secondary float-end">{{ __('Erstellen') }}</button>
                     </div>
