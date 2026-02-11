@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Invoice;
 
+use App\Enums\Invoice\ServiceType;
 use App\Http\Controllers\Controller;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
@@ -21,7 +22,12 @@ class InvoiceController extends Controller
      */
     public function create()
     {
-        return view('templates.invoice.create');
+
+        // Dropdown options
+        $data['serviceTypeOptions']    = ServiceType::options();
+        $invoice = new Invoice;
+
+        return view('templates.invoice.create', compact('invoice'), $data);
     }
 
     /**

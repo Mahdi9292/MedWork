@@ -1,22 +1,25 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark">
-    <head>
-        @include('sections.default.head')
-    </head>
-    <body class="min-h-screen bg-white antialiased dark:bg-linear-to-b dark:from-neutral-950 dark:to-neutral-900">
-        <div class="bg-background flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">
-            <div class="flex w-full max-w-sm flex-col gap-2">
-                <a href="{{ route('home') }}" class="flex flex-col items-center gap-2 font-medium" wire:navigate>
-                    <span class="flex h-9 w-9 mb-1 items-center justify-center rounded-md">
-                        <x-app-logo-icon class="size-9 fill-current text-black dark:text-white" />
-                    </span>
-                    <span class="sr-only">{{ config('app.name', 'Laravel') }}</span>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+    @include('sections.default.head')
+</head>
+<body class="bg-white antialiased">
+<div class="container">
+    <div class="row min-vh-100 align-items-center justify-content-center p-3">
+        <div class="col-12 col-sm-9 col-md-7 col-lg-5 col-xl-4">
+
+            <div class="text-center mb-5">
+                <a href="{{ route('home') }}" class="text-decoration-none d-inline-flex flex-column align-items-center" wire:navigate>
+                    <x-app-logo-icon style="width: 48px; height: 48px;" class="text-dark mb-2" />
+                    <span class="visually-hidden">{{ config('app.name', 'Laravel') }}</span>
                 </a>
-                <div class="flex flex-col gap-6">
-                    {{ $slot }}
-                </div>
             </div>
+
+            <div class="px-2">
+                {{ $slot }}
+            </div>
+
         </div>
-        @fluxScripts
-    </body>
-</html>
+    </div>
+</div>
+</body>

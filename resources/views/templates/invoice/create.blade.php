@@ -19,6 +19,9 @@
 @extends('layouts.app')
 
 @section('content')
+
+{{--    <livewire:invoice.invoice-manage-screen :invoice="$invoice"/>--}}
+
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
         <div class="d-block mb-4 mb-md-0">
             <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
@@ -79,9 +82,42 @@
             <div class="col-12 mb-4">
                 <div class="card border-light shadow-sm components-section">
                     <div class="card-header">
-                        {{ __('Kunde') }}
+                        {{ __('Leistungen') }}
                     </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <x-form.repeater id="repeaterPanel" name="services" :label="__('Leistungen')" :labelClass="'col-sm-3'" :heading="'Leistungen'" >
+                                    <x-slot name="customItems">
+                                        <div class="items" data-group="services" id="services">
+                                            <div class="row">
+                                                <div class="col-12 mb-2">
+                                                    <div class="card border-light shadow-sm components-section">
+                                                        <div class="card-body">
+                                                            <div class="item-content col-12">
+                                                                <x-form.select data-name="service_type" data-skip-name="false" name="service_type" class="" :label="__('Leistungstyp')" :options="$serviceTypeOptions" :labelClass="'col-sm-3'" />
+                                                                <x-form.input data-name="service_title" data-skip-name="false" name="service_title" :label="__('Andere Leistung')" class="" :labelClass="'col-sm-3'" />
+                                                                <x-form.textarea data-name="description" data-skip-name="false" name="description" :label="__('Beschreibung')" class="" :labelClass="'col-sm-3'" />
+                                                                <x-form.flat-pickr name="reference_date" :label="__('Referenzdatum')" :value="Carbon\Carbon::now()" :labelClass="'col-sm-3'" :week-numbers="true" :allow-input="true" required />
 
+                                                            </div>
+                                                        </div>
+                                                        <div class="card-footer">
+                                                            <div class="float-end repeater-remove-btn">
+                                                                <button type="button" class="btn btn-danger remove-btn" title="{{ __('Löschen') }}">
+                                                                    <i class="fas fa-trash"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </x-slot>
+                                </x-form.repeater>
+                            </div>
+                        </div>
+                    </div>
                     <div class="card-footer border-success p-2 footer-light">
                         <button type="submit" id="btnFormSubmit" class="btn btn-secondary float-end">{{ __('Erstellen') }}</button>
                     </div>
