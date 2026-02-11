@@ -1,43 +1,50 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark">
-    <head>
-        @include('sections.default.head')
-    </head>
-    <body class="min-h-screen bg-white antialiased dark:bg-linear-to-b dark:from-neutral-950 dark:to-neutral-900">
-        <div class="relative grid h-dvh flex-col items-center justify-center px-8 sm:px-0 lg:max-w-none lg:grid-cols-2 lg:px-0">
-            <div class="bg-muted relative hidden h-full flex-col p-10 text-white lg:flex dark:border-e dark:border-neutral-800">
-                <div class="absolute inset-0 bg-neutral-900"></div>
-                <a href="{{ route('home') }}" class="relative z-20 flex items-center text-lg font-medium" wire:navigate>
-                    <span class="flex h-10 w-10 items-center justify-center rounded-md">
-                        <x-app-logo-icon class="me-2 h-7 fill-current text-white" />
-                    </span>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+    @include('sections.default.head')
+</head>
+<body class="bg-white antialiased">
+<div class="container-fluid p-0">
+    <div class="row g-0 min-vh-100">
+
+        <div class="col-lg-6 d-none d-lg-flex flex-column justify-content-between p-5 bg-dark text-white position-relative">
+            <div class="position-absolute inset-0 opacity-25">
+                {{-- Optional: You could place your <x-subtle-pattern /> here --}}
+            </div>
+
+            <div class="position-relative z-1">
+                <a href="{{ route('home') }}" class="d-flex align-items-center text-white text-decoration-none h4 fw-bold" wire:navigate>
+                    <x-app-logo-icon style="width: 32px; height: 32px;" class="me-2" />
                     {{ config('app.name', 'Laravel') }}
                 </a>
-
-                @php
-                    [$message, $author] = str(Illuminate\Foundation\Inspiring::quotes()->random())->explode('-');
-                @endphp
-
-                <div class="relative z-20 mt-auto">
-                    <blockquote class="space-y-2">
-                        <flux:heading size="lg">&ldquo;{{ trim($message) }}&rdquo;</flux:heading>
-                        <footer><flux:heading>{{ trim($author) }}</flux:heading></footer>
-                    </blockquote>
-                </div>
             </div>
-            <div class="w-full lg:p-8">
-                <div class="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
-                    <a href="{{ route('home') }}" class="z-20 flex flex-col items-center gap-2 font-medium lg:hidden" wire:navigate>
-                        <span class="flex h-9 w-9 items-center justify-center rounded-md">
-                            <x-app-logo-icon class="size-9 fill-current text-black dark:text-white" />
-                        </span>
 
-                        <span class="sr-only">{{ config('app.name', 'Laravel') }}</span>
-                    </a>
-                    {{ $slot }}
-                </div>
+            @php
+                [$message, $author] = str(Illuminate\Foundation\Inspiring::quotes()->random())->explode('-');
+            @endphp
+
+            <div class="position-relative z-1 mt-auto">
+                <blockquote class="blockquote">
+                    <h2 class="display-6 fw-normal mb-3">&ldquo;{{ trim($message) }}&rdquo;</h2>
+                    <footer class="blockquote-footer text-white-50">{{ trim($author) }}</footer>
+                </blockquote>
             </div>
         </div>
-        @fluxScripts
-    </body>
+
+        <div class="col-12 col-lg-6 d-flex align-items-center justify-content-center p-4 p-md-5">
+            <div class="w-100" style="max-width: 400px;">
+
+                <div class="d-lg-none text-center mb-4">
+                    <a href="{{ route('home') }}" wire:navigate>
+                        <x-app-logo-icon style="width: 48px; height: 48px;" class="text-dark" />
+                    </a>
+                </div>
+
+                {{ $slot }}
+            </div>
+        </div>
+
+    </div>
+</div>
+</body>
 </html>

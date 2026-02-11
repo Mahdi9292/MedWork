@@ -33,8 +33,8 @@ class Invoice extends Migration
             $table->id();
             $table->foreignId('invoice_id')->constrained('invoices')->cascadeOnDelete();
 
-            $table->enum('type', ['AMVU'])->nullable();
-            $table->string('title', 255)->nullable();
+            $table->enum('service_type', ['AMVU'])->nullable();
+            $table->string('service_title', 255)->nullable();
             $table->text('description')->nullable();
             $table->date('service_date');
             $table->enum('quantity', [1, 2, 3, 4, 5, 6, 7, 8, 9, 10])->default(1);
