@@ -1,13 +1,6 @@
-/*@import 'tailwindcss';*/
-@import '../../vendor/livewire/flux/dist/flux.css';
-@import './../../vendor/power-components/livewire-powergrid/dist/bootstrap5.css';
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 @import "@fortawesome/fontawesome-free/css/all.min.css";
-@import 'flatpickr/dist/flatpickr.min.css';
-@import "tom-select/dist/css/tom-select.bootstrap5.min.css";
-@import "bootstrap-toaster/dist/css/bootstrap-toaster.min.css";
 @import "bootstrap-icons/font/bootstrap-icons.css";
-
-@source '../views';
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../vendor/livewire/flux-pro/stubs/**/*.blade.php';
-@source '../../vendor/livewire/flux/stubs/**/*.blade.php';
+@import "bootstrap-toaster/dist/css/bootstrap-toaster.min.css";
+@import "tom-select/dist/css/tom-select.bootstrap5.min.css";
+@import 'flatpickr/dist/flatpickr.min.css';
