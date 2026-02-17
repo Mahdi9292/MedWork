@@ -5,6 +5,11 @@
          x-data="{
             picker: null,
             initPicker() {
+
+                // If an instance already exists on this element, destroy it first
+                if (this.$refs.datePicker._flatpickr) {
+                    this.$refs.datePicker._flatpickr.destroy();
+                }
                 this.picker = flatpickr($refs.datePicker, {{ $jsonOptions() }});
                 $el.closest('.removeValidationAfter').classList.remove('is-valid');
                  this.picker.config.onClose.push(function(selectedDates, dateStr, instance) {
@@ -18,7 +23,7 @@
         <input
             x-ref="datePicker"
             x-init="initPicker()"
-            x-on:mouseenter="initPicker()"
+            x-on:mouseenter.once="initPicker()"
             name="{{ $name }}"
             id="{{ $id }}"
             type="{{ $type }}"
