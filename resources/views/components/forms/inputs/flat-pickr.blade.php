@@ -23,7 +23,7 @@
         <input
             x-ref="datePicker"
             x-init="initPicker()"
-            x-on:mouseenter.once="initPicker()"
+            x-on:mouseenter="initPicker()"
             name="{{ $name }}"
             id="{{ $id }}"
             type="{{ $type }}"
