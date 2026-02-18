@@ -90,7 +90,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-12">
-                                <x-form.repeater id="repeaterPanel" name="services" :label="__('Leistungen')" :labelClass="'col-sm-3'" :heading="'Leistungen'" >
+                                <x-form.clone-repeater id="repeaterPanel" name="services" :label="__('Leistungen')" :labelClass="'col-sm-3'" :heading="'Leistungen'" >
                                     <x-slot name="customItems">
                                         <div class="items" data-group="services" id="services">
                                             <div class="row">
@@ -126,7 +126,7 @@
                                             </div>
                                         </div>
                                     </x-slot>
-                                </x-form.repeater>
+                                </x-form.clone-repeater>
                             </div>
                         </div>
                     </div>
