@@ -1,102 +1,132 @@
 jQuery.fn.extend({
-    // Renamed to avoid conflict with the standard repeater
-    createCloneRepeater: function (options = {}) {
-        let hasOption = (key) => options.hasOwnProperty(key);
-        let option = (key) => options[key];
 
-        let generateId = function (string, index = false) {
+    createCloneRepeater: function (options = {}) {
+        let hasOption = function (optionKey) {
+            return options.hasOwnProperty(optionKey);
+        };
+
+        let option = function (optionKey) {
+            return options[optionKey];
+        };
+
+        let generateId = function (string, index=false) {
             return string
                 .replace(/\[/g, '_')
                 .replace(/\]/g, '')
-                .toLowerCase().concat((index !== false ? index.toString() : ''));
+                .toLowerCase().concat((index !==false ? index.toString() : ''));
         };
 
-        let addItem = function (sourceItem, key, fresh = true) {
-            let group = sourceItem.data("group");
-            let inputs = sourceItem.find('input, select, textarea');
+        let addItem = function (items, key, fresh = true) {
+            let itemContent = items;
+            let group = itemContent.data("group");
+            let item = itemContent;
+            let input = item.find('input,select,textarea');
 
-            // Clone the DOM element
-            let itemClone = sourceItem.clone();
-
-
-            sourceItem.find('input, select, textarea').each(function (index, el) {
-                let val = $(el).val();
-                let name = $(el).attr('name');
-                let attrName = $(el).data('name');
-
-                // Find the corresponding input in the CLONE to set value and name
-                let targetInput = itemClone.find('input, select, textarea').eq(index);
-
-                if (typeof attrName === "undefined") {
-                    targetInput.attr("name", group + "[]");
-                } else {
-                    targetInput.attr("name", group + "[" + key + "]" + "[" + attrName + "]");
-                }
-
-                // Set the ID and Value
-                let newId = generateId(targetInput.attr('name'), (typeof attrName === "undefined" ? key : false));
-                targetInput.attr('id', newId);
-                targetInput.val(val); // This carries the value over
-
-                // Update label association
-                itemClone.find('label[for="' + $(el).attr('id') + '"]').attr('for', newId);
-            });
-
-            // Update names and IDs in the clone
-            itemClone.find('input, select, textarea').each(function (index, el) {
+            input.each(function (index, el) {
                 let attrName = $(el).data('name');
                 let skipName = $(el).data('skip-name');
-
-                if (skipName !== true) {
+                if (skipName != true) {
                     if (typeof attrName === "undefined") {
                         $(el).attr("name", group + "[]");
-                    } else {
+                    }else {
                         $(el).attr("name", group + "[" + key + "]" + "[" + attrName + "]");
                     }
+                } else {
+                    if (attrName != 'undefined') {
+                        $(el).attr("name", attrName);
+                    }
+                }
+                if (fresh === true || !$(el).val()) {
+                    $(el).attr('value', '');
                 }
 
-                $(el).attr('id', generateId($(el).attr('name'), (typeof attrName === "undefined" ? key : false)));
-                $(el).parent().find('label').attr('for', $(el).attr('id'));
+                $(el).attr('id', generateId($(el).attr('name'), (typeof attrName === "undefined" ? key: false)));
+                $(el).parent().find('label').attr('for', generateId($(el).attr('name')));
+            })
 
-                // IMPORTANT: Transfer the current value from the source to the clone
-                // .clone() doesn't always keep the dynamically changed value of selects/textareas
-                let sourceValue = inputs.eq(index).val();
-                $(el).val(sourceValue);
-            });
+            let itemClone = items;
 
-            // Handling remove btn
+            /* Handling remove btn */
             let removeButton = itemClone.find('.remove-btn');
-            removeButton.attr('disabled', key === 0);
+
+            if (key == 0) {
+                removeButton.attr('disabled', true);
+
+            } else {
+                removeButton.attr('disabled', false);
+            }
+
             removeButton.attr('onclick', '$(this).parents(\'.items\').remove()');
 
-            // Wrap in the standard item container
-            let newItem = $("<div class='items'></div>").append(itemClone.html());
+            // ***************************** BS5 Accordion *******************
+            // accordion heading
+            let accordionClass = '';
+            let accordionHeader = itemClone.children().find('.accordion-header');
+            if(accordionHeader) {
+                accordionHeader.attr('id', 'panel-heading_acc_' + key);
+                accordionClass = 'accordion mt-3'
+                itemClone.children().find('span.repeaterClass').html((key+1)+'. ');
+            }
 
-            // Re-apply values to the new HTML string object
-            itemClone.find('input, select, textarea').each(function(index, el){
-                newItem.find('input, select, textarea').eq(index).val($(el).val());
-            });
+            // accordion button
+            let accordionButton = itemClone.children().find('.accordion-button');
+            if(accordionButton) {
+                accordionButton.attr('data-bs-target', '#panel-collapse_acc_' + key);
+                accordionButton.attr('aria-controls', 'panel-collapse_acc_' + key);
+            }
 
-            newItem.attr('data-index', key);
+            // accordion heading
+            let accordionCollapse = itemClone.children().find('.accordion-collapse');
+            if(accordionCollapse) {
+                accordionCollapse.attr('id', 'panel-collapse_acc_' + key);
+            }
+            // ***************************** End BS5 Accordion *******************
+
+            let newItem = $("<div class='items "+accordionClass+"'>" + itemClone.html() + "<div/>");
+            newItem.attr('data-index', key)
+
             newItem.appendTo(repeater);
         };
 
+        /* find elements */
         let repeater = this;
-        let initialItems = repeater.find(".items");
+        let items = repeater.find(".items");
         let key = 0;
         let addButton = repeater.find('.repeater-add-btn');
 
-        // Initialize existing items
-        initialItems.each(function (index, item) {
-            // We don't remove() here like the original to preserve initial server-side values
-            key++;
+        items.each(function (index, item) {
+            items.remove();
+            if (hasOption('showFirstItemToDefault') && option('showFirstItemToDefault') == true) {
+                addItem($(item), key, false);
+                key++;
+            } else {
+                if (items.length > 1) {
+                    addItem($(item), key, false);
+                    key++;
+                }
+            }
         });
 
         /* handle click and add items */
         addButton.on("click", function () {
-            // Find the LAST item to clone its current values
+
+            // get last existing item values
             let lastItem = repeater.find('.items').last();
-            addItem(lastItem, key);
+            let lastInputs = lastItem.find('input,select,textarea');
+
+            // add new item
+            addItem($(items[0]), key);
+
+            // get newly created item
+            let newItem = repeater.find('.items').last();
+            let newInputs = newItem.find('input,select,textarea');
+
+            // copy values
+            newInputs.each(function(index, el){
+                let value = $(lastInputs[index]).val();
+                $(el).val(value);
+            });
+
             key++;
         });
     }
