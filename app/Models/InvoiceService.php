@@ -3,11 +3,13 @@
 namespace App\Models;
 
 use App\Enums\Invoice\ServiceType;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class InvoiceService extends Model
+class InvoiceService extends BaseModel
 {
     use SoftDeletes;
 
@@ -30,5 +32,16 @@ class InvoiceService extends Model
     public function invoice(): BelongsTo
     {
         return $this->belongsTo(Invoice::class, 'invoice_id');
+    }
+
+    protected function serviceDate(): Attribute
+    {
+        return Attribute::make(
+            set: function ($value) {
+                return $value
+                    ? Carbon::createFromFormat('d.m.Y', $value)->format('Y-m-d')
+                    : null;
+            }
+        );
     }
 }

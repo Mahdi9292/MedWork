@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Invoice;
 use App\Enums\Invoice\HourAmount;
 use App\Enums\Invoice\ServiceType;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\InvoiceRequest;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
 
@@ -35,9 +36,17 @@ class InvoiceController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(InvoiceRequest $request)
     {
-        dd($request->all());
+        $validated = $request->validated();
+        // Remove services from invoice data
+        $invoiceData = collect($validated)->except('services')->toArray();
+
+        $invoice = Invoice::create($invoiceData);
+
+        foreach ($validated['services'] as $service) {
+            $invoice->services()->create($service);
+        }
     }
 
     /**
