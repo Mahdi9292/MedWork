@@ -48,7 +48,7 @@ class InvoiceController extends Controller
             $invoice->services()->create($service);
         }
 
-        return redirect()->route('invoices.index')->with('success', 'Team E-Mail Created');
+        return redirect()->route('invoices.index')->with('success', 'Rechnung wurde erfolgreich erstellt');
     }
 
     /**
@@ -64,15 +64,45 @@ class InvoiceController extends Controller
      */
     public function edit(Invoice $invoice)
     {
-        //
+        // Dropdown options
+        $data['serviceTypeOptions']    = ServiceType::options();
+        $data['quantityOptions']       = HourAmount::options();
+        return view('templates.invoice.edit', compact('invoice'), $data);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Invoice $invoice)
+    public function update(InvoiceRequest $request, Invoice $invoice)
     {
-        //
+        $validated = $request->validated();
+
+        // Update invoice main data
+        $invoiceData = collect($validated)->except('services')->toArray();
+        $invoice->update($invoiceData);
+
+        $existingServiceIds = [];
+
+        dd($validated['services']);
+
+        foreach ($validated['services'] as $serviceData) {
+
+            $service = $invoice->services()->updateOrCreate(
+                ['id' => $serviceData['id'] ?? null], // match condition
+                $serviceData
+            );
+
+            $existingServiceIds[] = $service->id;
+        }
+
+        dd($existingServiceIds);
+
+        // Delete removed services of this Invoice
+        $invoice->services()->whereNotIn('id', $existingServiceIds)->delete();
+
+        return redirect()
+            ->route('invoices.index')
+            ->with('success', 'Rechnung Nr. ' . $invoice->invoice_number . ' wurde erfolgreich aktualisiert');
     }
 
     /**
@@ -80,6 +110,13 @@ class InvoiceController extends Controller
      */
     public function destroy(Invoice $invoice)
     {
-        //
+        $invoiceNumber = $invoice->invoice_number;
+        $invoice->services()->delete();
+        $invoice->delete();
+
+        return redirect()
+            ->route('invoices.index')
+            ->with('success', 'Rechnung Nr. ' . $invoiceNumber . ' wurde erfolgreich gelöcht');
+
     }
 }
