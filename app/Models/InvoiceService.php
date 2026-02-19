@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Invoice\HourAmount;
 use App\Enums\Invoice\ServiceType;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -26,7 +27,8 @@ class InvoiceService extends BaseModel
      */
     protected $casts = [
         'service_date' => 'date:Y-m-d',
-        'type' => ServiceType::class,
+        'service_type' => ServiceType::class,
+        'quantity'     => HourAmount::class,
     ];
 
     public function invoice(): BelongsTo

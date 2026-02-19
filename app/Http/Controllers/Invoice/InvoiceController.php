@@ -47,6 +47,8 @@ class InvoiceController extends Controller
         foreach ($validated['services'] as $service) {
             $invoice->services()->create($service);
         }
+
+        return redirect()->route('invoices.index')->with('success', 'Team E-Mail Created');
     }
 
     /**
