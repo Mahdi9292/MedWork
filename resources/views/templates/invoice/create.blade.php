@@ -27,27 +27,23 @@
             <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
                 <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
                     <li class="breadcrumb-item">
-                        <a href="#">
+                        <a href="{{route('home')}}">
                             <svg class="icon icon-xxs" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
                             </svg>
                         </a>
                     </li>
-                    <li class="breadcrumb-item"><a href="#">Volt</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Rechnungen</li>
+                    <li class="breadcrumb-item" aria-current="page">
+                        <a href="{{route('invoices.index')}}">Rechnungen</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">Neue Rechnung</li>
                 </ol>
             </nav>
-            <h2 class="h4">All Invoices</h2>
+            <h2 class="h4">Neue Rechnung erstellen</h2>
         </div>
         <div class="btn-toolbar mb-2 mb-md-0">
-            <a href="{{ route('invoices.create') }}" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
-                <svg class="icon icon-xs me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                </svg> New Plan</a>
-            <div class="btn-group ms-2 ms-lg-3">
-                <button type="button" class="btn btn-sm btn-outline-gray-600">Share</button>
-                <button type="button" class="btn btn-sm btn-outline-gray-600">Export</button>
-            </div>
+            <a href="{{ route('invoices.create') }}" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">Zurück setzen</a>
+            <a href="javascript:" onclick="document.getElementById('btnFormSubmit').click();" class="btn btn-sm btn-secondary mx-2">{{ __('Erstellen') }}</a>
         </div>
     </div>
 
@@ -66,7 +62,6 @@
                                 <x-form.input name="city" :label="__('Stadt')" :labelClass="'col-sm-3'" required />
                                 <x-form.input name="phone" :label="__('Tel.')" :labelClass="'col-sm-3'" />
                             </div>
-
                             <div class="col-sm-6">
                                 <x-form.input name="name" :label="__('Name')" :labelClass="'col-sm-3'" required />
                                 <x-form.input name="house_number" :label="__('Haus Nr.')" :labelClass="'col-sm-3'" required />
@@ -90,7 +85,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-12">
-                                <x-form.clone-repeater id="repeaterPanel" name="services" :label="__('Leistungen')" :labelClass="'col-sm-3'" :heading="'Leistungen'" >
+                                <x-form.clone-repeater id="repeaterPanel" name="services" :label="__('Leistungen')" :labelClass="'col-sm-2'" :heading="'Leistungen'" >
                                     <x-slot name="customItems">
                                         <div class="items" data-group="services" id="services">
                                             <div class="row">
@@ -101,15 +96,7 @@
                                                                 <x-form.select data-name="service_type" data-skip-name="false" name="service_type" class="" :label="__('Leistungstyp')" :options="$serviceTypeOptions" :labelClass="'col-sm-3'" required />
                                                                 <x-form.input data-name="service_title" data-skip-name="false" name="service_title" :label="__('Andere Leistung')" class="" :labelClass="'col-sm-3'" />
                                                                 <x-form.textarea data-name="description" data-skip-name="false" name="description" :label="__('Beschreibung')" class="" :labelClass="'col-sm-3'" />
-{{--                                                                <x-form.flat-pickr name="service_date" :label="__('Leistungsdatum')" :value="Carbon\Carbon::now()" :labelClass="'col-sm-3'" :week-numbers="true" :allow-input="true" required />--}}
-                                                                <x-form.vanilla-datepicker
-                                                                    data-name="service_date"
-                                                                    name="service_date"
-                                                                    :label="__('Leistungsdatum')"
-                                                                    :value="now()->format('d.m.Y')"
-                                                                    :labelClass="'col-sm-3'"
-                                                                    required
-                                                                />
+                                                                <x-form.vanilla-datepicker data-name="service_date" name="service_date" :label="__('Leistungsdatum')" :value="now()->format('d.m.Y')" :labelClass="'col-sm-3'" required />
                                                                 <x-form.select data-name="quantity" data-skip-name="false" name="service_type" class="" :label="__('Menge')" :options="$quantityOptions" :labelClass="'col-sm-3'" required />
                                                                 <x-form.input data-name="unit_price" data-skip-name="false" name="unit_price" :label="__('Basis-Preis')" class="" :labelClass="'col-sm-3'" required />
                                                             </div>
@@ -136,10 +123,7 @@
                 </div>
             </div>
         </div>
-
     </x-form.form>
-
-
 @endsection
 
 

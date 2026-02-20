@@ -30,21 +30,16 @@
                             </svg>
                         </a>
                     </li>
-                    <li class="breadcrumb-item"><a href="#">Volt</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Rechnungen</li>
                 </ol>
             </nav>
-            <h2 class="h4">All Invoices</h2>
+            <h2 class="h4">Alle Rechnungen</h2>
         </div>
         <div class="btn-toolbar mb-2 mb-md-0">
             <a href="{{ route('invoices.create') }}" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
                 <svg class="icon icon-xs me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                </svg> New Plan</a>
-            <div class="btn-group ms-2 ms-lg-3">
-                <button type="button" class="btn btn-sm btn-outline-gray-600">Share</button>
-                <button type="button" class="btn btn-sm btn-outline-gray-600">Export</button>
-            </div>
+                </svg>Neu Rechnung</a>
         </div>
     </div>
 

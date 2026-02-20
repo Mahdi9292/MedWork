@@ -91,7 +91,7 @@ final class InvoicesTable extends PowerGridComponent
     {
         // Relational columns enabled to search
         return [
-            'service' => [
+            'services' => [
                 'id', // column enabled to search
             ],
         ];
@@ -153,7 +153,7 @@ final class InvoicesTable extends PowerGridComponent
             Column::make('Rechnung Datum', 'invoice_date_formatted', 'invoice_date')
                 ->searchable()
                 ->sortable()
-                ->searchableRaw('DATE_FORMAT(delivery_date, "%d.%m.%Y") like ?'),
+                ->searchableRaw('DATE_FORMAT(invoice_date, "%d.%m.%Y") like ?'),
 
             Column::action('Action')->headerAttribute('text-center', '')->bodyAttribute('', 'width: 150px;'),
         ];
@@ -201,19 +201,33 @@ final class InvoicesTable extends PowerGridComponent
                 //  ->confirm('Rechnung wirklich löschen?')
                 ->tooltip('Invoice löschen')
                 ->dispatch('deleteInvoice', ['id' => $row->id])
-                ->class('btn btn-sm btn-danger text-white btn-outline-danger float-start doWithConfirmation'),
-
+                ->class('btn btn-sm btn-danger text-white btn-outline-danger float-start'),
         ];
     }
 
 
     #[On('deleteInvoice')]
-    public function deleteInvoice($id): void
+    public function deleteInvoice($id, $confirmed = false): void
     {
-        Invoice::findOrFail($id)->delete();
+        if(!$confirmed){
+            $this->dispatch('swal:confirm',
+                method: 'deleteInvoice',
+                icon: 'warning',
+                text: __('Achtung! Are you sure?'),
+                params: ['id' => $id, 'confirmed'=>true],
+                title: __('Bitte bestätigen'),
+                confirmButtonText: __('Fortfahren')
+            );
+            return;
+        }
 
-        $this->dispatch('pg:eventRefresh-default');
-        $this->dispatch('notify', type: 'success', message: 'Invoice deleted successfully.');
+        $invoice = Invoice::findOrFail($id);
+        $invoiceNumber = $invoice->invoice_number;
+
+        $invoice->services()->delete();
+        $invoice->delete();
+
+        $this->dispatch('toast:alert', message: 'Rechnung Nr. ' . $invoiceNumber . ' wurde erfolgreich gelöcht!', title: 'Success', status: 1);
     }
 
     // Rules

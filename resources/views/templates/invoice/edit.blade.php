@@ -43,14 +43,13 @@
         </div>
         <div class="btn-toolbar mb-2 mb-md-0">
             <a href="{{ route('invoices.index') }}" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
-                <svg class="icon icon-xs me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                </svg> Zurück zur Übersicht</a>
-
+                Zurück zur Übersicht
+            </a>
+            <a href="javascript:" onclick="document.getElementById('btnFormSubmit').click();" class="btn btn-sm btn-secondary mx-2">{{ __('Speichern') }}</a>
         </div>
     </div>
 
-    <x-form.form :action="route('invoices.update', $invoice->id)" method="PUT" id="createOfferForm" novalidate hasJsValidation>
+    <x-form.form :action="route('invoices.update', $invoice->id)" method="PUT" id="editInvoiceForm" novalidate hasJsValidation>
         <div class="row">
             <div class="col-12 mb-4">
                 <div class="card border-light shadow-sm components-section">
@@ -78,7 +77,6 @@
                 </div>
             </div>
         </div>
-
 
         <div class="row">
             <div class="col-12 mb-4">
@@ -176,10 +174,7 @@
                 </div>
             </div>
         </div>
-
     </x-form.form>
-
-
 @endsection
 
 
