@@ -99,7 +99,7 @@
                                                             <div class="card border-light shadow-sm components-section">
                                                                 <div class="card-body">
                                                                     <div class="item-content col-12">
-                                                                        <x-form.input type="hidden" name="services.{{ $key }}.id" value="{{ $service->id }}" />
+                                                                        <x-form.input data-name="id" data-skip-name="false" type="hidden" name="services.{{ $key }}.id" :value="$service->id" />
                                                                         <x-form.select data-name="service_type" data-skip-name="false" name="services.{{ $key }}.service_type" class="" :label="__('Leistungstyp')" :value="$service->service_type->value" :options="$serviceTypeOptions" :labelClass="'col-sm-3'" required />
                                                                         <x-form.input data-name="service_title" data-skip-name="false" name="services.{{ $key }}.service_title" :label="__('Andere Leistung')" :value="$service->service_title" class="" :labelClass="'col-sm-3'" />
                                                                         <x-form.textarea data-name="description" data-skip-name="false" name="services.{{ $key }}.description" :label="__('Beschreibung')" :value="$service->description" class="" :labelClass="'col-sm-3'" />

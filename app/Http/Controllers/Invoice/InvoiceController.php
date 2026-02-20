@@ -83,8 +83,6 @@ class InvoiceController extends Controller
 
         $existingServiceIds = [];
 
-        dd($validated['services']);
-
         foreach ($validated['services'] as $serviceData) {
 
             $service = $invoice->services()->updateOrCreate(
@@ -94,8 +92,6 @@ class InvoiceController extends Controller
 
             $existingServiceIds[] = $service->id;
         }
-
-        dd($existingServiceIds);
 
         // Delete removed services of this Invoice
         $invoice->services()->whereNotIn('id', $existingServiceIds)->delete();

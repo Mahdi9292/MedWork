@@ -37,7 +37,7 @@ class InvoiceRequest extends FormRequest
             // =========================
             // Services (HasMany)
             // =========================
-
+            'services.*.id' => 'nullable|integer|exists:invoice_services,id', //just to get it during the update
             'services.*.service_type'    => 'required',
             'services.*.service_title'   => 'nullable',
             'services.*.description'     => 'nullable',
