@@ -7,10 +7,27 @@ use App\Enums\Invoice\ServiceType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\InvoiceRequest;
 use App\Models\Invoice;
+use App\Services\InvoiceService;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rules\In;
 
 class InvoiceController extends Controller
 {
+
+    protected InvoiceService $invoiceService;
+
+    /**
+     * Instantiate a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct(InvoiceService $invoiceService)
+    {
+//        parent::__construct();
+        $this->invoiceService = $invoiceService;
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -114,5 +131,16 @@ class InvoiceController extends Controller
             ->route('invoices.index')
             ->with('success', 'Rechnung Nr. ' . $invoiceNumber . ' wurde erfolgreich gelöcht');
 
+    }
+
+    /**
+     * show invoice pdf
+     */
+    public function printInvoice(Invoice $invoice)
+    {
+//        $this->authorize('print', Offer::class);
+        try {
+            $this->invoiceService->printInvoice($invoice);
+        } catch (Exception $e) {}
     }
 }

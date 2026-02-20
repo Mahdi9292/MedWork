@@ -16,3 +16,9 @@ use Illuminate\Support\Facades\Route;
 */
 Route::get('/', [InvoiceController::class, 'index'])->name('invoice.home');
 Route::resource('invoices', 'InvoiceController');
+Route::group(['as' => 'invoices.', 'prefix' => 'invoices'], function () {
+
+    // print Invoice
+    Route::get('/printInvoice/{invoice}', [InvoiceController::class, 'printInvoice'])->name('printInvoice');
+
+});
