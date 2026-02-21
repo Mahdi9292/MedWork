@@ -3,9 +3,11 @@
 namespace App\Livewire\Invoice;
 
 use App\Models\Invoice;
+use App\Services\InvoiceService;
 use App\Traits\HasClearFiltersTrait;
 use App\Traits\HasFontAwesomeIconsTrait;
 use App\Traits\PowerGridOrderableColumnsTrait;
+use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use PowerComponents\LivewirePowerGrid\{Button,
@@ -16,7 +18,9 @@ use PowerComponents\LivewirePowerGrid\{Button,
     PowerGridComponent,
     PowerGridFields};
 use Livewire\Attributes\On;
+use Mpdf\MpdfException;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
+
 use PowerComponents\LivewirePowerGrid\Traits\{WithExport};
 
 final class InvoicesTable extends PowerGridComponent
@@ -202,6 +206,11 @@ final class InvoicesTable extends PowerGridComponent
                 ->tooltip('Invoice löschen')
                 ->dispatch('deleteInvoice', ['id' => $row->id])
                 ->class('btn btn-sm btn-danger text-white btn-outline-danger float-start'),
+            Button::make('print_invoice')
+                ->slot('<i class="fa-solid fa-print"></i>')
+                ->class('btn btn-sm btn-offwhite btn-border-gray-2')
+                ->tooltip('Rechnung drucken')
+                ->route('invoices.printInvoice', ['invoice' => $row->id], '_blank'),
         ];
     }
 
@@ -229,18 +238,4 @@ final class InvoicesTable extends PowerGridComponent
 
         $this->dispatch('toast:alert', message: 'Rechnung Nr. ' . $invoiceNumber . ' wurde erfolgreich gelöcht!', title: 'Success', status: 1);
     }
-
-    // Rules
-//    public function actionRules(): array
-//    {
-//        return [
-//            Rule::button('edit_invoice')
-//                ->when(fn() => !Auth::user()->can(config('perm.orderbook.teams.update')))
-//                ->hide(),
-//
-//            Rule::button('delete_team')
-//                ->when(fn() => !Auth::user()->can(config('perm.orderbook.teams.delete')))
-//                ->hide(),
-//        ];
-//    }
 }
