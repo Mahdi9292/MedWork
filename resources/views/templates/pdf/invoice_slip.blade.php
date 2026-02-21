@@ -25,33 +25,37 @@
 
 <div class="mt-4">
     <div class="mb-4">
-        Rechnung an: evers Arbeitsschutz GmbH<br>
-        Hermann-Blenk-Straße 22, 38108 Braunschweig<br><br>
-        <strong>Rechnung Nr.: 2025-55</strong>
+        Rechnung an: {{ $invoice->name }}<br>
+        {{$invoice->street}} {{$invoice->house_number}}<br>
+        {{$invoice->postcode}} {{$invoice->city}}<br><br>
+        <strong>Rechnung Nr.: {{ $invoice->invoice_number }}</strong>
     </div>
 
     <div class="mb-2">Leistungen:</div>
 
     <table class="table-border w-100p font-size-9">
         <thead>
-        <tr>
-            <th class="w-15p p-1 text-center">Pos.</th>
-            <th class="p-1 text-center">Leistung</th>
-            <th class="w-20p p-1 text-center">Datum</th>
-            <th class="w-15p p-1 text-center">Menge</th>
-            <th class="w-20p p-1 text-center">
-                Einzelpreis(€)<br>/<span style="text-decoration: underline; color: #003366;">Gesamt(€)</span>
-            </th>
-        </tr>
+            <tr>
+                <th class="w-15p p-1 text-center">Pos.</th>
+                <th class="p-1 text-center">Leistung</th>
+                <th class="w-20p p-1 text-center">Datum</th>
+                <th class="w-15p p-1 text-center">Menge</th>
+                <th class="w-20p p-1 text-center">
+                    Einzelpreis(€)<br>/<span style="text-decoration: underline; color: #003366;">Gesamt(€)</span>
+                </th>
+            </tr>
         </thead>
         <tbody>
-        <tr>
-            <td class="text-center p-1">2</td>
-            <td class="ps-2 p-1">LEISTUNG Nr. 1</td>
-            <td class="text-center p-1">07.11.2025</td>
-            <td class="text-center p-1">8 Stunden</td>
-            <td class="text-end pe-2 p-1">1.200,00</td>
-        </tr>
+        @foreach($invoice->services as $index=>$service)
+            <tr>
+                <td class="text-center p-1">{{ $index+1 }}</td>
+                <td class="ps-2 p-1">{{ $service->service_type->label() ?: $service->service_title }}</td>
+                <td class="text-center p-1">{{ formatDate($service-> service_date)}}</td>
+                <td class="text-center p-1">{{ $service->quantity }} Stunden</td>
+                <td class="text-end pe-2 p-1">{{ $service->unit_price * $service->quantity->value}}</td>
+            </tr>
+        @endforeach
+
         <tr>
             <td colspan="4" class="text-end pe-2 p-1 fw-bold">Gesamt Netto</td>
             <td class="text-end pe-2 p-1 fw-bold">6.000,00</td>
