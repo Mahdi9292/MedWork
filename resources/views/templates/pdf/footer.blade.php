@@ -1,13 +1,25 @@
-<htmlpagefooter name="page-footer" class="d-none">
-    <table class="align-bottom">
-        <tr>
-            <td class="font-size-7 w-89p">
-                Toyota Material Handling Deutschland GmbH • Hannoversche Straße 113 • 30916 Isernhagen<br>
-                Amtsgericht Hannover • HRB 55595 • USt-ID: DE151269064 • Geschäftsführer: Jan-Martin Lorenz<br>
-                Telefon +49 511 72 62-0 • Telefax +49 511 72 62-137 • Internet: www.toyota-forklifts.de<br>
-                BNP Paribas Fortis SAINV Niederlassung Deutschland • IBAN DE60 3701 0600 2220 4080 13 • BIC BNPADEFFXXX<br>
-            </td>
-            <td class="align-top text-end">Seite 1 ( 1 )</td>
-        </tr>
-    </table>
+<htmlpagefooter name="page-footer">
+    <div class="w-100p mb-4">
+        <table class="w-100p border-0">
+            <tr>
+                <td class="w-40p text-start align-bottom font-size-9">
+                    E-Mail: Majid.Taghvaei@medwork24.de<br>
+                    T: 0174 6896963<br>
+                    HBR: 222180
+                </td>
+
+                <td class="w-20p"></td>
+
+                <td class="w-40p text-start align-bottom font-size-9">
+                    <span class="fw-bold">IBAN:</span> DE93 2805 0100 0096 0763 93<br>
+                    LZO Oldenburg<br>
+                    Steuer-Nr.: 78523011965
+                </td>
+            </tr>
+        </table>
+
+        <div class="text-end font-size-8 mt-2 text-muted">
+            Seite {PAGENO} von {nbpg}
+        </div>
+    </div>
 </htmlpagefooter>
