@@ -20,7 +20,7 @@ class UserController
 //            $user->syncRolesWithLdapGroups();
 //        }
 
-        return view('dashboard');
+        return view('home');
     }
 
     public function logout()
