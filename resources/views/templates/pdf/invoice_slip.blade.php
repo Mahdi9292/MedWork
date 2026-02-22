@@ -52,13 +52,13 @@
                 <td class="ps-2 p-1">{{ $service->service_type->label() ?: $service->service_title }}</td>
                 <td class="text-center p-1">{{ formatDate($service-> service_date)}}</td>
                 <td class="text-center p-1">{{ $service->quantity }} Stunden</td>
-                <td class="text-end pe-2 p-1">{{ $service->unit_price * $service->quantity->value}}</td>
+                <td class="text-end pe-2 p-1">{{ formatNumber(parseNumber($service->unit_price) * $service->quantity->value)}}</td>
             </tr>
         @endforeach
 
         <tr>
             <td colspan="4" class="text-end pe-2 p-1 fw-bold">Gesamt Netto</td>
-            <td class="text-end pe-2 p-1 fw-bold">6.000,00</td>
+            <td class="text-end pe-2 p-1 fw-bold">{{ formatNumber($invoice->getTotalNetPrice()) }} €</td>
         </tr>
         </tbody>
     </table>
@@ -67,15 +67,15 @@
         <table class="w-100p border-0 font-size-10">
             <tr>
                 <td>Netto:</td>
-                <td class="text-end">6.000,00 €</td>
+                <td class="text-end">{{ formatNumber($invoice->getTotalNetPrice()) }} €</td>
             </tr>
             <tr>
                 <td class="fw-bold">MwSt (19%):</td>
-                <td class="text-end">1.140,00 €</td>
+                <td class="text-end">{{ formatNumber($invoice->getTaxPrice()) }} €</td>
             </tr>
             <tr class="border-top-0">
                 <td class="fw-bold">Rechnungsbetrag:</td>
-                <td class="text-end fw-bold">7.140,00 €</td>
+                <td class="text-end fw-bold">{{ formatNumber($invoice->getTotalGrossPrice()) }} €</td>
             </tr>
         </table>
     </div>

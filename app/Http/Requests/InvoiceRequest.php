@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\Currency;
 use Illuminate\Foundation\Http\FormRequest;
 
 class InvoiceRequest extends FormRequest
@@ -43,7 +44,7 @@ class InvoiceRequest extends FormRequest
             'services.*.description'     => 'nullable',
             'services.*.service_date'    => 'required',
             'services.*.quantity'        => 'required',
-            'services.*.unit_price'      => 'required',
+            'services.*.unit_price'      => ['required', new Currency],
         ];
     }
 

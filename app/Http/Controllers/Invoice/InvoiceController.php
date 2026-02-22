@@ -102,15 +102,29 @@ class InvoiceController extends Controller
 
         foreach ($validated['services'] as $serviceData) {
 
-            $service = $invoice->services()->updateOrCreate(
-                ['id' => $serviceData['id'] ?? null], // match condition
-                $serviceData
-            );
+            // Normalize empty ID
+            $serviceId = $serviceData['id'] ?? null;
 
-            $existingServiceIds[] = $service->id;
+            if (!empty($serviceId)) {
+
+                // Update existing service (safely scoped to this invoice)
+                $service = $invoice->services()
+                    ->where('id', $serviceId)
+                    ->first();
+
+                if ($service) {
+                    $service->update($serviceData);
+                    $existingServiceIds[] = $service->id;
+                }
+
+            } else {
+                // Create new service
+                $service = $invoice->services()->create($serviceData);
+                $existingServiceIds[] = $service->id;
+            }
         }
 
-        // Delete removed services of this Invoice
+        // Delete removed services
         $invoice->services()->whereNotIn('id', $existingServiceIds)->delete();
 
         return redirect()
@@ -141,6 +155,8 @@ class InvoiceController extends Controller
 //        $this->authorize('print', Offer::class);
         try {
             $this->invoiceService->printInvoice($invoice);
-        } catch (Exception $e) {}
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
     }
 }

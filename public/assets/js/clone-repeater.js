@@ -122,7 +122,21 @@ jQuery.fn.extend({
             let newInputs = newItem.find('input,select,textarea');
 
             // copy values
+            // newInputs.each(function(index, el){
+            //     let value = $(lastInputs[index]).val();
+            //     $(el).val(value);
+            // });
+
             newInputs.each(function(index, el){
+
+                let attrName = $(el).data('name');
+
+                // Skip copying ID
+                if (attrName === 'id') {
+                    $(el).val('');
+                    return;
+                }
+
                 let value = $(lastInputs[index]).val();
                 $(el).val(value);
             });

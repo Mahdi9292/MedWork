@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\GermanNumber;
 use App\Enums\Invoice\HourAmount;
 use App\Enums\Invoice\ServiceType;
 use Carbon\Carbon;
@@ -15,9 +16,7 @@ class InvoiceService extends BaseModel
     use SoftDeletes;
 
     protected $table = 'invoice_services';
-
     public $timestamps = true;
-
     protected $guarded = ['id'];
 
     /**
@@ -29,6 +28,7 @@ class InvoiceService extends BaseModel
         'service_date' => 'date:Y-m-d',
         'service_type' => ServiceType::class,
         'quantity'     => HourAmount::class,
+        'unit_price' => GermanNumber::class,
     ];
 
     public function invoice(): BelongsTo
