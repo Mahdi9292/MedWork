@@ -9,7 +9,7 @@ Route::get('/home', [UserController::class, 'home'])->middleware('auth');
 Route::get('/logout', [UserController::class, 'logout']);
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return view('templates.dashboard');
 })->middleware('auth')->name('dashboard');
 
 Route::middleware(['auth'])->group(function () {
