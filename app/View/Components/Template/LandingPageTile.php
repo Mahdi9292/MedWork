@@ -22,7 +22,8 @@ class LandingPageTile extends Component
     )
     {
         // Adding Developer to permissions
-        $this->permissions = array_merge(['Developer'], $this->permissions);
+        // $this->permissions = array_merge(['Developer'], $this->permissions);
+        $this->permissions = array_merge(['developer'], $this->permissions);
     }
 
     /**

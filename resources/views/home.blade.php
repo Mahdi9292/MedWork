@@ -16,18 +16,23 @@
             :version="'1.1'"
             :sub-title="__('neuen Bestelleingänge')"
             :short-info="__('Übersicht und Erfassung der Bestelleingänge zu neuen Maschinen')"
-            :permissions="['']"
+            :permissions="['manager', 'user']"
             {{--            :version="config('constants.app_version.OrderBook')"--}}
         />
     </div>
-
-
-
     <hr>
 
-{{--    <div class="row">--}}
-{{--        <x-template.landing-page-tile title="Administration" :url="url('/administration')" :sub-title="__('T-WAP Administration')" />--}}
-{{--        <x-template.landing-page-tile title="Management" :url="url('/management')" :sub-title="__('T-WAP Entities Management')" :permissions="['DETWapManagementAdmins']" />--}}
-{{--    </div>--}}
+    <div class="row">
+        <div class="row">
+            <x-template.landing-page-tile
+                title="Administration" :url="route('users.roles.edit', Auth::user())"
+                :version="'1.1'"
+                :sub-title="__('Rolle bearbeiten')"
+                :short-info="__('Übersicht für Administration')"
+                :permissions="['']"
+                {{--            :version="config('constants.app_version.OrderBook')"--}}
+            />
+        </div>
+    </div>
 
 @endsection

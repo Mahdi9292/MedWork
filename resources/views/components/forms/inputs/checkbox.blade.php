@@ -3,13 +3,13 @@
 @if ($switch)<div class="form-check form-switch">@endif
 
 <!-- hack to send "0" when checkbox is not selected -->
-<input type="hidden" name="{{ $name }}" value="0" />
+<input type="hidden" name="{{ $name }}" value="{{ $value ? '' : 0 }}" />
 
 <input
     name="{{ $name }}"
     type="checkbox"
     id="{{ $id }}"
-    value="1"
+    value="{{ $value ?: 1 }}"
     @if(old($name, ($hasErrorsAndShow($name) ? false : $checked))) checked @endif
     {{ $attributes->merge(['class' => $inputClass()]) }}
 />

@@ -33,6 +33,7 @@ class InvoiceController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny', Invoice::class);
         return view('templates.invoice.index');
     }
 
@@ -41,6 +42,7 @@ class InvoiceController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Invoice::class);
 
         // Dropdown options
         $data['serviceTypeOptions']    = ServiceType::options();
@@ -55,6 +57,8 @@ class InvoiceController extends Controller
      */
     public function store(InvoiceRequest $request)
     {
+        $this->authorize('create', Invoice::class);
+
         $validated = $request->validated();
         // Remove services from invoice data
         $invoiceData = collect($validated)->except('services')->toArray();
@@ -73,7 +77,7 @@ class InvoiceController extends Controller
      */
     public function show(Invoice $invoice)
     {
-        //
+        $this->authorize('view', $invoice);
     }
 
     /**
@@ -81,6 +85,8 @@ class InvoiceController extends Controller
      */
     public function edit(Invoice $invoice)
     {
+        $this->authorize('update', $invoice);
+
         // Dropdown options
         $data['serviceTypeOptions']    = ServiceType::options();
         $data['quantityOptions']       = HourAmount::options();
@@ -92,6 +98,8 @@ class InvoiceController extends Controller
      */
     public function update(InvoiceRequest $request, Invoice $invoice)
     {
+        $this->authorize('update', $invoice);
+
         $validated = $request->validated();
 
         // Update invoice main data
@@ -137,6 +145,8 @@ class InvoiceController extends Controller
      */
     public function destroy(Invoice $invoice)
     {
+        $this->authorize('delete', $invoice);
+
         $invoiceNumber = $invoice->invoice_number;
         $invoice->services()->delete();
         $invoice->delete();
@@ -144,7 +154,6 @@ class InvoiceController extends Controller
         return redirect()
             ->route('invoices.index')
             ->with('success', 'Rechnung Nr. ' . $invoiceNumber . ' wurde erfolgreich gelöcht');
-
     }
 
     /**

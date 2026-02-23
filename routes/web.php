@@ -12,4 +12,9 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware('auth')->name('dashboard');
 
+Route::middleware(['auth'])->group(function () {
+    Route::get('/users/{user}/roles', [UserController::class, 'editRoles'])->name('users.roles.edit');
+    Route::post('/users/{user}/roles', [UserController::class, 'updateRoles'])->name('users.roles.update');
+});
+
 require __DIR__.'/settings.php';

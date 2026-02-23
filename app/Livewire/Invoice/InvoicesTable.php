@@ -238,4 +238,22 @@ final class InvoicesTable extends PowerGridComponent
 
         $this->dispatch('toast:alert', message: 'Rechnung Nr. ' . $invoiceNumber . ' wurde erfolgreich gelöcht!', title: 'Success', status: 1);
     }
+
+    // Rules
+    public function actionRules($invoice): array
+    {
+        return [
+            Rule::button('edit_invoice')
+                ->when(fn() => !Auth::user()->can(config('perm.invoice.update')))
+                ->hide(),
+
+            Rule::button('view_invoice')
+                ->when(fn() => !Auth::user()->can(config('perm.invoice.view')))
+                ->hide(),
+
+            Rule::button('delete_invoice')
+                ->when(fn() => !Auth::user()->can(config('perm.invoice.delete')))
+                ->hide(),
+        ];
+    }
 }

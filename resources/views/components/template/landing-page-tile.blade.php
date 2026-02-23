@@ -1,5 +1,5 @@
 
-{{--@hasanyrole($permissions)--}}
+@hasanyrole($permissions)
     <div class="{{ $wrapClass }}">
         <div class="card border-0 shadow">
             <div class="card-header ps-3 pe-3 pb-2 pt-2">
@@ -33,4 +33,4 @@
             </div>
         </div>
     </div>
-{{--@endhasanyrole--}}
+@endhasanyrole

@@ -38,6 +38,9 @@ class Checkbox extends Component
     /** @var bool */
     public bool|null $checked;
 
+    /** @var string */
+    public string $value;
+
     public function __construct(
         string $name,
         string $id = null,
@@ -48,7 +51,8 @@ class Checkbox extends Component
         string $row ='row mb-3',
         string $wrap ='col-sm-8',
         bool $switch = false,
-        bool|null $checked = false
+        bool|null $checked = false,
+        string $value ='',
     )
     {
         $this->name = $name;
@@ -61,6 +65,7 @@ class Checkbox extends Component
         $this->wrap = $wrap;
         $this->switch = $switch;
         $this->checked = (bool) $checked;
+        $this->value = $value;
     }
 
     public function inputClass(): string
