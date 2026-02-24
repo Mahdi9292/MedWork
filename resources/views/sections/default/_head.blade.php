@@ -1,6 +1,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <!-- Primary Meta Tags -->
-<title>MedWork</title>
+<title>MedWork - Portal</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
 <meta name="title" content="Volt - Free Bootstrap 5 Admin Dashboard">
 <meta name="author" content="Themesberg">
@@ -25,6 +25,13 @@
 <!-- Global site tag (gtag.js) - Google Analytics -->
 
 <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
+
+
+<!-- Choices  -->
+<link type="text/css" href="{{ asset('/assets/vendor/choices.js/public/assets/styles/choices.min.css') }}" rel="stylesheet">
+
+<!-- select2 -->
+<link href="{{ asset('assets/vendor/select2/select2.min.css') }}" rel="stylesheet" />
 
 <!-- livewire styles -->
 @livewireStyles

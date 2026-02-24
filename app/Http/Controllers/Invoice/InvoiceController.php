@@ -12,7 +12,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\In;
 
-class InvoiceController extends Controller
+class InvoiceController extends BaseInvoiceController
 {
 
     protected InvoiceService $invoiceService;
@@ -24,7 +24,7 @@ class InvoiceController extends Controller
      */
     public function __construct(InvoiceService $invoiceService)
     {
-//        parent::__construct();
+        parent::__construct();
         $this->invoiceService = $invoiceService;
     }
 

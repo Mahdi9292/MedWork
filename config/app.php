@@ -137,6 +137,10 @@ return [
         App\Providers\AppServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\FortifyServiceProvider::class,
+
+        // Custom Providers...
+        App\Providers\AuthServiceProvider::class,
+        App\Providers\ViewServiceProvider::class,
     ])->toArray(),
 
     'aliases' => Facade::defaultAliases()->merge([
