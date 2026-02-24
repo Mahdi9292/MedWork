@@ -20,7 +20,7 @@
             </div>
         </div>
         <ul class="nav flex-column pt-3 pt-md-0">
-            <li class="nav-item  bg-gradient">
+            <li class="nav-item rounded-2 bg-gradient">
                 <a href="{{ route('home') }}" class="nav-link d-flex align-items-center">
                     <span class="sidebar-icon">
                         <img src="{{asset('assets/img/team/logo.png')}}" height="30" width="30" alt="medowrk Logo">
