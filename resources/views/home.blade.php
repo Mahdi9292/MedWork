@@ -19,7 +19,17 @@
             :permissions="['manager', 'user']"
             {{--            :version="config('constants.app_version.OrderBook')"--}}
         />
+
+        <x-template.landing-page-tile
+            title="Medizin" :url="url('/medical')"
+            :version="'1.1'"
+            :sub-title="__('VorsorgeBescheinigungen')"
+            :short-info="__('Übersicht und Erfassung den VorsorgeBescheinigungen')"
+            :permissions="['manager', 'user']"
+            {{--            :version="config('constants.app_version.OrderBook')"--}}
+        />
     </div>
+
     <hr>
 
     <div class="row">

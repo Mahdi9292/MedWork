@@ -18,6 +18,27 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Medical
+    |--------------------------------------------------------------------------
+    */
+    'medical' => [
+        'certificate' => [
+            'view'      => 'medical.certificate.view',
+            'create'    => 'medical.certificate.create',
+            'update'    => 'medical.certificate.update',
+            'delete'    => 'medical.certificate.delete',
+        ],
+
+        'prevention' => [
+            'view'   => 'medical.prevention.view',
+            'create' => 'medical.prevention.view',
+            'update' => 'medical.prevention.view',
+            'delete' => 'medical.prevention.view',
+        ],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Roles
     |--------------------------------------------------------------------------
     */

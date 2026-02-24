@@ -1,0 +1,9 @@
+<x-template.sidebar-item :title="'Dashboard'" :icon="'fa-tachometer-alt'" :link="url('medical')" />
+
+@canany([
+    config('perm.medical.certificates.view'),
+])
+<x-template.sidebar-parent-item :active="$active === 'certificates'" :title="'Vorsorgen'" :icon="'fa-dolly'">
+    <x-template.sidebar-child-item :title="__('Bescheinigungen')" :abbr="'BE'" :link="route('medical.certificates.index')" :permission="config('perm.medical.certificate.view')" />
+</x-template.sidebar-parent-item>
+@endcanany
