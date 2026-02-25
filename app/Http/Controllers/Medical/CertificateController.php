@@ -2,24 +2,24 @@
 
 namespace App\Http\Controllers\Medical;
 
-use App\Enums\Certificate\HourAmount;
-use App\Enums\Certificate\ServiceType;
-
 use App\Http\Requests\CertificateRequest;
-use App\Models\Certificate;
+use App\Models\Medical\Certificate;
+use App\Services\CertificateService;
 use Exception;
 
 class CertificateController extends BaseMedicalController
 {
+    protected CertificateService $certificateService;
 
     /**
      * Instantiate a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(CertificateService $certificateService)
     {
         parent::__construct();
+        $this->certificateService = $certificateService;
     }
 
     /**
@@ -28,7 +28,6 @@ class CertificateController extends BaseMedicalController
     public function index()
     {
         $this->authorize('viewAny', Certificate::class);
-
         return view('templates.medical.certificate.index');
     }
 
@@ -38,13 +37,7 @@ class CertificateController extends BaseMedicalController
     public function create()
     {
         $this->authorize('create', Certificate::class);
-
-        // Dropdown options
-        $data['serviceTypeOptions']    = ServiceType::options();
-        $data['quantityOptions']       = HourAmount::options();
-        $invoice = new Certificate;
-
-        return view('templates.medical.certificate.create', compact('invoice'), $data);
+        return view('templates.medical.certificate.create');
     }
 
     /**
@@ -54,111 +47,60 @@ class CertificateController extends BaseMedicalController
     {
         $this->authorize('create', Certificate::class);
 
-        $validated = $request->validated();
-        // Remove services from invoice data
-        $invoiceData = collect($validated)->except('services')->toArray();
+        Certificate::create($request->all());
+        return redirect()->route('medical.certificates.index')->with('success', 'Responsible Created');
 
-        $invoice = Certificate::create($invoiceData);
-
-        foreach ($validated['services'] as $service) {
-            $invoice->services()->create($service);
-        }
-
-        return redirect()->route('invoices.index')->with('success', 'Rechnung wurde erfolgreich erstellt');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Certificate $invoice)
+    public function show(Certificate $certificate)
     {
-        $this->authorize('view', $invoice);
+        $this->authorize('view', $certificate);
+        return view('templates.medical.activity.show', compact('certificate'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Certificate $invoice)
+    public function edit(Certificate $certificate)
     {
-        $this->authorize('update', $invoice);
-
-        // Dropdown options
-        $data['serviceTypeOptions']    = ServiceType::options();
-        $data['quantityOptions']       = HourAmount::options();
-        return view('templates.medical.certificate.edit', compact('invoice'), $data);
+        $this->authorize('update', $certificate);
+        return view('templates.medical.certificate.edit', compact('certificate'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(CertificateRequest $request, Certificate $invoice)
+    public function update(CertificateRequest $request, Certificate $certificate)
     {
-        $this->authorize('update', $invoice);
+        $this->authorize('update', $certificate);
 
-        $validated = $request->validated();
+        $certificate->update($request->all());
+        return redirect()->route('medical.certificates.index')->with('success', __('Speichern erfolgreich'));
 
-        // Update invoice main data
-        $invoiceData = collect($validated)->except('services')->toArray();
-        $invoice->update($invoiceData);
-
-        $existingServiceIds = [];
-
-        foreach ($validated['services'] as $serviceData) {
-
-            // Normalize empty ID
-            $serviceId = $serviceData['id'] ?? null;
-
-            if (!empty($serviceId)) {
-
-                // Update existing service (safely scoped to this invoice)
-                $service = $invoice->services()
-                    ->where('id', $serviceId)
-                    ->first();
-
-                if ($service) {
-                    $service->update($serviceData);
-                    $existingServiceIds[] = $service->id;
-                }
-
-            } else {
-                // Create new service
-                $service = $invoice->services()->create($serviceData);
-                $existingServiceIds[] = $service->id;
-            }
-        }
-
-        // Delete removed services
-        $invoice->services()->whereNotIn('id', $existingServiceIds)->delete();
-
-        return redirect()
-            ->route('invoices.index')
-            ->with('success', 'Rechnung Nr. ' . $invoice->invoice_number . ' wurde erfolgreich aktualisiert');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Certificate $invoice)
+    public function destroy(Certificate $certificate)
     {
-        $this->authorize('delete', $invoice);
+        $this->authorize('delete', $certificate);
+        $certificate->delete();
+        return redirect()->route('medical.certificates.index')->with('info', __('Erfolgreich gelöscht'));
 
-        $invoiceNumber = $invoice->invoice_number;
-        $invoice->services()->delete();
-        $invoice->delete();
-
-        return redirect()
-            ->route('invoices.index')
-            ->with('success', 'Rechnung Nr. ' . $invoiceNumber . ' wurde erfolgreich gelöcht');
     }
 
     /**
      * show invoice pdf
      */
-    public function printInvoice(Certificate $invoice)
+    public function printInvoice(Certificate $certificate)
     {
 //        $this->authorize('print', Offer::class);
         try {
-            $this->invoiceService->printInvoice($invoice);
+            $this->certificateService->printCertificate($certificate);
         } catch (Exception $e) {
             return $e->getMessage();
         }

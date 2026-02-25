@@ -7,3 +7,11 @@
     <x-template.sidebar-child-item :title="__('Bescheinigungen')" :abbr="'BE'" :link="route('medical.certificates.index')" :permission="config('perm.medical.certificate.view')" />
 </x-template.sidebar-parent-item>
 @endcanany
+
+@canany([
+    config('perm.medical.activity.view'),
+])
+    <x-template.sidebar-parent-item :active="$active === 'system'" :title="'System'" :icon="'fa-cogs'">
+        <x-template.sidebar-child-item :title="__('Teams')" :abbr="'T'" :link="route('medical.activities.index')" :permission="config('perm.medical.activity.view')" />
+    </x-template.sidebar-parent-item>
+@endcanany

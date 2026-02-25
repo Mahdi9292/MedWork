@@ -24,3 +24,9 @@ Route::group(['as' => 'medical.', 'prefix' => 'checkups'], function () {
     // print Invoice
     Route::get('/printCertificate/{certificate}', [CertificateController::class, 'printInvoice'])->name('printCertificate');
 });
+
+Route::group(['as' => 'medical.', 'prefix' => 'system'], function () {
+
+    Route::resource('activities', 'ActivityController');
+
+});
