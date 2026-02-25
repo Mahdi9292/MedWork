@@ -59,6 +59,9 @@ class RolesAndPermissionsSeeder extends Seeder
         $user->givePermissionTo([
             config('perm.invoice.view'),
             config('perm.service.view'),
+            config('perm.medical.certificate.view'),
+            config('perm.medical.certificate.view'),
+            config('perm.medical.activity.view'),
         ]);
     }
 }

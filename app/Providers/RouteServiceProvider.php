@@ -40,6 +40,13 @@ class RouteServiceProvider extends ServiceProvider
                 ->middleware(['web', 'auth'])
                 ->namespace($this->namespace.'\Invoice')
                 ->group(base_path('routes/invoice.php'));
+
+
+            Route::prefix('medical')
+                ->middleware(['web', 'auth'])
+                ->namespace($this->namespace . '\Medical')
+                ->group(base_path('routes/medical.php'));
+
         });
     }
 
