@@ -4,6 +4,8 @@ namespace App\Models\Medical;
 
 use App\Enums\Medical\PreventionType;
 use App\Models\BaseModel;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -33,6 +35,17 @@ class Prevention extends BaseModel
     public function activity(): BelongsTo
     {
         return $this->belongsTo(Activity::class, 'activity_id');
+    }
+
+    protected function nextAppointmentDate(): Attribute
+    {
+        return Attribute::make(
+            set: function ($value) {
+                return $value
+                    ? Carbon::createFromFormat('d.m.Y', $value)->format('Y-m-d')
+                    : null;
+            }
+        );
     }
 
 }

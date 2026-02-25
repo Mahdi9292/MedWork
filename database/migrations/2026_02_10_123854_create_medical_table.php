@@ -15,6 +15,8 @@ return new class extends Migration
         Schema::create('medical_certificates', function (Blueprint $table) {
             $table->id();
 
+            $table->string('certificate_number');
+
             $table->enum('salutation', ['Mr', 'Ms'])->nullable();
             $table->string('title', 191)->nullable();
             $table->string('first_name', 191);
@@ -28,8 +30,6 @@ return new class extends Migration
             $table->string('employer_postcode', 191)->nullable();
             $table->string('phone', 191)->nullable();
             $table->string('mobile', 191)->nullable();
-
-            $table->string('certificate_number');
 
             $table->date('birthday')->nullable();
             $table->date('issue_date')->nullable();

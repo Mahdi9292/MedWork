@@ -105,7 +105,7 @@
                                                                             data-name="service_date"
                                                                             name="service_date"
                                                                             :label="__('Leistungsdatum')"
-                                                                            :value="now()->format('d.m.Y')"
+                                                                            :value="formatDate($service->service_date)"
                                                                             :labelClass="'col-sm-3'"
                                                                             required
                                                                         />

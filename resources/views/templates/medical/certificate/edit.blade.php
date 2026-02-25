@@ -48,6 +48,7 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <x-form.input name="certificate_number" :value="$certificate->certificate_number" :label="__('Bescheinigung Nr.')" :labelClass="'col-sm-3'" required />
+                                <x-form.flat-pickr name="issue_date" :value="$certificate->issue_date" :label="__('Erstellungsdatum')" :labelClass="'col-sm-3'" :week-numbers="true" :allow-input="true" required />
 
                                 <x-form.select data-name="salutation" :value="$certificate->salutation" data-skip-name="false" name="salutation" class="" :label="__('Anrede')" :options="$salutationTypeOptions" :labelClass="'col-sm-3'" required />
                                 <x-form.input name="title" :value="$certificate->title" :label="__('Titel')" :labelClass="'col-sm-3'" />
@@ -91,15 +92,14 @@
                                                             <div class="card border-light shadow-sm components-section">
                                                                 <div class="card-body">
                                                                     <div class="item-content col-12">
-
-
-                                                                        <x-form.select data-name="activity_id" data-skip-name="false" name="preventions.{{ $key }}.activity_id" class="" :label="__('Tätigkeit/ Anlass')" :value="$prevention->activity?->name" :options="$activityOptions" :labelClass="'col-sm-3'" required />
+                                                                        <x-form.input data-name="id" data-skip-name="false" type="hidden" name="preventions.{{ $key }}.id" :value="$prevention->id" />
+                                                                        <x-form.select data-name="activity_id" data-skip-name="false" name="preventions.{{ $key }}.activity_id" class="" :label="__('Tätigkeit/ Anlass')" :value="$prevention->activity?->id" :options="$activityOptions" :labelClass="'col-sm-3'" required />
                                                                         <x-form.select data-name="prevention_type" data-skip-name="false" name="preventions.{{ $key }}.prevention_type" class="" :label="__('Art der Vorsorge')" :value="$prevention->prevention_type->value" :options="$preventionTypeOptions" :labelClass="'col-sm-3'" required />
                                                                         <x-form.vanilla-datepicker
                                                                             data-name="next_appointment_date"
                                                                             name="next_appointment_date"
                                                                             :label="__('Nächster Termin')"
-                                                                            :value="$prevention->next_appointment_date"
+                                                                            :value="formatDate($prevention->next_appointment_date)"
                                                                             :labelClass="'col-sm-3'"
                                                                             required
                                                                         />

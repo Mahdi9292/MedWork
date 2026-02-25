@@ -43,13 +43,14 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <x-form.input name="certificate_number" :label="__('Bescheinigung Nr.')" :labelClass="'col-sm-3'" required />
+                                <x-form.flat-pickr name="issue_date" :label="__('Erstellungsdatum')" :value="Carbon\Carbon::now()" :labelClass="'col-sm-3'" :week-numbers="true" :allow-input="true" required />
 
                                 <x-form.select data-name="salutation" data-skip-name="false" name="salutation" class="" :label="__('Anrede')" :options="$salutationTypeOptions" :labelClass="'col-sm-3'" required />
                                 <x-form.input name="title" :label="__('Titel')" :labelClass="'col-sm-3'" />
                                 <x-form.input name="first_name" :label="__('Vorname')" :labelClass="'col-sm-3'" required />
                                 <x-form.input name="middle_name" :label="__('Zweiter Vorname')" :labelClass="'col-sm-3'" />
                                 <x-form.input name="last_name" :label="__('Nachname')" :labelClass="'col-sm-3'" required />
-                                <x-form.flat-pickr name="birthday" :label="__('Geburtsdatum')" :value="Carbon\Carbon::now()" :labelClass="'col-sm-3'" :week-numbers="true" :allow-input="true" required />
+                                <x-form.flat-pickr name="birthday" :label="__('Geburtsdatum')" :labelClass="'col-sm-3'" :week-numbers="true" :allow-input="true" required />
 
                             </div>
                             <div class="col-sm-6">
