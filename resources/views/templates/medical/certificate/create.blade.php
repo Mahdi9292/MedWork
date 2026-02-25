@@ -20,54 +20,46 @@
 
 @section('content')
 
-{{--    <livewire:invoice.invoice-manage-screen :invoice="$invoice"/>--}}
-
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
         <div class="d-block mb-4 mb-md-0">
-            <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
-                <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
-                    <li class="breadcrumb-item">
-                        <a href="{{route('home')}}">
-                            <svg class="icon icon-xxs" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
-                            </svg>
-                        </a>
-                    </li>
-                    <li class="breadcrumb-item" aria-current="page">
-                        <a href="{{route('invoices.index')}}">Rechnungen</a>
-                    </li>
-                    <li class="breadcrumb-item active" aria-current="page">Neue Rechnung</li>
-                </ol>
-            </nav>
-            <h2 class="h4">Neue Rechnung erstellen</h2>
-        </div>
-        <div class="btn-toolbar mb-2 mb-md-0">
-            <a href="{{ route('invoices.create') }}" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">Zurück setzen</a>
-            <a href="javascript:" onclick="document.getElementById('btnFormSubmit').click();" class="btn btn-sm btn-secondary mx-2">{{ __('Erstellen') }}</a>
+            <x-template.breadcrumb :activePage="__('neuer Bescheinigung')" :links="[
+                ['key' => config('constants.APPLICATIONS.MEDICAL.TITLE'), 'url' => url('medical')],
+                ['key' => __('Bescheinigungen'), 'url' => route('medical.certificates.index')]
+            ]" />
+            <h2 class="h4">{{ __('Bescheinigung Erstellen') }}</h2>
         </div>
     </div>
 
-    <x-form.form :action="route('invoices.store')" id="createOfferForm" novalidate hasJsValidation>
+    <x-template.notification />
+
+    <x-form.form :action="route('medical.certificates.store')" id="createCertificateForm" novalidate hasJsValidation>
         <div class="row">
             <div class="col-12 mb-4">
                 <div class="card border-light shadow-sm components-section">
                     <div class="card-header">
-                        {{ __('Rechnung Empfänger') }}
+                        {{ __('Patient') }}
                     </div>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-6">
-                                <x-form.input name="invoice_number" :label="__('Rechnung Nr.')" :labelClass="'col-sm-3'" required />
-                                <x-form.input name="street" :label="__('Straße')" :labelClass="'col-sm-3'" required />
-                                <x-form.input name="city" :label="__('Stadt')" :labelClass="'col-sm-3'" required />
-                                <x-form.input name="phone" :label="__('Tel.')" :labelClass="'col-sm-3'" />
+                                <x-form.input name="certificate_number" :label="__('Bescheinigung Nr.')" :labelClass="'col-sm-3'" required />
+
+                                <x-form.select data-name="salutation" data-skip-name="false" name="salutation" class="" :label="__('Anrede')" :options="$salutationTypeOptions" :labelClass="'col-sm-3'" required />
+                                <x-form.input name="title" :label="__('Titel')" :labelClass="'col-sm-3'" />
+                                <x-form.input name="first_name" :label="__('Vorname')" :labelClass="'col-sm-3'" required />
+                                <x-form.input name="middle_name" :label="__('Zweiter Vorname')" :labelClass="'col-sm-3'" />
+                                <x-form.input name="last_name" :label="__('Nachname')" :labelClass="'col-sm-3'" required />
+                                <x-form.flat-pickr name="birthday" :label="__('Geburtsdatum')" :value="Carbon\Carbon::now()" :labelClass="'col-sm-3'" :week-numbers="true" :allow-input="true" required />
+
                             </div>
                             <div class="col-sm-6">
-                                <x-form.input name="name" :label="__('Name')" :labelClass="'col-sm-3'" required />
-                                <x-form.input name="house_number" :label="__('Haus Nr.')" :labelClass="'col-sm-3'" required />
-                                <x-form.input name="postcode" :label="__('PLZ')" :labelClass="'col-sm-3'" required />
-                                <x-form.input name="mobile" :label="__('Mobil')" :labelClass="'col-sm-3'" />
-                                <x-form.flat-pickr name="invoice_date" :label="__('Rechnungsdatum')" :value="Carbon\Carbon::now()" :labelClass="'col-sm-3'" :week-numbers="true" :allow-input="true" required />
+                                <x-form.input name="employed_at" :label="__('Arbeitgeber')" :labelClass="'col-sm-3'" />
+                                <x-form.input name="employer_street" :label="__('Straße (Arbeitgeber)')" :labelClass="'col-sm-3'" required />
+                                <x-form.input name="employer_house_number" :label="__('Hausnummer (Arbeitgeber)')" :labelClass="'col-sm-3'" required />
+                                <x-form.input name="employer_city" :label="__('Ort (Arbeitgeber)')" :labelClass="'col-sm-3'" required />
+                                <x-form.input name="employer_postcode" :label="__('PLZ (Arbeitgeber)')" :labelClass="'col-sm-3'" />
+                                <x-form.input name="phone" :label="__('Telefonnummer')" :labelClass="'col-sm-3'" />
+                                <x-form.input name="mobile" :label="__('Mobilnummer')" :labelClass="'col-sm-3'" />
                             </div>
                         </div>
                     </div>
@@ -75,30 +67,26 @@
             </div>
         </div>
 
-
         <div class="row">
             <div class="col-12 mb-4">
                 <div class="card border-light shadow-sm components-section">
                     <div class="card-header">
-                        {{ __('Leistungen') }}
+                        {{ __('Vorsorgen') }}
                     </div>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-12">
-                                <x-form.clone-repeater id="repeaterPanel" name="services" :label="__('Leistungen')" :labelClass="'col-sm-2'" :heading="'Leistungen'" >
+                                <x-form.clone-repeater id="repeaterPanel" name="preventions" :label="__('Vorsorgen')" :labelClass="'col-sm-2'" :heading="'Vorsorgen'" >
                                     <x-slot name="customItems">
-                                        <div class="items" data-group="services" id="services">
+                                        <div class="items" data-group="preventions" id="preventions">
                                             <div class="row">
                                                 <div class="col-12 mb-2">
                                                     <div class="card border-light shadow-sm components-section">
                                                         <div class="card-body">
                                                             <div class="item-content col-12">
-                                                                <x-form.select data-name="service_type" data-skip-name="false" name="service_type" class="" :label="__('Leistungstyp')" :options="$serviceTypeOptions" :labelClass="'col-sm-3'" required />
-                                                                <x-form.input data-name="service_title" data-skip-name="false" name="service_title" :label="__('Andere Leistung')" class="" :labelClass="'col-sm-3'" />
-                                                                <x-form.textarea data-name="description" data-skip-name="false" name="description" :label="__('Beschreibung')" class="" :labelClass="'col-sm-3'" />
-                                                                <x-form.vanilla-datepicker data-name="service_date" name="service_date" :label="__('Leistungsdatum')" :value="now()->format('d.m.Y')" :labelClass="'col-sm-3'" required />
-                                                                <x-form.select data-name="quantity" data-skip-name="false" name="service_type" class="" :label="__('Menge')" :options="$quantityOptions" :labelClass="'col-sm-3'" required />
-                                                                <x-form.input data-name="unit_price" data-skip-name="false" name="unit_price" :label="__('Basis-Preis')" class="" :labelClass="'col-sm-3'" required />
+                                                                <x-form.select data-name="activity_id" data-skip-name="false" name="activity_id" class="" :label="__('Tätigkeit/ Anlass')" :options="$activityOptions" :labelClass="'col-sm-3'" required />
+                                                                <x-form.select data-name="prevention_type" data-skip-name="false" name="prevention_type" class="" :label="__('Art der Vorsorge')" :options="$preventionTypeOptions" :labelClass="'col-sm-3'" required />
+                                                                <x-form.vanilla-datepicker data-name="next_appointment_date" name="next_appointment_date" :label="__('Nächster Termin')" :value="now()->format('d.m.Y')" :labelClass="'col-sm-3'" required />
                                                             </div>
                                                         </div>
                                                         <div class="card-footer">
@@ -123,6 +111,7 @@
                 </div>
             </div>
         </div>
+
     </x-form.form>
 @endsection
 

@@ -42,13 +42,6 @@ return [
             'update' => 'medical.activity.view',
             'delete' => 'medical.activity.view',
         ],
-
-        'patient' => [
-            'view'   => 'medical.patient.view',
-            'create' => 'medical.patient.view',
-            'update' => 'medical.patient.view',
-            'delete' => 'medical.patient.view',
-        ],
     ],
 
     /*

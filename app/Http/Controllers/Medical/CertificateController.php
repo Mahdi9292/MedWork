@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\Medical;
 
+use App\Enums\Medical\PreventionType;
+use App\Enums\Medical\SalutationType;
 use App\Http\Requests\CertificateRequest;
+use App\Models\Medical\Activity;
 use App\Models\Medical\Certificate;
 use App\Services\CertificateService;
 use Exception;
@@ -37,7 +40,14 @@ class CertificateController extends BaseMedicalController
     public function create()
     {
         $this->authorize('create', Certificate::class);
-        return view('templates.medical.certificate.create');
+
+        $data['activityOptions']            = Activity::all()->pluck('name', 'id')->toArray();
+        $data['preventionTypeOptions']      = PreventionType::options();
+        $data['salutationTypeOptions']      = SalutationType::options();
+
+        $certificate = new Certificate;
+
+        return view('templates.medical.certificate.create', compact('certificate'), $data);
     }
 
     /**
@@ -47,7 +57,17 @@ class CertificateController extends BaseMedicalController
     {
         $this->authorize('create', Certificate::class);
 
-        Certificate::create($request->all());
+        $validated = $request->validated();
+
+        // Remove services from certificate data
+        $certificateData = collect($validated)->except('preventions')->toArray();
+
+        $certificate = Certificate::create($certificateData);
+
+        foreach ($validated['preventions'] as $prevention) {
+            $certificate->preventions()->create($prevention);
+        }
+
         return redirect()->route('medical.certificates.index')->with('success', 'Responsible Created');
 
     }
@@ -67,7 +87,12 @@ class CertificateController extends BaseMedicalController
     public function edit(Certificate $certificate)
     {
         $this->authorize('update', $certificate);
-        return view('templates.medical.certificate.edit', compact('certificate'));
+
+        $data['activityOptions']            = Activity::all()->pluck('name', 'id')->toArray();
+        $data['preventionTypeOptions']      = PreventionType::options();
+        $data['salutationTypeOptions']      = SalutationType::options();
+
+        return view('templates.medical.certificate.edit', compact('certificate'), $data);
     }
 
     /**
@@ -77,9 +102,42 @@ class CertificateController extends BaseMedicalController
     {
         $this->authorize('update', $certificate);
 
-        $certificate->update($request->all());
-        return redirect()->route('medical.certificates.index')->with('success', __('Speichern erfolgreich'));
+        $validated = $request->validated();
 
+        // Update certificate main data
+        $certificateData = collect($validated)->except('preventions')->toArray();
+        $certificate->update($certificateData);
+
+        $existingPreventionIds = [];
+
+        foreach ($validated['preventions'] as $preventionData) {
+
+            // Normalize empty ID
+            $preventionId = $preventionData['id'] ?? null;
+
+            if (!empty($preventionId)) {
+                // Update existing prevention (safely scoped to this certificate)
+                $prevention = $certificate->preventions()
+                    ->where('id', $preventionId)
+                    ->first();
+
+                if ($prevention) {
+                    $prevention->update($preventionData);
+                    $existingPreventionIds[] = $prevention->id;
+                }
+            } else {
+                // Create new prevention
+                $prevention = $certificate->preventions()->create($preventionData);
+                $existingPreventionIds[] = $prevention->id;
+            }
+        }
+
+        // Delete removed preventions
+        $certificate->preventions()->whereNotIn('id', $existingPreventionIds)->delete();
+
+        $certificate->update($request->all());
+
+        return redirect()->route('medical.certificates.index')->with('success', __('Speichern erfolgreich'));
     }
 
     /**
@@ -94,9 +152,9 @@ class CertificateController extends BaseMedicalController
     }
 
     /**
-     * show invoice pdf
+     * show certificate pdf
      */
-    public function printInvoice(Certificate $certificate)
+    public function printCertificate(Certificate $certificate)
     {
 //        $this->authorize('print', Offer::class);
         try {

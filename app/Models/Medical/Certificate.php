@@ -3,7 +3,6 @@
 namespace App\Models\Medical;
 
 use App\Models\BaseModel;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -23,12 +22,6 @@ class Certificate extends BaseModel
     protected $casts = [
         'issue_date' => 'date:Y-m-d',
     ];
-
-
-    public function patient(): BelongsTo
-    {
-        return $this->belongsTo(Patient::class, 'patient_id');
-    }
 
     public function preventions(): Certificate|HasMany
     {

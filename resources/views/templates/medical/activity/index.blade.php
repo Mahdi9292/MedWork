@@ -9,11 +9,9 @@
             <p class="mb-0"></p>
         </div>
         <div class="btn-toolbar mb-2 mb-md-0">
-            @can(config('perm.medical.responsibles.create'))
-                <div class="btn-group">
-                    <a href="{{ route('medical.activities.create') }}" type="button" class="btn btn-sm btn-gray-800"><span class="fas fa-plus me-2"></span> {{ __('Neu') }}</a>
-                </div>
-            @endcan
+            <div class="btn-group">
+                <a href="{{ route('medical.activities.create') }}" type="button" class="btn btn-sm btn-gray-800"><span class="fas fa-plus me-2"></span> {{ __('Neu') }}</a>
+            </div>
             <div class="btn-group ms-2 ms-lg-3">
                 <button class="btn btn-sm btn-outline-primary" title="{{ __('alle verwendeten Filters zurücksetzen') }}" onclick="resetFilters('medical-activity-table')"><i class="fas fa-times-circle"></i> {{ __('Filter') }}</button>
             </div>

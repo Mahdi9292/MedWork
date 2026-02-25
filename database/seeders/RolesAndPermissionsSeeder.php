@@ -61,7 +61,6 @@ class RolesAndPermissionsSeeder extends Seeder
             config('perm.service.view'),
             config('perm.medical.certificate.view'),
             config('perm.medical.certificate.view'),
-            config('perm.medical.patient.view'),
             config('perm.medical.activity.view'),
         ]);
     }

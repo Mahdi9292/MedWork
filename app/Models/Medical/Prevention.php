@@ -2,6 +2,7 @@
 
 namespace App\Models\Medical;
 
+use App\Enums\Medical\PreventionType;
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -21,6 +22,7 @@ class Prevention extends BaseModel
      */
     protected $casts = [
         'next_appointment_date' => 'date:Y-m-d',
+        'prevention_type'   => PreventionType::class,
     ];
 
     public function certificate(): BelongsTo
