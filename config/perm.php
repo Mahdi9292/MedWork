@@ -35,6 +35,20 @@ return [
             'update' => 'medical.prevention.view',
             'delete' => 'medical.prevention.view',
         ],
+
+        'activity' => [
+            'view'   => 'medical.activity.view',
+            'create' => 'medical.activity.view',
+            'update' => 'medical.activity.view',
+            'delete' => 'medical.activity.view',
+        ],
+
+        'patient' => [
+            'view'   => 'medical.patient.view',
+            'create' => 'medical.patient.view',
+            'update' => 'medical.patient.view',
+            'delete' => 'medical.patient.view',
+        ],
     ],
 
     /*

@@ -3,9 +3,7 @@
 namespace App\Models\Medical;
 
 use App\Models\BaseModel;
-use App\Models\InvoiceService;
-use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -13,4 +11,27 @@ class Certificate extends BaseModel
 {
     use SoftDeletes;
 
+    protected $table = 'medical_certificates';
+    public $timestamps = true;
+    protected $guarded = ['id'];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'issue_date' => 'date:Y-m-d',
+    ];
+
+
+    public function patient(): BelongsTo
+    {
+        return $this->belongsTo(Patient::class, 'patient_id');
+    }
+
+    public function preventions(): Certificate|HasMany
+    {
+        return $this->hasMany(Prevention::class, 'certificate_id');
+    }
 }
