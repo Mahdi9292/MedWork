@@ -2,6 +2,7 @@
 
 namespace App\Models\Medical;
 
+use App\Enums\Medical\SalutationType;
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -20,7 +21,8 @@ class Certificate extends BaseModel
      * @var array
      */
     protected $casts = [
-        'issue_date' => 'date:Y-m-d',
+        'issue_date'    => 'date:Y-m-d',
+        'salutation'    => SalutationType::class,
     ];
 
     public function preventions(): Certificate|HasMany
