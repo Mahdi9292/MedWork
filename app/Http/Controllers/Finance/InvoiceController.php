@@ -1,18 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Invoice;
+namespace App\Http\Controllers\Finance;
 
-use App\Enums\Invoice\HourAmount;
-use App\Enums\Invoice\ServiceType;
-use App\Http\Controllers\Controller;
+use App\Enums\Finance\HourAmount;
+use App\Enums\Finance\ServiceType;
 use App\Http\Requests\InvoiceRequest;
-use App\Models\Invoice;
+use App\Models\Finance\Invoice;
 use App\Services\InvoiceService;
 use Exception;
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rules\In;
 
-class InvoiceController extends BaseInvoiceController
+class InvoiceController extends BaseFinanceController
 {
 
     protected InvoiceService $invoiceService;
@@ -34,7 +31,7 @@ class InvoiceController extends BaseInvoiceController
     public function index()
     {
         $this->authorize('viewAny', Invoice::class);
-        return view('templates.invoice.index');
+        return view('templates.finance.invoice.index');
     }
 
     /**
@@ -49,7 +46,7 @@ class InvoiceController extends BaseInvoiceController
         $data['quantityOptions']       = HourAmount::options();
         $invoice = new Invoice;
 
-        return view('templates.invoice.create', compact('invoice'), $data);
+        return view('templates.finance.invoice.create', compact('invoice'), $data);
     }
 
     /**
@@ -69,7 +66,7 @@ class InvoiceController extends BaseInvoiceController
             $invoice->services()->create($service);
         }
 
-        return redirect()->route('invoices.index')->with('success', 'Rechnung wurde erfolgreich erstellt');
+        return redirect()->route('finance.invoices.index')->with('success', 'Rechnung wurde erfolgreich erstellt');
     }
 
     /**
@@ -90,7 +87,7 @@ class InvoiceController extends BaseInvoiceController
         // Dropdown options
         $data['serviceTypeOptions']    = ServiceType::options();
         $data['quantityOptions']       = HourAmount::options();
-        return view('templates.invoice.edit', compact('invoice'), $data);
+        return view('templates.finance.invoice.edit', compact('invoice'), $data);
     }
 
     /**
@@ -136,7 +133,7 @@ class InvoiceController extends BaseInvoiceController
         $invoice->services()->whereNotIn('id', $existingServiceIds)->delete();
 
         return redirect()
-            ->route('invoices.index')
+            ->route('finance.invoices.index')
             ->with('success', 'Rechnung Nr. ' . $invoice->invoice_number . ' wurde erfolgreich aktualisiert');
     }
 
@@ -152,7 +149,7 @@ class InvoiceController extends BaseInvoiceController
         $invoice->delete();
 
         return redirect()
-            ->route('invoices.index')
+            ->route('finance.invoices.index')
             ->with('success', 'Rechnung Nr. ' . $invoiceNumber . ' wurde erfolgreich gelöcht');
     }
 

@@ -2,14 +2,8 @@
 
 namespace App\Services;
 
-use App\Helpers\Helper;
-
 use App\Models\Medical\Certificate;
-
 use App\Traits\pdfTrait;
-
-use Carbon\Carbon;
-use App\Models\InvoiceService as Service;
 use Mpdf\MpdfException;
 use setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException;
 use setasign\Fpdi\PdfParser\PdfParserException;

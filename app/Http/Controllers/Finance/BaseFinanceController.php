@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Invoice;
+namespace App\Http\Controllers\Finance;
 
 use App\Http\Controllers\MasterController;
 
-class BaseInvoiceController extends MasterController
+class BaseFinanceController extends MasterController
 {
     public function __construct() {
         parent::__construct();
@@ -16,8 +16,9 @@ class BaseInvoiceController extends MasterController
     }
 
     protected function loadDefaultData(array $params=[]){
-        $this->appTitle = 'Rechnung';
-        $this->activeApp = config('constants.APPLICATIONS.INVOICE.KEY');
+        //$this->appTitle = 'Rechnung';
+        $this->appTitle = config('constants.APPLICATIONS.FINANCE.KEY');
+        $this->activeApp = config('constants.APPLICATIONS.FINANCE.KEY');
 
         // calling the parent method to set the global variables
         parent::loadDefaultData($params);

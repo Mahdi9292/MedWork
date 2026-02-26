@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Finance;
 
 use App\Casts\GermanNumber;
-use App\Enums\Invoice\HourAmount;
-use App\Enums\Invoice\ServiceType;
+use App\Enums\Finance\HourAmount;
+use App\Enums\Finance\ServiceType;
+use App\Models\BaseModel;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -15,7 +15,7 @@ class InvoiceService extends BaseModel
 {
     use SoftDeletes;
 
-    protected $table = 'invoice_services';
+    protected $table = 'finance_invoice_services';
     public $timestamps = true;
     protected $guarded = ['id'];
 

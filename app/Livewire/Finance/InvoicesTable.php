@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Livewire\Invoice;
+namespace App\Livewire\Finance;
 
-use App\Models\Invoice;
-use App\Services\InvoiceService;
+use App\Models\Finance\Invoice;
 use App\Traits\HasClearFiltersTrait;
 use App\Traits\HasFontAwesomeIconsTrait;
 use App\Traits\PowerGridOrderableColumnsTrait;
-use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\On;
 use PowerComponents\LivewirePowerGrid\{Button,
     Column,
     Components\SetUp\Exportable,
@@ -17,10 +16,7 @@ use PowerComponents\LivewirePowerGrid\{Button,
     Facades\Rule,
     PowerGridComponent,
     PowerGridFields};
-use Livewire\Attributes\On;
-use Mpdf\MpdfException;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
-
 use PowerComponents\LivewirePowerGrid\Traits\{WithExport};
 
 final class InvoicesTable extends PowerGridComponent
@@ -30,7 +26,7 @@ final class InvoicesTable extends PowerGridComponent
     use HasFontAwesomeIconsTrait;
     use PowerGridOrderableColumnsTrait;
 
-    public string $tableName = 'invoices-table';
+    public string $tableName = 'finance-invoice-table';
     public string $sortField = 'id';
     public string $sortDirection = 'desc';
 
@@ -194,12 +190,12 @@ final class InvoicesTable extends PowerGridComponent
                 ->slot($this->editIcon()->renderIcon())
                 ->class('btn btn-sm btn-offwhite btn-border-gray-2  float-start')
                 ->tooltip('Invoice bearbeiten')
-                ->route('invoices.edit',['invoice' => $row->id], '_self'),
+                ->route('finance.invoices.edit',['invoice' => $row->id], '_self'),
             Button::make('view_invoice')
                 ->slot($this->showIcon()->renderIcon())
                 ->class('btn btn-sm btn-offwhite btn-border-gray-2  float-start')
                 ->tooltip('Invoice anzeigen')
-                ->route('invoices.show', ['invoice' => $row->id], '_self'),
+                ->route('finance.invoices.show', ['invoice' => $row->id], '_self'),
             Button::make('delete_invoice')
                 ->slot($this->deleteIcon()->renderIcon())
                 //  ->confirm('Rechnung wirklich löschen?')
@@ -210,7 +206,7 @@ final class InvoicesTable extends PowerGridComponent
                 ->slot('<i class="fa-solid fa-print"></i>')
                 ->class('btn btn-sm btn-offwhite btn-border-gray-2')
                 ->tooltip('Rechnung drucken')
-                ->route('invoices.printInvoice', ['invoice' => $row->id], '_blank'),
+                ->route('finance.printInvoice', ['invoice' => $row->id], '_blank'),
         ];
     }
 
@@ -244,15 +240,15 @@ final class InvoicesTable extends PowerGridComponent
     {
         return [
             Rule::button('edit_invoice')
-                ->when(fn() => !Auth::user()->can(config('perm.invoice.update')))
+                ->when(fn() => !Auth::user()->can(config('perm.finance.invoice.update')))
                 ->hide(),
 
             Rule::button('view_invoice')
-                ->when(fn() => !Auth::user()->can(config('perm.invoice.view')))
+                ->when(fn() => !Auth::user()->can(config('perm.finance.invoice.view')))
                 ->hide(),
 
             Rule::button('delete_invoice')
-                ->when(fn() => !Auth::user()->can(config('perm.invoice.delete')))
+                ->when(fn() => !Auth::user()->can(config('perm.finance.invoice.delete')))
                 ->hide(),
         ];
     }

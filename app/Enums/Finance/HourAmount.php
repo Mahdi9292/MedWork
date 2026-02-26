@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Enums\Invoice;
+namespace App\Enums\Finance;
 
 use App\Interfaces\HasOptionsInterface;
 use App\Traits\EnumToCollectionTrait;

@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\Invoice\InvoiceController;
+use App\Http\Controllers\Finance\FinanceController;
+use App\Http\Controllers\Finance\InvoiceController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -14,10 +15,11 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', [InvoiceController::class, 'index'])->name('invoice.home');
-Route::resource('invoices', 'InvoiceController');
-Route::group(['as' => 'invoices.', 'prefix' => 'invoices'], function () {
+Route::get('/', [FinanceController::class, 'index'])->name('finance.home');
 
+Route::group(['as' => 'finance.', 'prefix' => 'invoices'], function () {
+
+    Route::resource('invoices', 'InvoiceController');
     // print Invoice
     Route::get('/printInvoice/{invoice}', [InvoiceController::class, 'printInvoice'])->name('printInvoice');
 

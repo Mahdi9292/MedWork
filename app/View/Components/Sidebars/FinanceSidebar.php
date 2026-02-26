@@ -5,7 +5,7 @@ namespace App\View\Components\Sidebars;
 use Illuminate\View\Component;
 use Illuminate\Contracts\View\View;
 
-class InvoiceSidebar extends Component
+class FinanceSidebar extends Component
 {
     /**
      * Active Item
@@ -19,7 +19,7 @@ class InvoiceSidebar extends Component
      *
      * @var array
      */
-    private array $parentItems = ['invoices', 'dashboard'];
+    private array $parentItems = ['invoices'];
 
     /**
      * Create a new component instance.
@@ -43,6 +43,6 @@ class InvoiceSidebar extends Component
      */
     public function render(): View
     {
-        return view('components.sidebars.invoice-sidebar');
+        return view('components.sidebars.finance-sidebar');
     }
 }

@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Finance;
 
-use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Invoice extends BaseModel
 {
     use SoftDeletes;
 
-    protected $table = 'invoices';
+    protected $table = 'finance_invoices';
     public $timestamps = true;
     protected $guarded = ['id'];
 

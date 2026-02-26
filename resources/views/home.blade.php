@@ -12,7 +12,7 @@
 
     <div class="row">
         <x-template.landing-page-tile
-            title="Rechnungen" :url="url('/invoice')"
+            title="Rechnungen" :url="url('/finance')"
             :version="'1.1'"
             :sub-title="__('neuen Bestelleingänge')"
             :short-info="__('Übersicht und Erfassung der Bestelleingänge zu neuen Maschinen')"

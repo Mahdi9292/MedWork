@@ -11,7 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('invoices', function (Blueprint $table) {
+        // finance_invoices
+        Schema::create('finance_invoices', function (Blueprint $table) {
             $table->id();
 
             $table->string('invoice_number');
@@ -29,9 +30,10 @@ return new class extends Migration
             $table->softDeletes();
         });
 
-        Schema::create('invoice_services', function (Blueprint $table) {
+        // finance_invoice_services
+        Schema::create('finance_invoice_services', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('invoice_id')->constrained('invoices')->cascadeOnDelete();
+            $table->foreignId('invoice_id')->constrained('finance_invoices')->cascadeOnDelete();
 
             $table->enum('service_type', ['AMVU'])->nullable();
             $table->string('service_title', 255)->nullable();
@@ -51,7 +53,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('invoices');
-        Schema::dropIfExists('invoice_services');
+        Schema::dropIfExists('finance_invoices');
+        Schema::dropIfExists('finance_invoice_services');
     }
 };

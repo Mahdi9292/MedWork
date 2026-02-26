@@ -22,15 +22,13 @@ class RolesAndPermissionsSeeder extends Seeder
         |--------------------------------------------------------------------------
         */
 
-        foreach ($config as $key => $value) {
+        $permissions = collect($config)
+            ->except('roles')
+            ->flatten(2)   // flatten nested arrays
+            ->values();
 
-            if ($key === 'roles') {
-                continue;
-            }
-
-            foreach ($value as $permission) {
-                Permission::firstOrCreate(['name' => $permission]);
-            }
+        foreach ($permissions as $permission) {
+            Permission::firstOrCreate(['name' => $permission]);
         }
 
         /*
@@ -57,9 +55,8 @@ class RolesAndPermissionsSeeder extends Seeder
 
         // User gets only view permissions
         $user->givePermissionTo([
-            config('perm.invoice.view'),
-            config('perm.service.view'),
-            config('perm.medical.certificate.view'),
+            config('perm.finance.invoice.view'),
+            config('perm.finance.service.view'),
             config('perm.medical.certificate.view'),
             config('perm.medical.activity.view'),
         ]);

@@ -11,7 +11,7 @@
 @canany([
     config('perm.medical.activity.view'),
 ])
-    <x-template.sidebar-parent-item :active="$active === 'system'" :title="'System'" :icon="'fa-cogs'">
+    <x-template.sidebar-parent-item :active="$active === 'activities'" :title="'System'" :icon="'fa-cogs'">
         <x-template.sidebar-child-item :title="__('Tätigkeiten')" :abbr="'T'" :link="route('medical.activities.index')" :permission="config('perm.medical.activity.view')" />
     </x-template.sidebar-parent-item>
 @endcanany

@@ -4,8 +4,8 @@
 
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
         <div class="d-block mb-4 mb-md-0">
-            <x-template.breadcrumb :activePage="config('constants.APPLICATIONS.INVOICE.TITLE')" />
-            <h2 class="h4">{{ config('constants.APPLICATIONS.INVOICE.TITLE') }}</h2>
+            <x-template.breadcrumb :activePage="config('constants.APPLICATIONS.FINANCE.TITLE')" />
+            <h2 class="h4">{{ config('constants.APPLICATIONS.FINANCE.TITLE') }}</h2>
             <p class="mb-0"></p>
         </div>
     </div>

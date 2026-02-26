@@ -36,10 +36,10 @@ class RouteServiceProvider extends ServiceProvider
         $this->configureRateLimiting();
 
         $this->routes(function () {
-            Route::prefix('invoice')
+            Route::prefix('finance')
                 ->middleware(['web', 'auth'])
-                ->namespace($this->namespace.'\Invoice')
-                ->group(base_path('routes/invoice.php'));
+                ->namespace($this->namespace.'\Finance')
+                ->group(base_path('routes/finance.php'));
 
 
             Route::prefix('medical')

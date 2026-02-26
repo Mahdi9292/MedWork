@@ -19,7 +19,7 @@ class MedicalSidebar extends Component
      *
      * @var array
      */
-    private array $parentItems = ['certificates'];
+    private array $parentItems = ['checkups', 'certificates', 'activities', 'system'];
 
     /**
      * Create a new component instance.

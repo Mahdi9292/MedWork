@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Policies;
+namespace App\Policies\Finance;
 
-use App\Models\Invoice;
+use App\Models\Finance\Invoice;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class InvoicePolicy
 {
@@ -13,7 +12,7 @@ class InvoicePolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can(config('perm.invoice.view'));
+        return $user->can(config('perm.finance.invoice.view'));
     }
 
     /**
@@ -21,7 +20,7 @@ class InvoicePolicy
      */
     public function view(User $user, Invoice $invoice): bool
     {
-        return $user->can(config('perm.invoice.view'));
+        return $user->can(config('perm.finance.invoice.view'));
     }
 
     /**
@@ -29,7 +28,7 @@ class InvoicePolicy
      */
     public function create(User $user): bool
     {
-        return $user->can(config('perm.invoice.create'));
+        return $user->can(config('perm.finance.invoice.create'));
     }
 
     /**
@@ -37,7 +36,7 @@ class InvoicePolicy
      */
     public function update(User $user, Invoice $invoice): bool
     {
-        return $user->can(config('perm.invoice.update'));
+        return $user->can(config('perm.finance.invoice.update'));
     }
 
     /**
@@ -45,7 +44,7 @@ class InvoicePolicy
      */
     public function delete(User $user, Invoice $invoice): bool
     {
-        return $user->can(config('perm.invoice.delete'));
+        return $user->can(config('perm.finance.invoice.delete'));
     }
 
     /**

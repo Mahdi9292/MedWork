@@ -2,18 +2,25 @@
 
 return [
 
-    'invoice' => [
-        'view'   => 'invoice.view',
-        'create' => 'invoice.create',
-        'update' => 'invoice.update',
-        'delete' => 'invoice.delete',
-    ],
+    /*
+    |--------------------------------------------------------------------------
+    | Finance
+    |--------------------------------------------------------------------------
+    */
+    'finance' => [
+        'invoice' => [
+            'view'   => 'finance.invoice.view',
+            'create' => 'finance.invoice.create',
+            'update' => 'finance.invoice.update',
+            'delete' => 'finance.invoice.delete',
+        ],
 
-    'service' => [
-        'view'   => 'service.view',
-        'create' => 'service.create',
-        'update' => 'service.update',
-        'delete' => 'service.delete',
+        'service' => [
+            'view'   => 'finance.service.view',
+            'create' => 'finance.service.create',
+            'update' => 'finance.service.update',
+            'delete' => 'finance.service.delete',
+        ],
     ],
 
     /*
@@ -31,16 +38,16 @@ return [
 
         'prevention' => [
             'view'   => 'medical.prevention.view',
-            'create' => 'medical.prevention.view',
-            'update' => 'medical.prevention.view',
-            'delete' => 'medical.prevention.view',
+            'create' => 'medical.prevention.create',
+            'update' => 'medical.prevention.update',
+            'delete' => 'medical.prevention.delete',
         ],
 
         'activity' => [
             'view'   => 'medical.activity.view',
-            'create' => 'medical.activity.view',
-            'update' => 'medical.activity.view',
-            'delete' => 'medical.activity.view',
+            'create' => 'medical.activity.create',
+            'update' => 'medical.activity.update',
+            'delete' => 'medical.activity.delete',
         ],
     ],
 

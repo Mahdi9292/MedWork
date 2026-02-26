@@ -1,20 +1,17 @@
 <?php
 namespace App\Providers;
 
-use App\Models\User;
-use App\Models\Invoice;
-use App\Models\Medical\Patient;
+use App\Models\Finance\Invoice;
 use App\Models\Medical\Activity;
 use App\Models\Medical\Certificate;
+use App\Models\Medical\Patient;
 use App\Models\Medical\Prevention;
-
-use App\Policies\UserPolicy;
-use App\Policies\InvoicePolicy;
-use App\Policies\Medical\PatientPolicy;
+use App\Models\User;
+use App\Policies\Finance\InvoicePolicy;
 use App\Policies\Medical\ActivityPolicy;
 use App\Policies\Medical\CertificatePolicy;
 use App\Policies\Medical\PreventionPolicy;
-
+use App\Policies\UserPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -31,7 +28,6 @@ class AuthServiceProvider extends ServiceProvider
         // Medical
         Certificate::class => CertificatePolicy::class,
         Prevention::class => PreventionPolicy::class,
-        Patient::class => PatientPolicy::class,
         Activity::class => ActivityPolicy::class,
     ];
 
