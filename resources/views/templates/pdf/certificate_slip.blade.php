@@ -28,15 +28,20 @@
         <div class="font-size-11">
             nach § 6 Absatz 3 Nr. 3 der Verordnung zur arbeitsmedizinischen Vorsorge
         </div>
+        <div class="font-size-9 text-end mt-2">
+            Bescheinigung Nr.: {{ $certificate->certificate_number }} <br>
+            {{ __('Datum') }}: {{ formatDate($certificate->issue_date) }}
+        </div>
+
     </div>
 
     <div class="mb-4 font-size-10">
-        {{ $certificate->salutation == \App\Enums\Medical\SalutationType::ST_MR ? __('Proband') : __('Probandin') }}<br>
+        {{ $certificate->salutation ? ($certificate->salutation == \App\Enums\Medical\SalutationType::ST_MR ? __('Proband') : __('Probandin')) : __('Proband/in') }}<br>
         <span class="fw-bold">{{$certificate->salutation?->label()}} {{$certificate->first_name}} {{$certificate->last_name}}</span><br>
         Geburtsdatum: {{ formatDate($certificate->birthday) }}<br>
         beschäftigt bei: {{$certificate->employed_at}}<br>
         Anschrift des Arbeitgebers: {{$certificate->employer_street}} {{$certificate->employer_house_number}}, {{$certificate->employer_postcode}} {{$certificate->employer_city}}<br><br>
-        <span class="fw-bold">Schein Nr.: {{ $certificate->certificate_number }}</span>
+        <span class="fw-bold">Untersuchungsdatum: {{ formatDate($certificate->examination_date) }}</span>
     </div>
 
     <div class="mb-2 fw-bold font-size-10">Vorsorgen:</div>

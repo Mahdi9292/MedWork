@@ -71,7 +71,7 @@ class Checkbox extends Component
     public function inputClass(): string
     {
         return collect([
-            'form-check-input',
+            'form-check-input mt-3',
             $this->hasErrorsAndShow($this->name) ? 'is-invalid' : null,
         ])->filter()->implode(' ');
     }

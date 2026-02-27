@@ -32,9 +32,11 @@
     </div>
     <div class="btn-toolbar mb-2 mb-md-0">
         <div class="btn-group">
-            <a href="{{ route("medical.certificates.index") }}" class="btn btn-sm btn-outline-primary">{{ __('Alle') }}</a>
+            <a href="{{ route("medical.certificates.index") }}" class="btn btn-sm btn-outline-primary">{{ __('Zu Bescheinigung Liste') }}</a>
         </div>
+        <a href="javascript:" onclick="document.getElementById('btnFormSubmit').click();" class="btn btn-sm btn-secondary mx-2">{{ __('Speichern') }}</a>
     </div>
+
 </div>
 
     <x-form.form :action="route('medical.certificates.update', $certificate->id)" method="PUT" id="editInvoiceForm" novalidate hasJsValidation>
@@ -47,8 +49,9 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-6">
-                                <x-form.input name="certificate_number" :value="$certificate->certificate_number" :label="__('Bescheinigung Nr.')" :labelClass="'col-sm-3'" required />
+                                <x-form.input name="certificate_number" :value="$certificate->certificate_number" :label="__('Bescheinigung Nr.')" :labelClass="'col-sm-3'" disabled />
                                 <x-form.flat-pickr name="issue_date" :value="$certificate->issue_date" :label="__('Erstellungsdatum')" :labelClass="'col-sm-3'" :week-numbers="true" :allow-input="true" required />
+                                <x-form.flat-pickr name="examination_date" :value="$certificate->examination_date" :label="__('Untersuchungsdatum')" :labelClass="'col-sm-3'" :week-numbers="true" :allow-input="true" required />
 
                                 <x-form.select data-name="salutation" :value="$certificate->salutation" data-skip-name="false" name="salutation" class="" :label="__('Anrede')" :options="$salutationTypeOptions" :labelClass="'col-sm-3'" required />
                                 <x-form.input name="title" :value="$certificate->title" :label="__('Titel')" :labelClass="'col-sm-3'" />
@@ -66,6 +69,7 @@
                                 <x-form.input name="employer_postcode" :value="$certificate->employer_postcode" :label="__('PLZ (Arbeitgeber)')" :labelClass="'col-sm-3'" />
                                 <x-form.input name="phone" :value="$certificate->phone" :label="__('Telefonnummer')" :labelClass="'col-sm-3'" />
                                 <x-form.input name="mobile" :value="$certificate->mobile" :label="__('Mobilnummer')" :labelClass="'col-sm-3'" />
+                                <x-form.checkbox :row="'row mb-3 border rounded-3 border-gray-300 p-2'" name="is_employer" :checked="$certificate->is_employer" :switch="true" :label="__('Arbeitgeber')" :labelClass="'col-sm-3 mt-1'" />
                             </div>
                         </div>
                     </div>

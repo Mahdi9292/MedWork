@@ -32,7 +32,10 @@ return new class extends Migration
             $table->string('mobile', 191)->nullable();
 
             $table->date('birthday')->nullable();
-            $table->date('issue_date')->nullable();
+            $table->date('issue_date');
+            $table->date('examination_date');
+
+            $table->tinyInteger('is_employer')->default(0)->nullable();
 
             $table->timestamps();
             $table->softDeletes();
@@ -55,7 +58,7 @@ return new class extends Migration
             $table->foreignId('activity_id')->constrained('medical_activities')->cascadeOnDelete();
 
             $table->enum('prevention_type', ['Pflichtvorsorge','Angebotsvorsorge'])->nullable();
-            $table->date('next_appointment_date')->nullable();
+            $table->date('next_appointment_date');
 
             $table->timestamps();
             $table->softDeletes();

@@ -21,26 +21,30 @@ class CertificateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'salutation' => 'nullable',
+            //Main Certificate data
+            'certificate_number' => 'nullable',
+            'issue_date'        => 'required',
+            'examination_date'  => 'required',
 
-            'title' => 'nullable|string|max:191',
-            'first_name' => 'required|string|max:191',
-            'middle_name' => 'nullable|string|max:191',
-            'last_name' => 'required|string|max:191',
+            //Patient
+            'salutation'    => 'nullable',
+            'title'         => 'nullable|string|max:191',
+            'first_name'    => 'required|string|max:191',
+            'middle_name'   => 'nullable|string|max:191',
+            'last_name'     => 'required|string|max:191',
+            'birthday'      => 'nullable',
+            'is_employer' => 'nullable',
 
-            'employed_at' => 'nullable|string|max:255',
-            'employer_street' => 'nullable|string|max:191',
+            //Patient's employer
+            'employed_at'           => 'nullable|string|max:255',
+            'employer_street'       => 'nullable|string|max:191',
             'employer_house_number' => 'nullable|string|max:191',
-            'employer_city' => 'nullable|string|max:191',
-            'employer_postcode' => 'nullable|string|max:191',
+            'employer_city'         => 'nullable|string|max:191',
+            'employer_postcode'     => 'nullable|string|max:191',
 
-            'phone' => 'nullable|string|max:191',
-            'mobile' => 'nullable|string|max:191',
-
-            'certificate_number' => 'required|string|max:191',
-
-            'birthday' => 'nullable',
-            'issue_date' => 'nullable',
+            //General contact info
+            'phone'     => 'nullable|string|max:191',
+            'mobile'    => 'nullable|string|max:191',
 
             // =========================
             // Preventions (HasMany)
