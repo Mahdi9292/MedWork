@@ -53,7 +53,7 @@
                                 <x-form.flat-pickr name="issue_date" :value="$certificate->issue_date" :label="__('Erstellungsdatum')" :labelClass="'col-sm-3'" :week-numbers="true" :allow-input="true" required />
                                 <x-form.flat-pickr name="examination_date" :value="$certificate->examination_date" :label="__('Untersuchungsdatum')" :labelClass="'col-sm-3'" :week-numbers="true" :allow-input="true" required />
 
-                                <x-form.select data-name="salutation" :value="$certificate->salutation" data-skip-name="false" name="salutation" class="" :label="__('Anrede')" :options="$salutationTypeOptions" :labelClass="'col-sm-3'" required />
+                                <x-form.select data-name="salutation" :value="$certificate->salutation" data-skip-name="false" name="salutation" class="" :label="__('Anrede')" :options="$salutationTypeOptions" :labelClass="'col-sm-3'" />
                                 <x-form.input name="title" :value="$certificate->title" :label="__('Titel')" :labelClass="'col-sm-3'" />
                                 <x-form.input name="first_name" :value="$certificate->first_name" :label="__('Vorname')" :labelClass="'col-sm-3'" required />
                                 <x-form.input name="middle_name" :value="$certificate->middle_name" :label="__('Zweiter Vorname')" :labelClass="'col-sm-3'" />
