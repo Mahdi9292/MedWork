@@ -26,7 +26,7 @@ class InvoiceRequest extends FormRequest
             // =========================
             'invoice_number' => 'required',
             'invoice_date'   => 'required',
-            'value_added_tax'   => ['nullable', new Currency, 'between:0,99.99'],
+            'value_added_tax'   => ['nullable'],
 
             'name'           => 'required',
             'street'         => 'required',
@@ -40,11 +40,11 @@ class InvoiceRequest extends FormRequest
             // Services (HasMany)
             // =========================
             'services.*.id' => 'nullable|integer|exists:finance_invoice_services,id', //just to get it during the update
-            'services.*.service_type'    => 'required',
+            'services.*.service_type'    => 'nullable',
             'services.*.service_title'   => 'nullable',
             'services.*.description'     => 'nullable',
             'services.*.service_date'    => 'required',
-            'services.*.quantity'        => 'required',
+            'services.*.quantity'        => 'nullable',
             'services.*.unit_price'      => ['required', new Currency],
         ];
     }
@@ -65,8 +65,6 @@ class InvoiceRequest extends FormRequest
             'city.required'         => 'Stadt muss ausgefüllt werden.',
 
             'value_added_tax.numeric' => 'Die Mehrwertsteuer muss eine Zahl sein.',
-            'value_added_tax.decimal' => 'Die Mehrwertsteuer darf maximal zwei Dezimalstellen haben.',
-            'value_added_tax.between' => 'Die Mehrwertsteuer muss zwischen 0 und 99,99 liegen.',
 
             // Services
             'services.required'                     => 'Mindestens eine Leistung muss hinzugefügt werden.',

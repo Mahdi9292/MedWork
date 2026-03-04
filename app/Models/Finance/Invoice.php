@@ -25,7 +25,6 @@ class Invoice extends BaseModel
      */
     protected $casts = [
         'invoice_date' => 'date:Y-m-d',
-        'value_added_tax' => GermanNumber::class,
     ];
 
     /**
@@ -44,7 +43,8 @@ class Invoice extends BaseModel
         $netPrice = 0;
 
         foreach ($this->services as $service) {
-            $netPrice += parseNumber($service->unit_price) * $service->quantity->value;
+            $quantity = $service->quantity?->value ?: 1;
+            $netPrice += parseNumber($service->unit_price) * $quantity;
         }
         return $netPrice;
     }
@@ -54,7 +54,7 @@ class Invoice extends BaseModel
      */
     public function getTaxPrice(): float
     {
-        $vat = $this->value_added_tax ? parseNumber($this->value_added_tax) : self::DEFAULT_VAT;
+        $vat = $this->value_added_tax ?? self::DEFAULT_VAT;
         $netPrice = $this->getTotalNetPrice();
         return $netPrice * $vat;
     }

@@ -83,12 +83,12 @@
                                                     <div class="card border-light shadow-sm components-section">
                                                         <div class="card-body">
                                                             <div class="item-content col-12">
-                                                                <x-form.select data-name="service_type" data-skip-name="false" name="service_type" class="" :label="__('Leistungstyp')" :options="$serviceTypeOptions" :labelClass="'col-sm-3'" required />
+                                                                <x-form.select data-name="service_type" data-skip-name="false" name="service_type" class="" :label="__('Leistungstyp')" :options="$serviceTypeOptions" :labelClass="'col-sm-3'" />
                                                                 <x-form.input data-name="service_title" data-skip-name="false" name="service_title" :label="__('Andere Leistung')" class="" :labelClass="'col-sm-3'" />
                                                                 <x-form.textarea data-name="description" data-skip-name="false" name="description" :label="__('Beschreibung')" class="" :labelClass="'col-sm-3'" />
                                                                 <x-form.vanilla-datepicker data-name="service_date" name="service_date" :label="__('Leistungsdatum')" :value="now()->format('d.m.Y')" :labelClass="'col-sm-3'" required />
-                                                                <x-form.select data-name="quantity" data-skip-name="false" name="service_type" class="" :label="__('Menge')" :options="$quantityOptions" :labelClass="'col-sm-3'" required />
-                                                                <x-form.input data-name="unit_price" data-skip-name="false" name="unit_price" :trailingAddon="'%'" :label="__('Basis-Preis')" class="" :labelClass="'col-sm-3'" required />
+                                                                <x-form.select data-name="quantity" data-skip-name="false" name="quantity" class="" :label="__('Menge')" :options="$quantityOptions" :labelClass="'col-sm-3'" />
+                                                                <x-form.input data-name="unit_price" data-skip-name="false" name="unit_price" :trailingAddon="'€'" :label="__('Basis-Preis in €')" class="" :labelClass="'col-sm-3'" required />
                                                             </div>
                                                         </div>
                                                         <div class="card-footer">

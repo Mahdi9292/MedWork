@@ -88,11 +88,11 @@
                                                                 <div class="card-body">
                                                                     <div class="item-content col-12">
                                                                         <x-form.input data-name="id" data-skip-name="false" type="hidden" name="services.{{ $key }}.id" :value="$service->id" />
-                                                                        <x-form.select data-name="service_type" data-skip-name="false" name="services.{{ $key }}.service_type" class="" :label="__('Leistungstyp')" :value="$service->service_type?->value" :options="$serviceTypeOptions" :labelClass="'col-sm-3'" required />
+                                                                        <x-form.select data-name="service_type" data-skip-name="false" name="services.{{ $key }}.service_type" class="" :label="__('Leistungstyp')" :value="$service->service_type?->value" :options="$serviceTypeOptions" :labelClass="'col-sm-3'" />
                                                                         <x-form.input data-name="service_title" data-skip-name="false" name="services.{{ $key }}.service_title" :label="__('Andere Leistung')" :value="$service->service_title" class="" :labelClass="'col-sm-3'" />
                                                                         <x-form.textarea data-name="description" data-skip-name="false" name="services.{{ $key }}.description" :label="__('Beschreibung')" :value="$service->description" class="" :labelClass="'col-sm-3'" />
                                                                         <x-form.vanilla-datepicker data-name="service_date" name="service_date" :label="__('Leistungsdatum')" :value="formatDate($service->service_date)" :labelClass="'col-sm-3'" required />
-                                                                        <x-form.select data-name="quantity" data-skip-name="false" name="services.{{ $key }}.quantity" class="" :label="__('Menge')" :value="$service->quantity->value" :options="$quantityOptions" :labelClass="'col-sm-3'" required />
+                                                                        <x-form.select data-name="quantity" data-skip-name="false" name="services.{{ $key }}.quantity" class="" :label="__('Menge')" :value="$service->quantity?->value" :options="$quantityOptions" :labelClass="'col-sm-3'" />
                                                                         <x-form.input data-name="unit_price" data-skip-name="false" name="services.{{ $key }}.unit_price" :label="__('Basis-Preis in €')" :value="$service->unit_price" :trailingAddon="'€'" class="" :labelClass="'col-sm-3'" required />
                                                                     </div>
                                                                 </div>
@@ -118,7 +118,7 @@
                                                         <div class="card border-light shadow-sm components-section">
                                                             <div class="card-body">
                                                                 <div class="item-content col-12">
-                                                                    <x-form.select data-name="service_type" data-skip-name="false" name="service_type" class="" :label="__('Leistungstyp')" :options="$serviceTypeOptions" :labelClass="'col-sm-3'" required />
+                                                                    <x-form.select data-name="service_type" data-skip-name="false" name="service_type" class="" :label="__('Leistungstyp')" :options="$serviceTypeOptions" :labelClass="'col-sm-3'" />
                                                                     <x-form.input data-name="service_title" data-skip-name="false" name="service_title" :label="__('Andere Leistung')" class="" :labelClass="'col-sm-3'" />
                                                                     <x-form.textarea data-name="description" data-skip-name="false" name="description" :label="__('Beschreibung')" class="" :labelClass="'col-sm-3'" />
                                                                     {{--                                                                <x-form.flat-pickr name="service_date" :label="__('Leistungsdatum')" :value="Carbon\Carbon::now()" :labelClass="'col-sm-3'" :week-numbers="true" :allow-input="true" required />--}}
@@ -130,8 +130,8 @@
                                                                         :labelClass="'col-sm-3'"
                                                                         required
                                                                     />
-                                                                    <x-form.select data-name="quantity" data-skip-name="false" name="service_type" class="" :label="__('Menge')" :options="$quantityOptions" :labelClass="'col-sm-3'" required />
-                                                                    <x-form.input data-name="unit_price" data-skip-name="false" name="unit_price" :label="__('Basis-Preis')" class="" :labelClass="'col-sm-3'" required />
+                                                                    <x-form.select data-name="quantity" data-skip-name="false" name="quantity" class="" :label="__('Menge')" :options="$quantityOptions" :labelClass="'col-sm-3'" />
+                                                                    <x-form.input data-name="unit_price" data-skip-name="false" name="unit_price" :label="__('Basis-Preis in €')" :trailingAddon="'€'" class="" :labelClass="'col-sm-3'" required />
                                                                 </div>
                                                             </div>
                                                             <div class="card-footer">
