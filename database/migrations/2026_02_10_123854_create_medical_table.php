@@ -45,7 +45,7 @@ return new class extends Migration
         Schema::create('medical_activities', function (Blueprint $table) {
             $table->id();
             $table->string('name',191)->unique();
-            $table->string('code',191)->unique();
+            $table->string('former_name',191)->nullable();
 
             $table->timestamps();
             $table->softDeletes();
@@ -57,7 +57,7 @@ return new class extends Migration
             $table->foreignId('certificate_id')->constrained('medical_certificates')->cascadeOnDelete();
             $table->foreignId('activity_id')->constrained('medical_activities')->cascadeOnDelete();
 
-            $table->enum('prevention_type', ['Pflichtvorsorge','Angebotsvorsorge'])->nullable();
+            $table->enum('prevention_type', ['Pflichtvorsorge','Angebotsvorsorge', 'Wunschvorsorge'])->nullable();
             $table->date('next_appointment_date');
 
             $table->timestamps();

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Medical;
 
+use App\Http\Requests\ActivityRequest;
 use App\Models\Medical\Activity;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class ActivityController extends BaseMedicalController
 {
@@ -40,11 +42,11 @@ class ActivityController extends BaseMedicalController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ActivityRequest $request)
     {
         $this->authorize('create', Activity::class);
 
-        Activity::create($request->all());
+        Activity::create($request->validated());
         return redirect()->route('medical.activities.index')->with('success', 'Responsible Created');
     }
 
@@ -70,11 +72,11 @@ class ActivityController extends BaseMedicalController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Activity $activity)
+    public function update(ActivityRequest $request, Activity $activity)
     {
         $this->authorize('update', $activity);
 
-        $activity->update($request->all());
+        $activity->update($request->validated());
         return redirect()->route('medical.activities.index')->with('success', __('Speichern erfolgreich'));
 
     }

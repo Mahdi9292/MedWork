@@ -23,6 +23,7 @@
 @include('templates.pdf.footer')
 
 <div class="content">
+    <div class="text-center mt-2"> {{ $certificate->is_employer ? 'Arbeitgeber/in' : 'Arbeitnehmer/in' }}</div>
     <div class="title-section mt-4 mb-4">
         <div class="font-size-15 fw-bold mb-1">Vorsorgebescheinigung</div>
         <div class="font-size-11">
@@ -59,7 +60,7 @@
         @foreach($certificate->preventions as $index => $prevention)
             <tr>
                 <td class="text-center p-1 align-middle">{{ $index+1 }}</td>
-                <td class="ps-2 p-1 align-middle">{{ $prevention->activity?->code }} - {{ $prevention?->activity?->name }}</td>
+                <td class="ps-2 p-1 align-middle">{{$prevention->activity?->former_name ? $prevention->activity?->former_name . '-' : ''}} {{ $prevention?->activity?->name }}</td>
                 <td class="ps-2 p-1 align-middle">{{ $prevention->prevention_type?->label() }}</td>
                 <td class="text-center p-1 align-middle">{{ formatDate($prevention->next_appointment_date) }}</td>
             </tr>

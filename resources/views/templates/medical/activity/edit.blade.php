@@ -25,7 +25,7 @@
                         <x-form.form :action="route('medical.activities.update', $activity->id)" method="PUT" novalidate hasJsValidation>
 
                             <x-form.input name="name" :label="__('Tätigkeit')" :value="$activity->name" :labelClass="'col-sm-3'"  required />
-                            <x-form.input name="code" :label="__('Code')" :value="$activity->code" :labelClass="'col-sm-3'" required />
+                            <x-form.input name="former_name" :label="__('Ehemalig')" :value="$activity->former_name" :labelClass="'col-sm-3'" required />
 
                             <button type="submit" class="btn btn-secondary">{{ __('Speichern') }}</button>
                         </x-form.form>

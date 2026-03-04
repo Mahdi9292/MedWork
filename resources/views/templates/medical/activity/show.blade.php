@@ -24,7 +24,7 @@
 
                     <div class="col-lg-8 col-sm-12">
                         <x-form.show name="name" :label="__('Tätigkeit')"  :value="$activity->name" :labelClass="'col-sm-3'"   />
-                        <x-form.show name="code" :label="__('Code')" :value="$activity->code" :labelClass="'col-sm-3'"   />
+                        <x-form.show name="former_name" :label="__('Ehemalig')" :value="$activity->former_name" :labelClass="'col-sm-3'"   />
 
                         <a href="{{ route('medical.activities.index') }}" class="btn btn-primary">{{ __('Zurück zur Übersicht') }}</a>
                     </div>

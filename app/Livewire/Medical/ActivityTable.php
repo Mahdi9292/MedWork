@@ -138,7 +138,7 @@ final class ActivityTable extends PowerGridComponent
             Column::make('Name', 'name')
                 ->searchable()
                 ->sortable(),
-            Column::make('Code', 'code')
+            Column::make('Ehemalig', 'former_name')
                 ->searchable()
                 ->sortable(),
             Column::make('Letzte Änderung', 'updated_at_formatted', 'updated_at')
@@ -160,7 +160,7 @@ final class ActivityTable extends PowerGridComponent
         return [
             Filter::inputText('id')->operators(['contains']),
             Filter::inputText('name')->operators(['contains']),
-            Filter::inputText('code')->operators(['contains']),
+            Filter::inputText('former_name')->operators(['contains']),
             Filter::datepicker('updated_at_formatted', 'updated_at')
                 ->params([
                 'enableTime' => false,
@@ -213,11 +213,11 @@ final class ActivityTable extends PowerGridComponent
         }
 
         $activity = Activity::findOrFail($id);
-        $activityCode = $activity->code;
+        $activityFormerName = $activity->former_name;
 
         $activity->delete();
 
-        $this->dispatch('toast:alert', message: 'Tätigkeit Code ' . $activityCode . ' wurde erfolgreich gelöcht!', title: 'Success', status: 1);
+        $this->dispatch('toast:alert', message: 'Tätigkeit Code ' . $activityFormerName . ' wurde erfolgreich gelöcht!', title: 'Success', status: 1);
     }
 
     // Rules

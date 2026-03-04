@@ -21,8 +21,8 @@
                     <div class="col-lg-9 col-sm-12">
                         <x-form.form :action="route('medical.activities.store')" novalidate hasJsValidation>
 
-                            <x-form.input name="name" :label="__('Tätigkeit')"  required  />
-                            <x-form.input name="code" :label="__('Code')" required  />
+                            <x-form.input name="name" :label="__('Tätigkeit')" required  />
+                            <x-form.input name="former_name" :label="__('Ehemalig')"  />
 
                             <button type="submit" class="btn btn-secondary">{{ __('Speichern') }}</button>
                         </x-form.form>
