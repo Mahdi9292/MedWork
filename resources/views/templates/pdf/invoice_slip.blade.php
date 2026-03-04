@@ -83,7 +83,7 @@
     <div style="clear: both;"></div>
 
     <div class="mt-15 font-size-10">
-        Zahlungsbedingungen: Bitte überweisen Sie den Rechnungsbetrag innerhalb von 10 Tagen ohne Abzug auf das oben angegebene Konto.
+        Zahlungsbedingungen: Bitte überweisen Sie den Rechnungsbetrag innerhalb von 10 Tagen ohne Abzug auf das angegebene Konto.
     </div>
 </div>
 

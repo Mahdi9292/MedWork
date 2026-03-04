@@ -50,13 +50,14 @@
                                 <x-form.input name="street" :label="__('Straße')" :labelClass="'col-sm-3'" required />
                                 <x-form.input name="city" :label="__('Stadt')" :labelClass="'col-sm-3'" required />
                                 <x-form.input name="phone" :label="__('Tel.')" :labelClass="'col-sm-3'" />
+                                <x-form.flat-pickr name="invoice_date" :label="__('Rechnungsdatum')" :value="Carbon\Carbon::now()" :labelClass="'col-sm-3'" :week-numbers="true" :allow-input="true" required />
                             </div>
                             <div class="col-sm-6">
                                 <x-form.input name="name" :label="__('Name')" :labelClass="'col-sm-3'" required />
                                 <x-form.input name="house_number" :label="__('Haus Nr.')" :labelClass="'col-sm-3'" required />
                                 <x-form.input name="postcode" :label="__('PLZ')" :labelClass="'col-sm-3'" required />
                                 <x-form.input name="mobile" :label="__('Mobil')" :labelClass="'col-sm-3'" />
-                                <x-form.flat-pickr name="invoice_date" :label="__('Rechnungsdatum')" :value="Carbon\Carbon::now()" :labelClass="'col-sm-3'" :week-numbers="true" :allow-input="true" required />
+                                <x-form.input name="value_added_tax" :label="__('MwSt in %')" :trailingAddon="'%'" :labelClass="'col-sm-3'" />
                             </div>
                         </div>
                     </div>
@@ -87,7 +88,7 @@
                                                                 <x-form.textarea data-name="description" data-skip-name="false" name="description" :label="__('Beschreibung')" class="" :labelClass="'col-sm-3'" />
                                                                 <x-form.vanilla-datepicker data-name="service_date" name="service_date" :label="__('Leistungsdatum')" :value="now()->format('d.m.Y')" :labelClass="'col-sm-3'" required />
                                                                 <x-form.select data-name="quantity" data-skip-name="false" name="service_type" class="" :label="__('Menge')" :options="$quantityOptions" :labelClass="'col-sm-3'" required />
-                                                                <x-form.input data-name="unit_price" data-skip-name="false" name="unit_price" :label="__('Basis-Preis')" class="" :labelClass="'col-sm-3'" required />
+                                                                <x-form.input data-name="unit_price" data-skip-name="false" name="unit_price" :trailingAddon="'%'" :label="__('Basis-Preis')" class="" :labelClass="'col-sm-3'" required />
                                                             </div>
                                                         </div>
                                                         <div class="card-footer">

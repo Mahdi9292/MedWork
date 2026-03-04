@@ -52,6 +52,7 @@
                                 <x-form.input name="street" :label="__('Straße')" :value="$invoice->street" :labelClass="'col-sm-3'" required />
                                 <x-form.input name="city" :label="__('Stadt')" :value="$invoice->city" :labelClass="'col-sm-3'" required />
                                 <x-form.input name="phone" :label="__('Tel.')" :value="$invoice->phone" :labelClass="'col-sm-3'" />
+                                <x-form.flat-pickr name="invoice_date" :label="__('Rechnungsdatum')" :value="$invoice->invoice_date" :labelClass="'col-sm-3'" :week-numbers="true" :allow-input="true" required />
                             </div>
 
                             <div class="col-sm-6">
@@ -59,7 +60,7 @@
                                 <x-form.input name="house_number" :label="__('Haus Nr.')" :value="$invoice->house_number" :labelClass="'col-sm-3'" required />
                                 <x-form.input name="postcode" :label="__('PLZ')" :value="$invoice->postcode" :labelClass="'col-sm-3'" required />
                                 <x-form.input name="mobile" :label="__('Mobil')" :value="$invoice->mobile" :labelClass="'col-sm-3'" />
-                                <x-form.flat-pickr name="invoice_date" :label="__('Rechnungsdatum')" :value="$invoice->invoice_date" :labelClass="'col-sm-3'" :week-numbers="true" :allow-input="true" required />
+                                <x-form.input name="value_added_tax" :label="__('MwSt in %')" :value="$invoice->value_added_tax" :trailingAddon="'%'" :labelClass="'col-sm-3'" />
                             </div>
                         </div>
                     </div>
@@ -87,19 +88,12 @@
                                                                 <div class="card-body">
                                                                     <div class="item-content col-12">
                                                                         <x-form.input data-name="id" data-skip-name="false" type="hidden" name="services.{{ $key }}.id" :value="$service->id" />
-                                                                        <x-form.select data-name="service_type" data-skip-name="false" name="services.{{ $key }}.service_type" class="" :label="__('Leistungstyp')" :value="$service->service_type->value" :options="$serviceTypeOptions" :labelClass="'col-sm-3'" required />
+                                                                        <x-form.select data-name="service_type" data-skip-name="false" name="services.{{ $key }}.service_type" class="" :label="__('Leistungstyp')" :value="$service->service_type?->value" :options="$serviceTypeOptions" :labelClass="'col-sm-3'" required />
                                                                         <x-form.input data-name="service_title" data-skip-name="false" name="services.{{ $key }}.service_title" :label="__('Andere Leistung')" :value="$service->service_title" class="" :labelClass="'col-sm-3'" />
                                                                         <x-form.textarea data-name="description" data-skip-name="false" name="services.{{ $key }}.description" :label="__('Beschreibung')" :value="$service->description" class="" :labelClass="'col-sm-3'" />
-                                                                        <x-form.vanilla-datepicker
-                                                                            data-name="service_date"
-                                                                            name="service_date"
-                                                                            :label="__('Leistungsdatum')"
-                                                                            :value="formatDate($service->service_date)"
-                                                                            :labelClass="'col-sm-3'"
-                                                                            required
-                                                                        />
+                                                                        <x-form.vanilla-datepicker data-name="service_date" name="service_date" :label="__('Leistungsdatum')" :value="formatDate($service->service_date)" :labelClass="'col-sm-3'" required />
                                                                         <x-form.select data-name="quantity" data-skip-name="false" name="services.{{ $key }}.quantity" class="" :label="__('Menge')" :value="$service->quantity->value" :options="$quantityOptions" :labelClass="'col-sm-3'" required />
-                                                                        <x-form.input data-name="unit_price" data-skip-name="false" name="services.{{ $key }}.unit_price" :label="__('Basis-Preis')" :value="$service->unit_price" class="" :labelClass="'col-sm-3'" required />
+                                                                        <x-form.input data-name="unit_price" data-skip-name="false" name="services.{{ $key }}.unit_price" :label="__('Basis-Preis in €')" :value="$service->unit_price" :trailingAddon="'€'" class="" :labelClass="'col-sm-3'" required />
                                                                     </div>
                                                                 </div>
                                                                 <div class="card-footer">

@@ -2,6 +2,7 @@
 
 namespace App\Models\Finance;
 
+use App\Casts\GermanNumber;
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -15,7 +16,7 @@ class Invoice extends BaseModel
     protected $guarded = ['id'];
 
     /** Value Added Tax → MwSt (19%) */
-    protected const float VAT = 0.19;
+    protected const float DEFAULT_VAT = 0.19;
 
     /**
      * The attributes that should be cast.
@@ -24,6 +25,7 @@ class Invoice extends BaseModel
      */
     protected $casts = [
         'invoice_date' => 'date:Y-m-d',
+        'value_added_tax' => GermanNumber::class,
     ];
 
     /**
@@ -52,8 +54,9 @@ class Invoice extends BaseModel
      */
     public function getTaxPrice(): float
     {
+        $vat = $this->value_added_tax ? parseNumber($this->value_added_tax) : self::DEFAULT_VAT;
         $netPrice = $this->getTotalNetPrice();
-        return $netPrice * self::VAT;
+        return $netPrice * $vat;
     }
 
 

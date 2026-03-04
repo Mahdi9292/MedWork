@@ -26,6 +26,7 @@ class InvoiceRequest extends FormRequest
             // =========================
             'invoice_number' => 'required',
             'invoice_date'   => 'required',
+            'value_added_tax'   => ['nullable', new Currency, 'between:0,99.99'],
 
             'name'           => 'required',
             'street'         => 'required',
@@ -62,6 +63,10 @@ class InvoiceRequest extends FormRequest
             'house_number.required' => 'Hausnummer muss ausgefüllt werden.',
             'postcode.required'     => 'PLZ muss ausgefüllt werden.',
             'city.required'         => 'Stadt muss ausgefüllt werden.',
+
+            'value_added_tax.numeric' => 'Die Mehrwertsteuer muss eine Zahl sein.',
+            'value_added_tax.decimal' => 'Die Mehrwertsteuer darf maximal zwei Dezimalstellen haben.',
+            'value_added_tax.between' => 'Die Mehrwertsteuer muss zwischen 0 und 99,99 liegen.',
 
             // Services
             'services.required'                     => 'Mindestens eine Leistung muss hinzugefügt werden.',

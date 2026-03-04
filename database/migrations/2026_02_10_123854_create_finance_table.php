@@ -26,6 +26,8 @@ return new class extends Migration
 
             $table->date('invoice_date')->nullable();
 
+            $table->decimal('value_added_tax', 4, 2)->nullable();
+
             $table->timestamps();
             $table->softDeletes();
         });
@@ -35,11 +37,11 @@ return new class extends Migration
             $table->id();
             $table->foreignId('invoice_id')->constrained('finance_invoices')->cascadeOnDelete();
 
-            $table->enum('service_type', ['AMVU'])->nullable();
+            $table->enum('service_type', ['occupational_medical_examination', 'travel_costs', 'labor', 'consulting', 'asa_meeting', 'bem_meeting', 'site_inspection'])->nullable();
+            $table->enum('quantity', [1, 2, 3, 4, 5, 6, 7, 8, 9, 10])->default(1);
             $table->string('service_title', 255)->nullable();
             $table->text('description')->nullable();
             $table->date('service_date');
-            $table->enum('quantity', [1, 2, 3, 4, 5, 6, 7, 8, 9, 10])->default(1);
             $table->decimal('unit_price', 10, 2)->default(0);
 
             $table->timestamps();
