@@ -56,7 +56,7 @@ class Invoice extends BaseModel
     {
         $vat = $this->value_added_tax ?? self::DEFAULT_VAT;
         $netPrice = $this->getTotalNetPrice();
-        return $netPrice * $vat;
+        return floor($netPrice * $vat * 100) / 100;
     }
 
 

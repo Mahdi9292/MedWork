@@ -38,7 +38,9 @@
             <tr>
                 <th class="w-5p p-1 text-center">Pos.</th>
                 <th class="p-1 text-center">Leistung</th>
-                <th class="p-1 text-center">Beschreibung</th>
+                @if($hasDescription)
+                    <th class="p-1 text-center">Beschreibung</th>
+                @endif
                 <th class="w-15p p-1 text-center">Datum</th>
                 <th class="w-10p p-1 text-center">Menge</th>
                 <th class="w-10p p-1 text-center">Einzelpreis<br>/Gesamt</th>
@@ -49,15 +51,17 @@
             <tr>
                 <td class="text-center p-1">{{ $index+1 }}</td>
                 <td class="ps-2 p-1">{{ $service->service_type?->label() ?: $service->service_title }}</td>
-                <td class="font-size-8">{{ $service->description ?:'-' }}</td>
+                @if($hasDescription)
+                    <td class="font-size-8 {{$service->description?'': 'text-center'}}">{{ $service->description ?: '—' }}</td>
+                @endif
                 <td class="text-center p-1">{{ formatDate($service->service_date)}}</td>
                 <td class="text-center p-1">{{ $service->quantity?->label() ?: 1 }} </td>
-                <td class="text-end pe-2 p-1">{{ formatNumber(parseNumber($service->unit_price) * ($service->quantity?->value ?: 1))}}</td>
+                <td class="text-end pe-2 p-1">{{ formatNumber(parseNumber($service->unit_price) * ($service->quantity?->value ?: 1))}} €</td>
             </tr>
         @endforeach
 
         <tr>
-            <td colspan="5" class="text-end pe-2 p-1 fw-bold">Gesamt Netto</td>
+            <td colspan="{{ $hasDescription ? 5 : 4 }}" class="text-end pe-2 p-1 fw-bold">Gesamt Netto</td>
             <td class="text-end pe-2 p-1 fw-bold">{{ formatNumber($invoice->getTotalNetPrice()) }} €</td>
         </tr>
         </tbody>
