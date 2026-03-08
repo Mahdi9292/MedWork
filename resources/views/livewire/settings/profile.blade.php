@@ -1,10 +1,5 @@
-Moving the Settings section to Bootstrap 5 involves replacing the Flux layout system with Bootstrap cards and standard form components. I've also swapped the Segmented Radio for a standard Bootstrap button group for the appearance settings.
-
-1. profile.blade.php (General Settings)
-HTML
-<section class="w-full">
-    @include('sections.default.head')
-
+<div class="w-100">
+@section('content')
     <x-settings.layout :heading="__('Profile')" :subheading="__('Update your name and email address')">
         <form wire:submit="updateProfileInformation" class="mt-4">
             <div class="mb-3">
@@ -45,4 +40,5 @@ HTML
             <livewire:settings.delete-user-form />
         @endif
     </x-settings.layout>
-</section>
+@endsection
+</div>

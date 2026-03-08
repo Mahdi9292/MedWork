@@ -1,44 +1,122 @@
-<x-layouts::auth>
-    <div class="d-flex flex-column gap-4">
-        <x-auth-header :title="__('Log in to your account')" :description="__('Enter your email and password below to log in')" />
+<!DOCTYPE html>
+<html lang="en">
 
-        <x-auth-session-status class="text-center" :status="session('status')" />
+<head>
+    @include('sections.default._head')
+</head>
+<body>
+<main>
+    <section class="d-flex align-items-center my-5 mt-lg-6 mb-lg-5">
+        <div class="container">
+            <div class="row justify-content-center form-bg-image" data-background-lg="">
+                <div class="col-12 d-flex align-items-center justify-content-center">
+                    <div class="bg-white shadow-lg border-0 rounded-4 p-4 p-md-5 w-100" style="max-width: 480px;">
+                        <div class="text-center mb-4">
+                            <h1 class="fw-bold h3 mb-1 text-dark">TMHDE - TWAP</h1>
+                            <p class="text-muted small">Welcome back! Please enter your details.</p>
+                        </div>
 
-        <form method="POST" action="{{ route('login.store') }}" class="d-flex flex-column gap-3">
-            @csrf
+                        <x-auth-session-status class="mb-3 text-center" :status="session('status')" />
 
-            <div class="form-group">
-                <label for="email" class="form-label">{{ __('Email address') }}</label>
-                <input id="email" type="email" name="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}" required autofocus autocomplete="email" placeholder="email@example.com">
-                @error('email') <div class="invalid-feedback">{{ $message }}</div> @enderror
-            </div>
+                        <form method="POST" action="{{ route('login.store') }}" class="needs-validation">
+                            @csrf
 
-            <div class="form-group">
-                <div class="d-flex justify-content-between align-items-center mb-1">
-                    <label for="password" class="form-label mb-0">{{ __('Password') }}</label>
-                    @if (Route::has('password.request'))
-                        <a href="{{ route('password.request') }}" class="small text-decoration-none" wire:navigate>{{ __('Forgot your password?') }}</a>
-                    @endif
+                            <div class="mb-3">
+                                <label for="email" class="form-label fw-semibold small">{{ __('Email address') }}</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0">
+                                        <i class="fas fa-envelope text-muted"></i>
+                                    </span>
+                                    <input id="email" type="email" name="email"
+                                           class="form-control bg-light border-start-0 ps-0 @error('email') is-invalid @enderror"
+                                           value="{{ old('email') }}" required autofocus
+                                           placeholder="name@company.com">
+                                    @error('email') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <label for="password" class="form-label fw-semibold small mb-0">{{ __('Password') }}</label>
+                                    @if (Route::has('password.request'))
+                                        <a href="{{ route('password.request') }}" class="text-primary text-decoration-none" style="font-size: 0.75rem;" wire:navigate>
+                                            {{ __('Forgot password?') }}
+                                        </a>
+                                    @endif
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0">
+                                        <i class="fas fa-lock text-muted"></i>
+                                    </span>
+                                    <input id="password" type="password" name="password"
+                                           class="form-control bg-light border-start-0 border-end-0 ps-0"
+                                           required placeholder="••••••••">
+                                    <button class="btn btn-light border border-start-0" type="button" id="togglePassword">
+                                        <i class="fas fa-eye text-muted" id="eyeIcon"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="form-check mb-4">
+                                <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+                                <label class="form-check-label small text-secondary" for="remember">
+                                    {{ __('Keep me logged in') }}
+                                </label>
+                            </div>
+
+                            <div class="d-grid mb-4">
+                                <button type="submit" class="btn btn-dark btn-lg py-2 fw-bold" style="letter-spacing: 0.5px;">
+                                    {{ __('Sign In') }}
+                                </button>
+                            </div>
+                        </form>
+
+                        @if (Route::has('register'))
+                            <div class="text-center">
+                                <span class="small text-muted">{{ __('Don\'t have an account?') }}</span>
+                                <a href="{{ route('register') }}" class="small fw-bold text-primary text-decoration-none ms-1" wire:navigate>
+                                    {{ __('Create an account') }}
+                                </a>
+                            </div>
+                        @endif
+                    </div>
                 </div>
-                <input id="password" type="password" name="password" class="form-control @error('password') is-invalid @enderror" required autocomplete="current-password" placeholder="{{ __('Password') }}">
-                @error('password') <div class="invalid-feedback">{{ $message }}</div> @enderror
             </div>
+        </div>
+    </section>
+</main>
 
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-                <label class="form-check-label" for="remember">{{ __('Remember me') }}</label>
-            </div>
+@include('sections.default._scripts')
 
-            <div class="d-grid">
-                <button type="submit" class="btn btn-primary" data-test="login-button">{{ __('Log in') }}</button>
-            </div>
-        </form>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const toggleBtn = document.getElementById('togglePassword');
+        const passwordInput = document.getElementById('password');
+        const icon = document.getElementById('eyeIcon');
 
-        @if (Route::has('register'))
-            <div class="text-center small text-muted">
-                {{ __('Don\'t have an account?') }}
-                <a href="{{ route('register') }}" class="text-decoration-none" wire:navigate>{{ __('Sign up') }}</a>
-            </div>
-        @endif
-    </div>
-</x-layouts::auth>
+        if (toggleBtn) {
+            toggleBtn.addEventListener('click', function (e) {
+                // Prevent any default behavior
+                e.preventDefault();
+
+                // Toggle the type attribute
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+
+                // Toggle the icon classes
+                if (type === 'text') {
+                    icon.classList.remove('fa-eye');
+                    icon.classList.add('fa-eye-slash');
+                } else {
+                    icon.classList.remove('fa-eye-slash');
+                    icon.classList.add('fa-eye');
+                }
+            });
+        }
+    });
+</script>
+
+
+
+</body>
+</html>

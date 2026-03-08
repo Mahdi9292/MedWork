@@ -1,4 +1,4 @@
-@extends('layouts.app.noside')
+@extends('layouts.app')
 
 @section('content')
 
@@ -23,8 +23,8 @@
         <x-template.landing-page-tile
             title="Medizin" :url="url('/medical')"
             :version="'1.1'"
-            :sub-title="__('VorsorgeBescheinigungen')"
-            :short-info="__('Übersicht und Erfassung den VorsorgeBescheinigungen')"
+            :sub-title="__('Vorsorge Bescheinigungen')"
+            :short-info="__('Übersicht und Erfassung den Vorsorge Bescheinigungen')"
             :permissions="['manager', 'user']"
             {{--            :version="config('constants.app_version.OrderBook')"--}}
         />

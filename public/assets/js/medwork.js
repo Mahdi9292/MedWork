@@ -16,7 +16,7 @@ d.addEventListener("DOMContentLoaded", function (event) {
     // initialization functions
     initChoiceDropDown();                  // choice Dropdown init
     initBootstrapValidation();             // Bootstrap 5 Validation init
-    initAjaxCheckbox();                    // ajax checkbox init
+    // initAjaxCheckbox();                    // ajax checkbox init
     initCustomerSelect();                  // Livewire customer select init
     initM3CustomerSelect();                // Livewire M3 customer select init
     initM3TcrmCustomerSelect();            // Livewire M3 & TCRM customer select init
