@@ -209,11 +209,17 @@ final class CertificateTable extends PowerGridComponent
                 ->tooltip('Certificate bearbeiten')
                 ->route('medical.certificates.edit',['certificate' => $row->id], '_self'),
 
-            Button::make('view_certificate')
-                ->slot($this->showIcon()->renderIcon())
-                ->class('btn btn-sm btn-offwhite btn-border-gray-2  float-start')
-                ->tooltip('Certificate anzeigen')
-                ->route('medical.certificates.show', ['certificate' => $row->id], '_self'),
+        //    Button::make('view_certificate')
+        //        ->slot($this->showIcon()->renderIcon())
+        //        ->class('btn btn-sm btn-offwhite btn-border-gray-2  float-start')
+        //        ->tooltip('Certificate anzeigen')
+        //        ->route('medical.certificates.show', ['certificate' => $row->id], '_self'),
+
+            Button::make('print_certificate')
+                ->slot('<i class="fa-solid fa-print"></i>')
+                ->class('btn btn-sm btn-offwhite btn-border-gray-2')
+                ->tooltip('Rechnung drucken')
+                ->route('medical.printCertificate', ['certificate' => $row->id], '_blank'),
 
             Button::make('delete_certificate')
                 ->slot($this->deleteIcon()->renderIcon())
@@ -221,12 +227,6 @@ final class CertificateTable extends PowerGridComponent
                 ->tooltip('Certificate löschen')
                 ->dispatch('deleteCertificate', ['id' => $row->id])
                 ->class('btn btn-sm btn-danger text-white btn-outline-danger float-start'),
-
-            Button::make('print_certificate')
-                ->slot('<i class="fa-solid fa-print"></i>')
-                ->class('btn btn-sm btn-offwhite btn-border-gray-2')
-                ->tooltip('Rechnung drucken')
-                ->route('medical.printCertificate', ['certificate' => $row->id], '_blank'),
         ];
     }
 
@@ -263,9 +263,9 @@ final class CertificateTable extends PowerGridComponent
                 ->when(fn() => !Auth::user()->can(config('perm.invoice.update')))
                 ->hide(),
 
-            Rule::button('view_certificate')
-                ->when(fn() => !Auth::user()->can(config('perm.invoice.view')))
-                ->hide(),
+        //    Rule::button('view_certificate')
+        //        ->when(fn() => !Auth::user()->can(config('perm.invoice.view')))
+        //        ->hide(),
 
             Rule::button('delete_certificate')
                 ->when(fn() => !Auth::user()->can(config('perm.invoice.delete')))

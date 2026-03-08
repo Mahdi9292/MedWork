@@ -191,22 +191,25 @@ final class InvoicesTable extends PowerGridComponent
                 ->class('btn btn-sm btn-offwhite btn-border-gray-2  float-start')
                 ->tooltip('Invoice bearbeiten')
                 ->route('finance.invoices.edit',['invoice' => $row->id], '_self'),
-            Button::make('view_invoice')
-                ->slot($this->showIcon()->renderIcon())
-                ->class('btn btn-sm btn-offwhite btn-border-gray-2  float-start')
-                ->tooltip('Invoice anzeigen')
-                ->route('finance.invoices.show', ['invoice' => $row->id], '_self'),
+
+            //  Button::make('view_invoice')
+            //      ->slot($this->showIcon()->renderIcon())
+            //      ->class('btn btn-sm btn-offwhite btn-border-gray-2  float-start')
+            //      ->tooltip('Invoice anzeigen')
+            //      ->route('finance.invoices.show', ['invoice' => $row->id], '_self'),
+
+            Button::make('print_invoice')
+                ->slot('<i class="fa-solid fa-print"></i>')
+                ->class('btn btn-sm btn-offwhite btn-border-gray-2')
+                ->tooltip('Rechnung drucken')
+                ->route('finance.printInvoice', ['invoice' => $row->id], '_blank'),
+
             Button::make('delete_invoice')
                 ->slot($this->deleteIcon()->renderIcon())
                 //  ->confirm('Rechnung wirklich löschen?')
                 ->tooltip('Invoice löschen')
                 ->dispatch('deleteInvoice', ['id' => $row->id])
                 ->class('btn btn-sm btn-danger text-white btn-outline-danger float-start'),
-            Button::make('print_invoice')
-                ->slot('<i class="fa-solid fa-print"></i>')
-                ->class('btn btn-sm btn-offwhite btn-border-gray-2')
-                ->tooltip('Rechnung drucken')
-                ->route('finance.printInvoice', ['invoice' => $row->id], '_blank'),
         ];
     }
 
@@ -243,9 +246,9 @@ final class InvoicesTable extends PowerGridComponent
                 ->when(fn() => !Auth::user()->can(config('perm.finance.invoice.update')))
                 ->hide(),
 
-            Rule::button('view_invoice')
-                ->when(fn() => !Auth::user()->can(config('perm.finance.invoice.view')))
-                ->hide(),
+        //    Rule::button('view_invoice')
+        //        ->when(fn() => !Auth::user()->can(config('perm.finance.invoice.view')))
+        //        ->hide(),
 
             Rule::button('delete_invoice')
                 ->when(fn() => !Auth::user()->can(config('perm.finance.invoice.delete')))
