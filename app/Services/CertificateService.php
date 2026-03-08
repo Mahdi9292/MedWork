@@ -33,7 +33,7 @@ class CertificateService extends BaseService
         $files[] = $this->saveToTemp($mainPage);
 
         // merging all pages
-        $fileName = 'Rechnung_'.$certificate->certificate_number.'_' . $certificate->id .'.pdf';
+        $fileName = 'Bescheinigung_'.$certificate->certificate_number.'_' . $certificate->id .'.pdf';
         $this->mergePDFFiles($files, $fileName, $destination);
     }
 

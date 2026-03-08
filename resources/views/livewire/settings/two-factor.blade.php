@@ -1,6 +1,5 @@
-<section class="w-full">
-    @include('sections.default.head')
-
+<div class="w-100">
+    @section('content')
     <x-settings.layout
         :heading="__('Two Factor Authentication')"
         :subheading="__('Manage your two-factor authentication settings')"
@@ -59,7 +58,7 @@
                         </p>
 
                         <div class="p-3 bg-white d-inline-block border rounded">
-                            {!! $this->user->twoFactorQrCodeSvg() !!}
+                            {!! $qrCodeSvg !!}
                         </div>
                     </div>
 
@@ -87,7 +86,8 @@
             </div>
         </div>
     </div>
-</section>
+    @endsection
+</div>
 
 @script
 <script>

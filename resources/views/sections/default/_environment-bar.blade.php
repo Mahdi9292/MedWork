@@ -11,4 +11,3 @@
 @endenv
 
 @stack('info_bar')
-sdas

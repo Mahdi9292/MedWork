@@ -8,7 +8,7 @@
     </head>
     <body>
 
-{{--        @include('sections.default._environment-bar')--}}
+        @include('sections.default._environment-bar')
 
         @include('sections.default._nav')
 

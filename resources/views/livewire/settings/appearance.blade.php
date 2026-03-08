@@ -1,6 +1,5 @@
-<section class="w-full">
-    @include('sections.default.head')
-
+<div class="w-100">
+    @section('content')
     <x-settings.layout :heading="__('Appearance')" :subheading="__('Update the appearance settings for your account')">
         <div class="btn-group mt-4" role="group" aria-label="Appearance toggle">
             <input type="radio" class="btn-check" name="appearance" id="light_mode" value="light" x-model="$flux.appearance">
@@ -19,4 +18,5 @@
             </label>
         </div>
     </x-settings.layout>
-</section>
+    @endsection
+</div>
