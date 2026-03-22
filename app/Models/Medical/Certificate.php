@@ -4,6 +4,7 @@ namespace App\Models\Medical;
 
 use App\Enums\Medical\SalutationType;
 use App\Models\BaseModel;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -47,5 +48,15 @@ class Certificate extends BaseModel
     public function preventions(): Certificate|HasMany
     {
         return $this->hasMany(Prevention::class, 'certificate_id');
+    }
+
+    public function employerComment(): BelongsTo
+    {
+        return $this->belongsTo(Comment::class, 'employer_comment_id');
+    }
+
+    public function employeeComment(): BelongsTo
+    {
+        return $this->belongsTo(Comment::class, 'employee_comment_id');
     }
 }

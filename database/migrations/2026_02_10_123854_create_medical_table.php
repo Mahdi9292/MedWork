@@ -14,6 +14,8 @@ return new class extends Migration
         // medical_certificates
         Schema::create('medical_certificates', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('employer_comment_id')->constrained('medical_comments')->cascadeOnDelete();
+            $table->foreignId('employee_comment_id')->constrained('medical_comments')->cascadeOnDelete();
 
             $table->string('certificate_number');
 
@@ -23,7 +25,6 @@ return new class extends Migration
             $table->string('employee_middle_name', 191)->nullable();
             $table->string('employee_last_name', 191);
             $table->text('employee_comment')->nullable();
-            $table->foreignId('employee_comment_id')->constrained('medical_comments')->cascadeOnDelete();
 
             $table->string('employer_name', 255)->nullable();
             $table->string('employer_address', 255)->nullable();
@@ -34,7 +35,6 @@ return new class extends Migration
             $table->string('employer_phone', 191)->nullable();
             $table->string('employer_mobile', 191)->nullable();
             $table->text('employer_comment')->nullable();
-            $table->foreignId('employer_comment_id')->constrained('medical_comments')->cascadeOnDelete();
 
             $table->date('employee_birthday')->nullable();
             $table->date('issue_date');
@@ -122,5 +122,8 @@ return new class extends Migration
         Schema::dropIfExists('medical_certificates');
         Schema::dropIfExists('medical_activities');
         Schema::dropIfExists('medical_preventions');
+        Schema::dropIfExists('medical_comments');
+        Schema::dropIfExists('medical_employers');
+        Schema::dropIfExists('medical_employees');
     }
 };
