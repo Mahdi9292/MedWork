@@ -17,25 +17,30 @@ return new class extends Migration
 
             $table->string('certificate_number');
 
-            $table->enum('salutation', ['Mr', 'Ms'])->nullable();
-            $table->string('title', 191)->nullable();
-            $table->string('first_name', 191);
-            $table->string('middle_name', 191)->nullable();
-            $table->string('last_name', 191);
+            $table->enum('employee_salutation', ['Mr', 'Ms'])->nullable();
+            $table->string('employee_title', 191)->nullable();
+            $table->string('employee_first_name', 191);
+            $table->string('employee_middle_name', 191)->nullable();
+            $table->string('employee_last_name', 191);
+            $table->text('employee_comment')->nullable();
+            $table->foreignId('employee_comment_id')->constrained('medical_comments')->cascadeOnDelete();
 
-            $table->string('employed_at', 255)->nullable();
+            $table->string('employer_name', 255)->nullable();
+            $table->string('employer_address', 255)->nullable();
             $table->string('employer_street', 191)->nullable();
             $table->string('employer_house_number', 191)->nullable();
             $table->string('employer_city', 191)->nullable();
             $table->string('employer_postcode', 191)->nullable();
-            $table->string('phone', 191)->nullable();
-            $table->string('mobile', 191)->nullable();
+            $table->string('employer_phone', 191)->nullable();
+            $table->string('employer_mobile', 191)->nullable();
+            $table->text('employer_comment')->nullable();
+            $table->foreignId('employer_comment_id')->constrained('medical_comments')->cascadeOnDelete();
 
-            $table->date('birthday')->nullable();
+            $table->date('employee_birthday')->nullable();
             $table->date('issue_date');
             $table->date('examination_date');
 
-            $table->tinyInteger('is_employer')->default(0)->nullable();
+            //$table->tinyInteger('is_employer')->default(0)->nullable();
 
             $table->timestamps();
             $table->softDeletes();
@@ -46,6 +51,50 @@ return new class extends Migration
             $table->id();
             $table->string('name',191)->unique();
             $table->string('former_name',191)->nullable();
+
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+        // medical_comments
+        Schema::create('medical_comments', function (Blueprint $table) {
+            $table->id();
+            $table->enum('type', ['employer', 'employee']);
+            $table->text('content')->nullable();
+
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+        // medical_employers
+        Schema::create('medical_employers', function (Blueprint $table) {
+            $table->id();
+            $table->string('name', 255)->nullable();
+            $table->string('contact_person', 255)->nullable();
+            $table->string('address', 255)->nullable();
+            $table->string('street', 191)->nullable();
+            $table->string('house_number', 191)->nullable();
+            $table->string('city', 191)->nullable();
+            $table->string('postcode', 191)->nullable();
+            $table->string('phone', 191)->nullable();
+            $table->string('mobile', 191)->nullable();
+
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+        // medical_employees
+        Schema::create('medical_employees', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('employer_id')->constrained('medical_employers')->cascadeOnDelete();
+
+            $table->enum('employee_salutation', ['Mr', 'Ms'])->nullable();
+            $table->string('employee_title', 191)->nullable();
+            $table->string('employee_first_name', 191);
+            $table->string('employee_middle_name', 191)->nullable();
+            $table->string('employee_last_name', 191);
+
+            $table->date('employee_birthday')->nullable();
 
             $table->timestamps();
             $table->softDeletes();
