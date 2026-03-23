@@ -11,51 +11,6 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // medical_certificates
-        Schema::create('medical_certificates', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('employer_comment_id')->constrained('medical_comments')->cascadeOnDelete();
-            $table->foreignId('employee_comment_id')->constrained('medical_comments')->cascadeOnDelete();
-
-            $table->string('certificate_number');
-
-            $table->enum('employee_salutation', ['Mr', 'Ms'])->nullable();
-            $table->string('employee_title', 191)->nullable();
-            $table->string('employee_first_name', 191);
-            $table->string('employee_middle_name', 191)->nullable();
-            $table->string('employee_last_name', 191);
-            $table->text('employee_comment')->nullable();
-
-            $table->string('employer_name', 255)->nullable();
-            $table->string('employer_address', 255)->nullable();
-            $table->string('employer_street', 191)->nullable();
-            $table->string('employer_house_number', 191)->nullable();
-            $table->string('employer_city', 191)->nullable();
-            $table->string('employer_postcode', 191)->nullable();
-            $table->string('employer_phone', 191)->nullable();
-            $table->string('employer_mobile', 191)->nullable();
-            $table->text('employer_comment')->nullable();
-
-            $table->date('employee_birthday')->nullable();
-            $table->date('issue_date');
-            $table->date('examination_date');
-
-            //$table->tinyInteger('is_employer')->default(0)->nullable();
-
-            $table->timestamps();
-            $table->softDeletes();
-        });
-
-        // medical_activities
-        Schema::create('medical_activities', function (Blueprint $table) {
-            $table->id();
-            $table->string('name',191)->unique();
-            $table->string('former_name',191)->nullable();
-
-            $table->timestamps();
-            $table->softDeletes();
-        });
-
         // medical_comments
         Schema::create('medical_comments', function (Blueprint $table) {
             $table->id();
@@ -95,6 +50,36 @@ return new class extends Migration
             $table->string('employee_last_name', 191);
 
             $table->date('employee_birthday')->nullable();
+
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+        // medical_certificates
+        Schema::create('medical_certificates', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('employee_id')->constrained('medical_employees')->cascadeOnDelete();
+            $table->foreignId('employer_comment_id')->constrained('medical_comments')->cascadeOnDelete();
+            $table->foreignId('employee_comment_id')->constrained('medical_comments')->cascadeOnDelete();
+
+            $table->string('certificate_number');
+
+            $table->text('employee_comment')->nullable();
+            $table->text('employer_comment')->nullable();
+
+
+            $table->date('issue_date');
+            $table->date('examination_date');
+
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+        // medical_activities
+        Schema::create('medical_activities', function (Blueprint $table) {
+            $table->id();
+            $table->string('name',191)->unique();
+            $table->string('former_name',191)->nullable();
 
             $table->timestamps();
             $table->softDeletes();
