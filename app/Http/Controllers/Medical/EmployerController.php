@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers\Medical;
 
-use App\Http\Requests\CertificateRequest;
 use App\Http\Requests\EmployerRequest;
 use App\Models\Medical\Employer;
-use App\Services\CertificateService;
 
 class EmployerController extends BaseMedicalController
 {
@@ -26,7 +24,6 @@ class EmployerController extends BaseMedicalController
     {
         $this->authorize('viewAny', Employer::class);
         return view('templates.medical.employer.index');
-
     }
 
     /**
@@ -52,39 +49,38 @@ class EmployerController extends BaseMedicalController
     /**
      * Display the specified resource.
      */
-    public function show(Employer $certificate)
+    public function show(Employer $employer)
     {
-        $this->authorize('view', $certificate);
-        return view('templates.medical.activity.show', compact('activity'));
-
+        $this->authorize('view', $employer);
+        return view('templates.medical.employer.show', compact('employer'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Employer $certificate)
+    public function edit(Employer $employer)
     {
-        $this->authorize('update', $certificate);
+        $this->authorize('update', $employer);
         return view('templates.medical.employer.edit', compact('employer'));
-
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(CertificateRequest $request, Employer $certificate)
+    public function update(EmployerRequest $request, Employer $employer)
     {
-        $this->authorize('update', $certificate);
-        return redirect()->route('medical.employers.index')->with('success', __('Speichern erfolgreich'));
+        $this->authorize('update', $employer);
+        $employer->update($request->validated());
 
+        return redirect()->route('medical.employers.index')->with('success', __('Speichern erfolgreich'));
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Employer $certificate)
+    public function destroy(Employer $employer)
     {
-        $this->authorize('delete', $certificate);
+        $this->authorize('delete', $employer);
         return redirect()->route('medical.employers.index')->with('info', __('Erfolgreich gelöscht'));
 
     }
@@ -92,7 +88,7 @@ class EmployerController extends BaseMedicalController
     /**
      * show certificate pdf
      */
-    public function printCertificate(Employer $certificate)
+    public function printCertificate(Employer $employer)
     {
 
     }

@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 */
 Route::get('/', [MedicalController::class, 'index'])->name('medical.home');
 
-Route::group(['as' => 'medical.', 'prefix' => 'certificates'], function () {
+Route::group(['as' => 'medical.', 'prefix' => 'examinations'], function () {
 
     Route::resource('certificates', 'CertificateController');
 
@@ -27,17 +27,9 @@ Route::group(['as' => 'medical.', 'prefix' => 'certificates'], function () {
 
 });
 
-Route::group(['as' => 'medical.', 'prefix' => 'activities'], function () {
+Route::group(['as' => 'medical.', 'prefix' => 'system'], function () {
 
+    Route::resource('employers', 'EmployerController');
     Route::resource('activities', 'ActivityController');
 
-});
-
-/*
-|--------------------------------------------------------------------------
-| Employers (standalone management)
-|--------------------------------------------------------------------------
-*/
-Route::group(['as' => 'medical.', 'prefix' => 'employers'], function () {
-    Route::resource('employers', 'EmployerController');
 });

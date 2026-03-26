@@ -74,8 +74,8 @@
                 </div>
             </div>
         </div>
-
     </x-form.form>
+
 @endsection
 
 

@@ -49,6 +49,29 @@ return [
             'update' => 'medical.activity.update',
             'delete' => 'medical.activity.delete',
         ],
+
+        'employer' => [
+            'view'   => 'medical.employer.view',
+            'create' => 'medical.employer.create',
+            'update' => 'medical.employer.update',
+            'delete' => 'medical.employer.delete',
+        ],
+
+        'employee' => [
+            'view'   => 'medical.employee.view',
+            'create' => 'medical.employee.create',
+            'update' => 'medical.employee.update',
+            'delete' => 'medical.employee.delete',
+        ],
+
+        'comment' => [
+            'view'   => 'medical.comment.view',
+            'create' => 'medical.comment.create',
+            'update' => 'medical.comment.update',
+            'delete' => 'medical.comment.delete',
+        ],
+
+
     ],
 
     /*
