@@ -242,15 +242,15 @@ final class EmployerTable extends PowerGridComponent
     {
         return [
             Rule::button('edit_employer')
-                ->when(fn() => !Auth::user()->can(config('perm.employer.update')))
+                ->when(fn() => !Auth::user()->can(config('perm.medical.employer.update')))
                 ->hide(),
 
             Rule::button('view_employer')
-                ->when(fn() => !Auth::user()->can(config('perm.employer.view')))
+                ->when(fn() => !Auth::user()->can(config('perm.medical.employer.view')))
                 ->hide(),
 
             Rule::button('delete_employer')
-                ->when(fn() => !Auth::user()->can(config('perm.employer.delete')))
+                ->when(fn() => !Auth::user()->can(config('perm.medical.employer.delete')))
                 ->hide(),
         ];
     }

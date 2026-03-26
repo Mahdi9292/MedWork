@@ -2,12 +2,10 @@
 
 namespace App\Livewire\Medical;
 
-use App\Models\Medical\Certificate;
-use App\Services\InvoiceService;
+use App\Models\Medical\Comment;
 use App\Traits\HasClearFiltersTrait;
 use App\Traits\HasFontAwesomeIconsTrait;
 use App\Traits\PowerGridOrderableColumnsTrait;
-use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use PowerComponents\LivewirePowerGrid\{Button,
@@ -18,19 +16,18 @@ use PowerComponents\LivewirePowerGrid\{Button,
     PowerGridComponent,
     PowerGridFields};
 use Livewire\Attributes\On;
-use Mpdf\MpdfException;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 
 use PowerComponents\LivewirePowerGrid\Traits\{WithExport};
 
-final class CertificateTable extends PowerGridComponent
+final class CommentTable extends PowerGridComponent
 {
     use WithExport;
     use HasClearFiltersTrait;
     use HasFontAwesomeIconsTrait;
     use PowerGridOrderableColumnsTrait;
 
-    public string $tableName = 'medical-certificate-table';
+    public string $tableName = 'medical-comment-table';
     public string $sortField = 'id';
     public string $sortDirection = 'desc';
 
@@ -48,8 +45,8 @@ final class CertificateTable extends PowerGridComponent
         $this->persist(['columns', 'filters']);
 
         return [
-            PowerGrid::exportable(fileName: 'Bescheinigungen')
-                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
+            PowerGrid::exportable(fileName: 'Kommentare')
+                ->type(Exportable::TYPE_XLS),
             PowerGrid::header()
                 ->showSearchInput()
                 ->showToggleColumns(),
@@ -70,12 +67,12 @@ final class CertificateTable extends PowerGridComponent
     /**
      * PowerGrid datasource.
      *
-     * @return Builder|Certificate
+     * @return Builder|Comment
      */
-    public function datasource(): Builder|Certificate
+    public function datasource(): Builder|Comment
     {
         // Data Query
-        return Certificate::query()->with(['preventions', 'preventions.activity']);
+        return Comment::query();
     }
 
     /*
@@ -94,15 +91,7 @@ final class CertificateTable extends PowerGridComponent
     public function relationSearch(): array
     {
         // Relational columns enabled to search
-        return [
-            'preventions' => [
-                'id', // column enabled to search
-                'activity' => [
-                    'id', // column enabled to search
-                ],
-            ],
-
-        ];
+        return [];
     }
 
     /*
@@ -120,11 +109,13 @@ final class CertificateTable extends PowerGridComponent
     {
         return PowerGrid::fields()
             ->add('id')
-            ->add('birthday_formatted', function (Certificate $certificate){
-                return formatDate($certificate->birthday);
+            ->add('type')
+            ->add('content')
+            ->add('created_at_formatted', function (Comment $comment){
+                return formatDate($comment->created_at);
             })
-            ->add('issue_date_formatted', function (Certificate $certificate){
-                return formatDate($certificate->issue_date);
+            ->add('updated_at_formatted', function (Comment $comment){
+                return formatDate($comment->updated_at);
             });
     }
 
@@ -149,23 +140,19 @@ final class CertificateTable extends PowerGridComponent
                 ->headerAttribute('', 'width: 200px;')
                 ->bodyAttribute('', 'width: 100px;'),
 
-            Column::make('Bescheinigung Nr.', 'certificate_number')
+            Column::make('TYP', 'type')
                 ->searchable()
                 ->sortable(),
 
-            Column::make('Patient Nachname', 'last_name')
+            Column::make('Inhalt', 'content')
+                ->contentClasses('text-wrap')
                 ->searchable()
                 ->sortable(),
 
-            Column::make('Geburtsdatum', 'birthday_formatted', 'birthday')
+            Column::make('Letzte Änderung', 'updated_at_formatted', 'updated_at')
                 ->searchable()
                 ->sortable()
-                ->searchableRaw('DATE_FORMAT(birthday, "%d.%m.%Y") like ?'),
-
-            Column::make('Bescheinigung Datum', 'issue_date_formatted', 'issue_date')
-                ->searchable()
-                ->sortable()
-                ->searchableRaw('DATE_FORMAT(issue_date, "%d.%m.%Y") like ?'),
+                ->searchableRaw('DATE_FORMAT(updated_at, "%d.%m.%Y") like ?'),
 
             Column::action('Action')->headerAttribute('text-center', '')->bodyAttribute('', 'width: 150px;'),
         ];
@@ -180,18 +167,13 @@ final class CertificateTable extends PowerGridComponent
     {
         return [
             Filter::inputText('id')->operators(['contains']),
-            Filter::inputText('certificate_number')->operators(['contains']),
-            Filter::inputText('last_name')->operators(['contains']),
-            Filter::datepicker('birthday_formatted', 'birthday')
+            Filter::inputText('type')->operators(['contains']),
+            Filter::inputText('content')->operators(['contains']),
+            Filter::datepicker('updated_at_formatted', 'updated_at')
                 ->params([
                 'enableTime' => false,
                 'dateFormat' => 'd.m.Y',
             ]),
-            Filter::datepicker('issue_date_formatted', 'issue_date')
-                ->params([
-                    'enableTime' => false,
-                    'dateFormat' => 'd.m.Y',
-                ]),
         ];
     }
 
@@ -203,40 +185,32 @@ final class CertificateTable extends PowerGridComponent
     public function actions($row): array
     {
         return [
-            Button::make('edit_certificate')
+            Button::make('edit_comment')
                 ->slot($this->editIcon()->renderIcon())
                 ->class('btn btn-sm btn-offwhite btn-border-gray-2  float-start')
-                ->tooltip('Certificate bearbeiten')
-                ->route('medical.certificates.edit',['certificate' => $row->id], '_self'),
-
-        //    Button::make('view_certificate')
-        //        ->slot($this->showIcon()->renderIcon())
-        //        ->class('btn btn-sm btn-offwhite btn-border-gray-2  float-start')
-        //        ->tooltip('Certificate anzeigen')
-        //        ->route('medical.certificates.show', ['certificate' => $row->id], '_self'),
-
-            Button::make('print_certificate')
-                ->slot('<i class="fa-solid fa-print"></i>')
-                ->class('btn btn-sm btn-offwhite btn-border-gray-2')
-                ->tooltip('Rechnung drucken')
-                ->route('medical.printCertificate', ['certificate' => $row->id], '_blank'),
-
-            Button::make('delete_certificate')
+                ->tooltip('Kommentar bearbeiten')
+                ->route('medical.comments.edit',['comment' => $row->id], '_self'),
+            Button::make('view_comment')
+                ->slot($this->showIcon()->renderIcon())
+                ->class('btn btn-sm btn-offwhite btn-border-gray-2  float-start')
+                ->tooltip('Kommentar anzeigen')
+                ->route('medical.comments.show', ['comment' => $row->id], '_self'),
+            Button::make('delete_comment')
                 ->slot($this->deleteIcon()->renderIcon())
                 //  ->confirm('Rechnung wirklich löschen?')
-                ->tooltip('Certificate löschen')
-                ->dispatch('deleteCertificate', ['id' => $row->id])
+                ->tooltip('Kommentar löschen')
+                ->dispatch('deleteComment', ['id' => $row->id])
                 ->class('btn btn-sm btn-danger text-white btn-outline-danger float-start'),
         ];
     }
 
 
-    #[On('deleteCertificate')]
-    public function deleteCertificate($id, $confirmed = false): void
+    #[On('deleteComment')]
+    public function deleteComment($id, $confirmed = false): void
     {
         if(!$confirmed){
             $this->dispatch('swal:confirm',
-                method: 'deleteCertificate',
+                method: 'deleteComment',
                 icon: 'warning',
                 text: __('Achtung! Are you sure?'),
                 params: ['id' => $id, 'confirmed'=>true],
@@ -246,25 +220,26 @@ final class CertificateTable extends PowerGridComponent
             return;
         }
 
-        $certificate = Certificate::findOrFail($id);
-        $certificateNumber = $certificate->certificate_number;
+        $comment = Comment::findOrFail($id);
+        $comment->delete();
 
-        $certificate->preventions()->delete();
-        $certificate->delete();
-
-        $this->dispatch('toast:alert', message: 'Besheinigung Nr. ' . $certificateNumber . ' wurde erfolgreich gelöcht!', title: 'Success', status: 1);
+        $this->dispatch('toast:alert', message: 'Kommentar wurde erfolgreich gelöcht!', title: 'Success', status: 1);
     }
 
     // Rules
-    public function actionRules($certificate): array
+    public function actionRules(): array
     {
         return [
-            Rule::button('edit_certificate')
-                ->when(fn() => !Auth::user()->can(config('perm.medical.certificate.update')))
+            Rule::button('edit_comment')
+                ->when(fn() => !Auth::user()->can(config('perm.medical.comment.update')))
                 ->hide(),
 
-            Rule::button('delete_certificate')
-                ->when(fn() => !Auth::user()->can(config('perm.medical.certificate.delete')))
+            Rule::button('view_comment')
+                ->when(fn() => !Auth::user()->can(config('perm.medical.comment.view')))
+                ->hide(),
+
+            Rule::button('delete_comment')
+                ->when(fn() => !Auth::user()->can(config('perm.medical.comment.delete')))
                 ->hide(),
         ];
     }

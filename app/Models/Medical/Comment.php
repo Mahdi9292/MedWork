@@ -2,6 +2,7 @@
 
 namespace App\Models\Medical;
 
+use App\Enums\Medical\CommentType;
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -13,6 +14,15 @@ class Comment extends BaseModel
     protected $table = 'medical_comments';
     public $timestamps = true;
     protected $guarded = ['id'];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'type'        => CommentType::class,
+    ];
 
     public function employerCertificates(): HasMany
     {

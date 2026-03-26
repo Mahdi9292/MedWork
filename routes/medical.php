@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\Medical\CertificateController;
-use App\Http\Controllers\Medical\EmployerController;
 use App\Http\Controllers\Medical\MedicalController;
 use Illuminate\Support\Facades\Route;
 
@@ -31,5 +30,6 @@ Route::group(['as' => 'medical.', 'prefix' => 'system'], function () {
 
     Route::resource('employers', 'EmployerController');
     Route::resource('activities', 'ActivityController');
+    Route::resource('comments', 'CommentController');
 
 });

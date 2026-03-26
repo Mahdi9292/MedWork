@@ -225,15 +225,15 @@ final class ActivityTable extends PowerGridComponent
     {
         return [
             Rule::button('edit_activity')
-                ->when(fn() => !Auth::user()->can(config('perm.activity.update')))
+                ->when(fn() => !Auth::user()->can(config('perm.medical.activity.update')))
                 ->hide(),
 
             Rule::button('view_activity')
-                ->when(fn() => !Auth::user()->can(config('perm.activity.view')))
+                ->when(fn() => !Auth::user()->can(config('perm.medical.activity.view')))
                 ->hide(),
 
             Rule::button('delete_activity')
-                ->when(fn() => !Auth::user()->can(config('perm.activity.delete')))
+                ->when(fn() => !Auth::user()->can(config('perm.medical.activity.delete')))
                 ->hide(),
         ];
     }

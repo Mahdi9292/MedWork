@@ -14,5 +14,6 @@
     <x-template.sidebar-parent-item :active="$active === 'system'" :title="'System'" :icon="'fa-cogs'">
         <x-template.sidebar-child-item :title="__('Arbeitgeber')" :abbr="'A'" :link="route('medical.employers.index')" :permission="config('perm.medical.employer.view')" />
         <x-template.sidebar-child-item :title="__('Tätigkeiten')" :abbr="'T'" :link="route('medical.activities.index')" :permission="config('perm.medical.activity.view')" />
+        <x-template.sidebar-child-item :title="__('Kommentar')" :abbr="'T'" :link="route('medical.comments.index')" :permission="config('perm.medical.comment.view')" />
     </x-template.sidebar-parent-item>
 @endcanany
