@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Medical\CertificateController;
+use App\Http\Controllers\Medical\EmployerController;
 use App\Http\Controllers\Medical\MedicalController;
 use Illuminate\Support\Facades\Route;
 
@@ -30,4 +31,13 @@ Route::group(['as' => 'medical.', 'prefix' => 'activities'], function () {
 
     Route::resource('activities', 'ActivityController');
 
+});
+
+/*
+|--------------------------------------------------------------------------
+| Employers (standalone management)
+|--------------------------------------------------------------------------
+*/
+Route::group(['as' => 'medical.', 'prefix' => 'employers'], function () {
+    Route::resource('employers', 'EmployerController');
 });
