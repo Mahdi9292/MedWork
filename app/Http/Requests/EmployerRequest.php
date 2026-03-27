@@ -21,14 +21,15 @@ class EmployerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'employer_name'             => 'nullable|string|max:255',
-            'employer_address'          => 'nullable|string|max:191',
-            'employer_street'           => 'nullable|string|max:191',
-            'employer_house_number'     => 'nullable|string|max:191',
-            'employer_city'             => 'nullable|string|max:191',
-            'employer_postcode'         => 'nullable|string|max:191',
-            'employer_phone'            => 'nullable|string|max:191',
-            'employer_mobile'           => 'nullable|string|max:191',
+            'name'             => 'nullable|string|max:255',
+            'contact_person'   => 'nullable|string|max:255',
+            'address'          => 'nullable|string|max:255',
+            'street'           => 'nullable|string|max:191',
+            'house_number'     => 'nullable|string|max:191',
+            'city'             => 'nullable|string|max:191',
+            'postcode'         => 'nullable|string|max:191',
+            'phone'            => 'nullable|string|max:191',
+            'mobile'           => 'nullable|string|max:191',
         ];
     }
 

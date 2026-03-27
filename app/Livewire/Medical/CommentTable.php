@@ -109,7 +109,9 @@ final class CommentTable extends PowerGridComponent
     {
         return PowerGrid::fields()
             ->add('id')
-            ->add('type')
+            ->add('type_label', function (Comment $comment){
+                return $comment->type?->label();
+            })
             ->add('content')
             ->add('created_at_formatted', function (Comment $comment){
                 return formatDate($comment->created_at);
@@ -140,7 +142,7 @@ final class CommentTable extends PowerGridComponent
                 ->headerAttribute('', 'width: 200px;')
                 ->bodyAttribute('', 'width: 100px;'),
 
-            Column::make('TYP', 'type')
+            Column::make('TYP', 'type_label', 'type')
                 ->searchable()
                 ->sortable(),
 
