@@ -33,7 +33,7 @@
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col-sm-6">
-                                                    <x-form.input name="name" :value="$employer->name" :label="__('Arbeitgeber')" :labelClass="'col-sm-3'" />
+                                                    <x-form.input name="name" :value="$employer->name" :label="__('Arbeitgeber')" :labelClass="'col-sm-3'" required />
                                                     <x-form.input name="Contact_person" :value="$employer->Contact_person" :label="__('Ansprechpartner')" :labelClass="'col-sm-3'" />
                                                     <x-form.input name="address" :value="$employer->address" :label="__('Voll Adresse')" :labelClass="'col-sm-3'" />
                                                     <x-form.input name="street" :value="$employer->street" :label="__('Straße')" :labelClass="'col-sm-3'" />

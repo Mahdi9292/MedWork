@@ -4,7 +4,7 @@
 
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
         <div class="d-block mb-4 mb-md-0">
-            <x-template.breadcrumb :activePage="$activity->name" :links="[['key' => config('constants.APPLICATIONS.MEDICAL.TITLE'), 'url' => url('medical')]]" >
+            <x-template.breadcrumb :activePage="$employer->name" :links="[['key' => config('constants.APPLICATIONS.MEDICAL.TITLE'), 'url' => url('medical')]]" >
                 <li class="breadcrumb-item"><a href="{{ route('medical.employers.index') }}">{{ __('Arbeitgeber') }}</a></li>
             </x-template.breadcrumb>
             <h2 class="h4">{{ __('Arbeitgeber') }}</h2>
