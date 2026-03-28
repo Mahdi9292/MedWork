@@ -41,13 +41,9 @@ class CertificateController extends BaseMedicalController
     {
         $this->authorize('create', Certificate::class);
 
-        $data['activityOptions']            = Activity::all()->pluck('name', 'id')->toArray();
-        $data['preventionTypeOptions']      = PreventionType::options();
-        $data['salutationTypeOptions']      = SalutationType::options();
-
         $certificate = new Certificate;
 
-        return view('templates.medical.certificate.create', compact('certificate'), $data);
+        return view('templates.medical.certificate.create', compact('certificate'));
     }
 
     /**
@@ -154,7 +150,7 @@ class CertificateController extends BaseMedicalController
     /**
      * show certificate pdf
      */
-    public function printCertificate(Certificate $certificate)
+    public function printCertificate(Certificate $certificate = null)
     {
 //        $this->authorize('print', Offer::class);
         try {

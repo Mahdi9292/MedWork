@@ -20,24 +20,24 @@
 
 @section('content')
 
-{{--    <livewire:invoice.invoice-manage-screen :invoice="$certificate"/>--}}
+    <livewire:medical.certificate-manage-screen :certificate="$certificate" />
 
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
-    <div class="d-block mb-4 mb-md-0">
-        <x-template.breadcrumb :activePage="$certificate->id" :links="[['key' => config('constants.APPLICATIONS.MEDICAL.TITLE'), 'url' => url('medical')]]" >
-            <li class="breadcrumb-item"><a href="{{ route('medical.certificates.index') }}">{{ __('Bescheinigungen') }}</a></li>
-        </x-template.breadcrumb>
-        <h2 class="h4">{{ __('Bescheinigungen bearbeiten') }}</h2>
-        <p class="mb-0"></p>
-    </div>
-    <div class="btn-toolbar mb-2 mb-md-0">
-        <div class="btn-group">
-            <a href="{{ route("medical.certificates.index") }}" class="btn btn-sm btn-outline-primary">{{ __('Zu Bescheinigung Liste') }}</a>
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+        <div class="d-block mb-4 mb-md-0">
+            <x-template.breadcrumb :activePage="$certificate->id" :links="[['key' => config('constants.APPLICATIONS.MEDICAL.TITLE'), 'url' => url('medical')]]" >
+                <li class="breadcrumb-item"><a href="{{ route('medical.certificates.index') }}">{{ __('Bescheinigungen') }}</a></li>
+            </x-template.breadcrumb>
+            <h2 class="h4">{{ __('Bescheinigungen bearbeiten') }}</h2>
+            <p class="mb-0"></p>
         </div>
-        <a href="javascript:" onclick="document.getElementById('btnFormSubmit').click();" class="btn btn-sm btn-secondary mx-2">{{ __('Speichern') }}</a>
-    </div>
+        <div class="btn-toolbar mb-2 mb-md-0">
+            <div class="btn-group">
+                <a href="{{ route("medical.certificates.index") }}" class="btn btn-sm btn-outline-primary">{{ __('Zu Bescheinigung Liste') }}</a>
+            </div>
+            <a href="javascript:" onclick="document.getElementById('btnFormSubmit').click();" class="btn btn-sm btn-secondary mx-2">{{ __('Speichern') }}</a>
+        </div>
 
-</div>
+    </div>
 
     <x-form.form :action="route('medical.certificates.update', $certificate->id)" method="PUT" id="editInvoiceForm" novalidate hasJsValidation>
         <div class="row">
@@ -162,5 +162,25 @@
     </x-form.form>
 @endsection
 
+@section('pageScripts')
+    @parent
+    <script>
+        document.addEventListener('livewire:init', function () {
+            Livewire.on('preventionAdded', (params) => {
+                closeAll();
+                setTimeout(() => {
+                    openOne(params.lastIndex);
+                }, 300);
+            })
+
+            Livewire.on('preventionCopied', params => {
+                closeAll();
+                setTimeout(() => {
+                    openOne(params.lastIndex);
+                }, 300);
+            })
+        })
+    </script>
+@endsection
 
 

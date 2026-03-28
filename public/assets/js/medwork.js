@@ -17,7 +17,7 @@ d.addEventListener("DOMContentLoaded", function (event) {
     initChoiceDropDown();                  // choice Dropdown init
     initBootstrapValidation();             // Bootstrap 5 Validation init
     // initAjaxCheckbox();                    // ajax checkbox init
-    initCustomerSelect();                  // Livewire customer select init
+    initEmployerSelect();                  // Livewire customer select init
     initM3CustomerSelect();                // Livewire M3 customer select init
     initM3TcrmCustomerSelect();            // Livewire M3 & TCRM customer select init
     initSalesmanSelect();                  // Livewire customer select init
@@ -153,33 +153,32 @@ function initAjaxCheckbox(element)
 }
 
 // Customer Select
-function initCustomerSelect() {
+function initEmployerSelect() {
     if (typeof Livewire === "undefined") {
         return false;
     }
 
-    Livewire.on('customerSelected', data => {
-        if(data.customer)
+    Livewire.on('employerSelected', data => {
+        if(data.employer)
         {
             // throwing livewire event for livewire component
-            let eventName = data.eventName || 'setCustomerData';
-            Livewire.dispatch(eventName, {customer: data.customer});
+            let eventName = data.eventName || 'setEmployerData';
+            Livewire.dispatch(eventName, {employer: data.employer});
 
             let fields = data.fields;
-            let customer = data.customer;
+            let employer = data.employer;
 
             // setting fields for non livewire page
-            setValueById(valueOrDefault(fields.id, 'customer_id'), valueOrDefault(customer.customerid));                    // customer id ->  Empfänger/Absender ID
-            setValueById(valueOrDefault(fields.name, 'customer_name'), valueOrDefault(customer.name));                      // customer name ->  Empfänger/Absender name
-            setValueById(valueOrDefault(fields.first_name, 'customer_first_name'), valueOrDefault(customer.firstname));     // customer firstname ->  Empfänger/Absender Vorname
-            setValueById(valueOrDefault(fields.last_name, 'customer_contact'), valueOrDefault(customer.lastname));          // customer lastname ->  Empfänger/Absender Nachname/Ansprechpartner
-            setValueById(valueOrDefault(fields.street, 'customer_street'), valueOrDefault(customer.street));                // customer street ->  Empfänger/Absender Straße
-            setValueById(valueOrDefault(fields.postcode, 'customer_postcode'), valueOrDefault(customer.postcode));          // customer postcode ->  Empfänger/Absender PLZ
-            setValueById(valueOrDefault(fields.city, 'customer_city'), valueOrDefault(customer.city));                      // customer city ->  Empfänger/Absender Stadt
-            setValueById(valueOrDefault(fields.mail, 'customer_email'), valueOrDefault(customer.mail));                     // customer Email ->  Empfänger/Absender eMail
-            setValueById(valueOrDefault(fields.phone, 'customer_phone'), valueOrDefault(customer.phone));                   // customer Phone ->  Empfänger/Absender Tel
-            setValueById(valueOrDefault(fields.mobile, 'customer_mobile'), valueOrDefault(customer.mobile));                // customer Mobile ->  Empfänger/Absender Mobile
-            setValueById(valueOrDefault(fields.salesman_email, 'salesman_email'), valueOrDefault(customer.salesman_email)); // Attached salesman Email ->  Empfänger/Absender salesman Email
+            setValueById(valueOrDefault(fields.name, 'employer_name'), valueOrDefault(employer.name));                                      // employer name -> Arbeitgeber name
+            setValueById(valueOrDefault(fields.contact_person, 'employer_contact_person'), valueOrDefault(employer.contact_person));        // employer contact_person -> Arbeitgeber contact_person
+            setValueById(valueOrDefault(fields.address, 'employer_address'), valueOrDefault(employer.address));                             // employer address -> Arbeitgeber address
+            setValueById(valueOrDefault(fields.street, 'employer_street'), valueOrDefault(employer.street));                                // employer street → Arbeitgeber street
+            setValueById(valueOrDefault(fields.house_number, 'employer_house_number'), valueOrDefault(employer.house_number));              // employer house_number -> Arbeitgeber house_number
+            setValueById(valueOrDefault(fields.city, 'employer_city'), valueOrDefault(employer.city));                                      // employer city -> Arbeitgeber city
+            setValueById(valueOrDefault(fields.postcode, 'employer_postcode'), valueOrDefault(employer.postcode));                          // employer postcode -> Arbeitgeber postcode
+            setValueById(valueOrDefault(fields.phone, 'employer_phone'), valueOrDefault(employer.phone));                                   // employer phone -> Arbeitgeber phone
+            setValueById(valueOrDefault(fields.mobile, 'employer_mobile'), valueOrDefault(employer.mobile));                                // employer mobile -> Arbeitgeber mobile
+            // setValueById(valueOrDefault(fields.email, 'employer_email'), valueOrDefault(employer.email));                                   // employer email -> Arbeitgeber email
         }
     })
 }
