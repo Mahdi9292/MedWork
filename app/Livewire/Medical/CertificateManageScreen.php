@@ -2,11 +2,6 @@
 
 namespace App\Livewire\Medical;
 
-//use App\Models\TOffer\Attachment;
-//use App\Models\TOffer\Offer;
-//use App\Models\TOffer\OfferLine;
-//use App\Rules\Currency;
-//use App\Traits\OfferAttributesTrait;
 use App\Enums\Medical\PreventionType;
 use App\Enums\Medical\SalutationType;
 use App\Models\Medical\Activity;
