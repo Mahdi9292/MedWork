@@ -33,6 +33,7 @@ return new class extends Migration
             $table->string('postcode', 191)->nullable();
             $table->string('phone', 191)->nullable();
             $table->string('mobile', 191)->nullable();
+            $table->string('email', 191)->nullable();
 
             $table->timestamps();
             $table->softDeletes();
@@ -43,13 +44,16 @@ return new class extends Migration
             $table->id();
             $table->foreignId('employer_id')->constrained('medical_employers')->cascadeOnDelete();
 
-            $table->enum('employee_salutation', ['Mr', 'Ms'])->nullable();
-            $table->string('employee_title', 191)->nullable();
-            $table->string('employee_first_name', 191);
-            $table->string('employee_middle_name', 191)->nullable();
-            $table->string('employee_last_name', 191);
+            $table->enum('salutation', ['Mr', 'Ms'])->nullable();
+            $table->string('title', 191)->nullable();
+            $table->string('first_name', 191);
+            $table->string('middle_name', 191)->nullable();
+            $table->string('last_name', 191);
+            $table->string('address', 191)->nullable();
+            $table->string('phone', 191)->nullable();
+            $table->string('email', 191)->nullable();
 
-            $table->date('employee_birthday')->nullable();
+            $table->date('birthday')->nullable();
 
             $table->timestamps();
             $table->softDeletes();
@@ -58,18 +62,37 @@ return new class extends Migration
         // medical_certificates
         Schema::create('medical_certificates', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('employee_id')->constrained('medical_employees')->cascadeOnDelete();
-            $table->foreignId('employer_comment_id')->constrained('medical_comments')->cascadeOnDelete();
-            $table->foreignId('employee_comment_id')->constrained('medical_comments')->cascadeOnDelete();
+            $table->foreignId('employer_comment_id')->nullable()->constrained('medical_comments')->cascadeOnDelete();
+            $table->foreignId('employee_comment_id')->nullable()->constrained('medical_comments')->cascadeOnDelete();
 
             $table->string('certificate_number');
 
-            $table->text('employee_comment')->nullable();
             $table->text('employer_comment')->nullable();
+            $table->text('employee_comment')->nullable();
 
+            $table->string('employer_name')->nullable();
+            $table->string('employer_contact_person')->nullable();
+            $table->string('employer_address')->nullable();
+            $table->string('employer_street')->nullable();
+            $table->string('employer_house_number')->nullable();
+            $table->string('employer_city')->nullable();
+            $table->string('employer_postcode')->nullable();
+            $table->string('employer_phone')->nullable();
+            $table->string('employer_mobile')->nullable();
+            $table->string('employer_email')->nullable();
 
-            $table->date('issue_date');
-            $table->date('examination_date');
+            $table->enum('employee_salutation', ['Mr', 'Ms'])->nullable();
+            $table->string('employee_title')->nullable();
+            $table->string('employee_first_name')->nullable();
+            $table->string('employee_middle_name')->nullable();
+            $table->string('employee_last_name')->nullable();
+            $table->string('employee_address')->nullable();
+            $table->string('employee_phone')->nullable();
+            $table->date('employee_birthday')->nullable();
+            $table->string('employee_email')->nullable();
+
+            $table->date('issue_date')->nullable();
+            $table->date('examination_date')->nullable();
 
             $table->timestamps();
             $table->softDeletes();

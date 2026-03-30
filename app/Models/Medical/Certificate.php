@@ -24,6 +24,7 @@ class Certificate extends BaseModel
     protected $casts = [
         'issue_date'        => 'date:Y-m-d',
         'examination_date'  => 'date:Y-m-d',
+        'employee_birthday'  => 'date:Y-m-d',
         'salutation'        => SalutationType::class,
     ];
 

@@ -2,6 +2,7 @@
 
 namespace App\Models\Medical;
 
+use App\Enums\Medical\SalutationType;
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -14,6 +15,16 @@ class Employee extends BaseModel
     protected $table = 'medical_employees';
     public $timestamps = true;
     protected $guarded = ['id'];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'birthday' => 'date:Y-m-d',
+        'salutation'   => SalutationType::class,
+    ];
 
     public function employer(): BelongsTo
     {

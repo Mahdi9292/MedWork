@@ -32,21 +32,20 @@ class CertificateManageScreen extends Component
     private const string REQUIRED_WITH_MESSAGE = 'Dieses Feld muss ausgefüllt werden, wenn ein Genehmiger ausgewählt wurde.';
 
     protected array $messages = [
-        'offer.discount.required'                        => self::REQUIRED_MESSAGE,
 
-        'inputs.*.device_weight.numeric'                => self::NUMERIC_MESSAGE,
-
-        'inputs.*.prices.*.price'                       => self::REQUIRED_MESSAGE,
-        'inputs.*.prices.*.type'                        => self::REQUIRED_MESSAGE,
     ];
 
     protected function rules():array
     {
         return [
-            // Offer head data
-            'certificate.certificate_number'          => 'required',
-            'certificate.issue_date'                  => 'required',
-            'certificate.examination_date'            => 'required',
+            // Certificate head data
+            'certificate.certificate_number'          => 'nullable',
+            'certificate.issue_date'                  => 'nullable',
+            'certificate.examination_date'            => 'nullable',
+            'certificate.employer_comment_id'         => 'nullable',
+            'certificate.employee_comment_id'         => 'nullable',
+            'certificate.employer_comment'            => 'nullable',
+            'certificate.employee_comment'            => 'nullable',
 
             // Employee
             'certificate.employee_salutation'                    => 'nullable|max:191',
@@ -58,13 +57,15 @@ class CertificateManageScreen extends Component
 
             // Employer
             'certificate.employer_name'                 => 'required',
-            'certificate.employer_contact_person'                 => 'required',
+            'certificate.employer_contact_person'       => 'required',
+            'certificate.address'                       => 'required',
             'certificate.employer_street'               => 'nullable|max:191',
             'certificate.employer_house_number'         => 'nullable|max:191',
             'certificate.employer_city'                 => 'nullable|max:191',
             'certificate.employer_postcode'             => 'nullable',
-            'certificate.employer_phone'                         => 'nullable',
-            'certificate.employer_mobile'                        => 'nullable',
+            'certificate.employer_phone'                => 'nullable',
+            'certificate.employer_mobile'               => 'nullable',
+            'certificate.employer_email'                => 'nullable',
 
             // Preventions
             'inputs.*.prices'                   => 'nullable',
