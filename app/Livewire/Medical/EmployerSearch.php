@@ -39,7 +39,7 @@ class EmployerSearch extends Component
             ->orWhere('postcode', 'like', $searchTerm)
             ->orWhere('phone', 'like', $searchTerm)
             ->orWhere('mobile', 'like', $searchTerm)
-            //  ->orWhere('email', 'like', $searchTerm)
+            ->orWhere('email', 'like', $searchTerm)
             ->limit(100)->get();
         $this->searchCount = count($this->employers);
         $this->maximumRecordsInfo = $this->searchCount === 100;

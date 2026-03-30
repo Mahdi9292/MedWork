@@ -6,13 +6,12 @@ use App\Enums\Medical\PreventionType;
 use App\Enums\Medical\SalutationType;
 use App\Models\Medical\Activity;
 use App\Models\Medical\Certificate;
+use App\Models\Medical\Comment;
 use App\Models\Medical\Prevention;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Validation\Validator;
 use Illuminate\View\View;
 use Livewire\Component;
-use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Livewire\WithFileUploads;
 
 class CertificateManageScreen extends Component
@@ -27,9 +26,9 @@ class CertificateManageScreen extends Component
 
     protected $listeners = ['setEmployerData', 'removeInput'];
 
-    private const string REQUIRED_MESSAGE = 'Dieses Feld muss ausgefüllt werden.';
+    private const string nullable_MESSAGE = 'Dieses Feld muss ausgefüllt werden.';
     private const string NUMERIC_MESSAGE = 'Dieses Feld muss eine Zahl sein.';
-    private const string REQUIRED_WITH_MESSAGE = 'Dieses Feld muss ausgefüllt werden, wenn ein Genehmiger ausgewählt wurde.';
+    private const string nullable_WITH_MESSAGE = 'Dieses Feld muss ausgefüllt werden, wenn ein Genehmiger ausgewählt wurde.';
 
     protected array $messages = [
 
@@ -48,17 +47,17 @@ class CertificateManageScreen extends Component
             'certificate.employee_comment'            => 'nullable',
 
             // Employee
-            'certificate.employee_salutation'                    => 'nullable|max:191',
+            'certificate.employee_salutation'                    => 'nullable',
             'certificate.employee_title'                         => 'nullable',
             'certificate.employee_first_name'                    => 'nullable',
             'certificate.employee_middle_name'                   => 'nullable',
-            'certificate.employee_last_name'                     => 'nullable|numeric',
+            'certificate.employee_last_name'                     => 'nullable',
             'certificate.employee_birthday'                      => 'nullable',
 
             // Employer
-            'certificate.employer_name'                 => 'required',
-            'certificate.employer_contact_person'       => 'required',
-            'certificate.address'                       => 'required',
+            'certificate.employer_name'                 => 'nullable',
+            'certificate.employer_contact_person'       => 'nullable',
+            'certificate.employer_address'              => 'nullable',
             'certificate.employer_street'               => 'nullable|max:191',
             'certificate.employer_house_number'         => 'nullable|max:191',
             'certificate.employer_city'                 => 'nullable|max:191',
@@ -68,13 +67,9 @@ class CertificateManageScreen extends Component
             'certificate.employer_email'                => 'nullable',
 
             // Preventions
-            'inputs.*.prices'                   => 'nullable',
-            'inputs.*.prices.*.price'           => 'required',
-            'inputs.*.prices.*.type'            => 'required',
-            'inputs.*.prices.*.rental_period'   => 'required',
-
-            'attachments.*'                     => 'max:12288',
-
+            'inputs.*.activity_id'              => 'nullable',
+            'inputs.*.prevention_type'          => 'nullable',
+            'inputs.*.next_appointment_date'    => 'nullable',
         ];
     }
 
@@ -101,9 +96,7 @@ class CertificateManageScreen extends Component
         $this->certificate->employer_city = $employer['city'] ?? null;
         $this->certificate->employer_phone = $employer['phone'] ?? null;
         $this->certificate->employer_mobile = $employer['mobile'] ?? null;
-
-        // TODO:: Add email to the 'employer' table
-        //$this->certificate->employer_email = $employer['mail'] ?? null;
+        $this->certificate->employer_email = $employer['mail'] ?? null;
     }
 
 
@@ -179,24 +172,6 @@ class CertificateManageScreen extends Component
         // validation
         $this->validate();
 
-        /* //saving attached files.
-
-            foreach ($this->attachments as $attachment)
-        {
-            $path = $this->offer->getAttachmentFolder();
-            $attachment = TemporaryUploadedFile::createFromLivewire($attachment['tmpFilename']);
-
-            $fileName = now()->timestamp . '_' . $attachment->getClientOriginalName();
-            $fullPath = $path . '/' . $fileName;
-            $attachment->storeAs($path, $fileName, 'twap');
-
-            $attachment = new Attachment;
-            $attachment->path = $fullPath;
-            $this->offer->attachments()->save($attachment);
-        }
-        */
-
-
         // saving the entities
         $this->saveCertificateAndPreventions();
 
@@ -236,12 +211,6 @@ class CertificateManageScreen extends Component
         $this->dispatch('toast:alert', message: 'Speichern erfolgreich!', title: 'Success', status: 1);
     }
 
-//    public function downloadFile($attachment)
-//    {
-//        $attachedFile = Attachment::find($attachment);
-//        return $attachedFile->downloadFile();
-//    }
-
     public function render(): view
     {
         // Errors
@@ -251,6 +220,8 @@ class CertificateManageScreen extends Component
 
         // Dropdown options
         $data['activityOptions']            = Activity::all()->pluck('name', 'id')->toArray();
+        $data['employerCommentOptions']     = Comment::employer()->pluck('content', 'id')->toArray();
+        $data['employeeCommentOptions']     = Comment::employee()->pluck('content', 'id')->toArray();
         $data['preventionTypeOptions']      = PreventionType::options();
         $data['salutationTypeOptions']      = SalutationType::options();
 

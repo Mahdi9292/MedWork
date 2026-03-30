@@ -37,15 +37,15 @@ class Prevention extends BaseModel
         return $this->belongsTo(Activity::class, 'activity_id');
     }
 
-    protected function nextAppointmentDate(): Attribute
-    {
-        return Attribute::make(
-            set: function ($value) {
-                return $value
-                    ? Carbon::createFromFormat('d.m.Y', $value)->format('Y-m-d')
-                    : null;
-            }
-        );
-    }
+//    protected function nextAppointmentDate(): Attribute
+//    {
+//        return Attribute::make(
+//            set: function ($value) {
+//                return $value
+//                    ? Carbon::createFromFormat('d.m.Y', $value)->format('Y-m-d')
+//                    : null;
+//            }
+//        );
+//    }
 
 }

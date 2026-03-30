@@ -178,7 +178,7 @@ function initEmployerSelect() {
             setValueById(valueOrDefault(fields.postcode, 'employer_postcode'), valueOrDefault(employer.postcode));                          // employer postcode -> Arbeitgeber postcode
             setValueById(valueOrDefault(fields.phone, 'employer_phone'), valueOrDefault(employer.phone));                                   // employer phone -> Arbeitgeber phone
             setValueById(valueOrDefault(fields.mobile, 'employer_mobile'), valueOrDefault(employer.mobile));                                // employer mobile -> Arbeitgeber mobile
-            // setValueById(valueOrDefault(fields.email, 'employer_email'), valueOrDefault(employer.email));                                   // employer email -> Arbeitgeber email
+            setValueById(valueOrDefault(fields.email, 'employer_email'), valueOrDefault(employer.email));                                   // employer email -> Arbeitgeber email
         }
     })
 }
