@@ -69,13 +69,6 @@ class CertificateManageForm extends Form
     #[Validate(['inputs.*.activity_id' => 'nullable', 'inputs.*.prevention_type' => 'nullable', 'inputs.*.next_appointment_date' => 'required'])]
     public ?Collection $inputs;
 
-//    protected function rules(): array
-//    {
-//        return [
-//
-//        ];
-//    }
-
     public function setCertificate(Certificate $certificate): void
     {
         $inputs = collect($certificate->preventions?->toArray());
@@ -83,6 +76,7 @@ class CertificateManageForm extends Form
         $this->inputs = $inputs ?: collect();
 
         // Certificate
+        $this->certificate_number = $certificate->certificate_number;
         $this->issue_date = $certificate->issue_date;
         $this->examination_date = $certificate->examination_date;
         $this->employer_comment_id = $certificate->employer_comment_id;
@@ -121,7 +115,7 @@ class CertificateManageForm extends Form
         $this->certificate = $this->certificate->create(
             $this->except(['certificate', 'inputs'])
         );
-//        $this->certificate->save();
+
         if($this->inputs->count() > 0)
         {
             foreach ($this->inputs as $input)
@@ -134,9 +128,10 @@ class CertificateManageForm extends Form
     public function update(): void
     {
         // validation
-        $this->validate();
+        $data = $this->validate();
 
-        $this->certificate = $this->certificate->update($this->all());
+        $this->certificate->fill($data);
+        $this->certificate->save();
 
         if($this->inputs->count() > 0)
         {

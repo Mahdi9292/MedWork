@@ -9,7 +9,6 @@ use App\Models\Medical\Certificate;
 use App\Models\Medical\Comment;
 use App\Models\Medical\Prevention;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -127,8 +126,6 @@ class CertificateManageScreen extends Component
         // refreshing the data
         $this->certificate->refresh();
         $this->loadItems();
-
-
 
         // if save and print was clicked
         if($print){
