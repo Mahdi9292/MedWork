@@ -15,6 +15,7 @@ return new class extends Migration
         Schema::create('medical_comments', function (Blueprint $table) {
             $table->id();
             $table->enum('type', ['employer', 'employee']);
+            $table->string('title',191)->nullable();
             $table->text('content')->nullable();
 
             $table->timestamps();
@@ -24,8 +25,8 @@ return new class extends Migration
         // medical_employers
         Schema::create('medical_employers', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 255)->nullable();
-            $table->string('contact_person', 255)->nullable();
+            $table->string('name', 191)->nullable();
+            $table->string('contact_person', 191)->nullable();
             $table->string('address', 255)->nullable();
             $table->string('street', 191)->nullable();
             $table->string('house_number', 191)->nullable();
@@ -47,7 +48,6 @@ return new class extends Migration
             $table->enum('salutation', ['Mr', 'Ms'])->nullable();
             $table->string('title', 191)->nullable();
             $table->string('first_name', 191);
-            $table->string('middle_name', 191)->nullable();
             $table->string('last_name', 191);
             $table->string('address', 191)->nullable();
             $table->string('phone', 191)->nullable();
@@ -84,7 +84,6 @@ return new class extends Migration
             $table->enum('employee_salutation', ['Mr', 'Ms'])->nullable();
             $table->string('employee_title')->nullable();
             $table->string('employee_first_name')->nullable();
-            $table->string('employee_middle_name')->nullable();
             $table->string('employee_last_name')->nullable();
             $table->string('employee_address')->nullable();
             $table->string('employee_phone')->nullable();

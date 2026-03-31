@@ -94,7 +94,6 @@
                                 <x-form.select name="certificateManageForm.employee_salutation" wire:model.live="certificateManageForm.employee_salutation" :label="__('Anrede')" :options="$salutationTypeOptions" :labelClass="'col-sm-3'"  />
                                 <x-form.input name="certificateManageForm.employee_title" wire:model="certificateManageForm.employee_title" :label="__('Titel')" :labelClass="'col-sm-3'" />
                                 <x-form.input name="certificateManageForm.employee_first_name" wire:model="certificateManageForm.employee_first_name" :label="__('Vorname')" :labelClass="'col-sm-3'" />
-                                <x-form.input name="certificateManageForm.employee_middle_name" wire:model="certificateManageForm.employee_middle_name" :label="__('Zweiter Vorname')" :labelClass="'col-sm-3'" />
                                 <x-form.input name="certificateManageForm.employee_last_name" wire:model="certificateManageForm.employee_last_name" :label="__('Nachname')" :labelClass="'col-sm-3'" />
                                 <x-form.flat-pickr name="certificateManageForm.employee_birthday" wire:model="certificateManageForm.employee_birthday" :label="__('Geburtsdatum')" :labelClass="'col-sm-3'" :week-numbers="true" :allow-input="true" />
                             </div>

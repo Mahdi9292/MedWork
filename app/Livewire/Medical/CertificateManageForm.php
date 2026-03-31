@@ -37,8 +37,6 @@ class CertificateManageForm extends Form
     #[Validate('nullable')]
     public $employee_first_name;
     #[Validate('nullable')]
-    public $employee_middle_name;
-    #[Validate('nullable')]
     public $employee_last_name;
     #[Validate('nullable|date')]
     public $employee_birthday;
@@ -88,7 +86,6 @@ class CertificateManageForm extends Form
         $this->employee_salutation = $certificate->employee_salutation;
         $this->employee_title = $certificate->employee_title;
         $this->employee_first_name = $certificate->employee_first_name;
-        $this->employee_middle_name = $certificate->employee_middle_name;
         $this->employee_last_name = $certificate->employee_last_name;
         $this->employee_birthday = $certificate->employee_birthday;
 

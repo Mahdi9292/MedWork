@@ -30,7 +30,6 @@ class CertificateRequest extends FormRequest
             'salutation'    => 'nullable',
             'title'         => 'nullable|string|max:191',
             'first_name'    => 'required|string|max:191',
-            'middle_name'   => 'nullable|string|max:191',
             'last_name'     => 'required|string|max:191',
             'birthday'      => 'nullable',
             'is_employer' => 'nullable',
