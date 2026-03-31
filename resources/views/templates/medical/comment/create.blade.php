@@ -22,6 +22,7 @@
                         <x-form.form :action="route('medical.comments.store')" novalidate hasJsValidation>
 
                             <x-form.select data-name="type" name="type" data-skip-name="false" :label="__('Typ')" :options="$commentTypeOptions" required />
+                            <x-form.input name="title" :label="__('Titel')" required />
                             <x-form.textarea name="content" :label="__('Inhalt')" required />
 
                             <button type="submit" class="btn btn-secondary">{{ __('Erstellen') }}</button>

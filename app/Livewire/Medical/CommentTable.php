@@ -146,6 +146,11 @@ final class CommentTable extends PowerGridComponent
                 ->searchable()
                 ->sortable(),
 
+            Column::make('Titel', 'title')
+                ->contentClasses('text-wrap')
+                ->searchable()
+                ->sortable(),
+
             Column::make('Inhalt', 'content')
                 ->contentClasses('text-wrap')
                 ->searchable()
@@ -170,6 +175,7 @@ final class CommentTable extends PowerGridComponent
         return [
             Filter::inputText('id')->operators(['contains']),
             Filter::inputText('type')->operators(['contains']),
+            Filter::inputText('title')->operators(['contains']),
             Filter::inputText('content')->operators(['contains']),
             Filter::datepicker('updated_at_formatted', 'updated_at')
                 ->params([

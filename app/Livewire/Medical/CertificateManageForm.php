@@ -16,9 +16,9 @@ class CertificateManageForm extends Form
     #[Validate('nullable')]
     public $certificate_number;
 
-    #[Validate('nullable|date')]
+    #[Validate('required|date')]
     public $issue_date;
-    #[Validate('nullable|date')]
+    #[Validate('required|date')]
     public $examination_date;
     #[Validate('nullable')]
     public $employer_comment_id;
@@ -64,7 +64,7 @@ class CertificateManageForm extends Form
     public $employer_email;
 
     // Nested Preventions
-    #[Validate(['inputs.*.activity_id' => 'nullable', 'inputs.*.prevention_type' => 'nullable', 'inputs.*.next_appointment_date' => 'required'])]
+    #[Validate(['inputs.*.activity_id' => 'required', 'inputs.*.prevention_type' => 'required', 'inputs.*.next_appointment_date' => 'required'])]
     public ?Collection $inputs;
 
     public function setCertificate(Certificate $certificate): void
@@ -75,8 +75,8 @@ class CertificateManageForm extends Form
 
         // Certificate
         $this->certificate_number = $certificate->certificate_number;
-        $this->issue_date = $certificate->issue_date;
-        $this->examination_date = $certificate->examination_date;
+        $this->issue_date = $certificate->issue_date??now();
+        $this->examination_date = $certificate->examination_date??now();
         $this->employer_comment_id = $certificate->employer_comment_id;
         $this->employee_comment_id = $certificate->employee_comment_id;
         $this->employer_comment = $certificate->employer_comment;
@@ -100,7 +100,6 @@ class CertificateManageForm extends Form
         $this->employer_phone = $certificate->employer_phone;
         $this->employer_mobile = $certificate->employer_mobile;
         $this->employer_email = $certificate->employer_email;
-
     }
 
     public function store(): void

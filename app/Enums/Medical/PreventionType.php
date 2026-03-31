@@ -12,6 +12,7 @@ enum PreventionType: string implements HasOptionsInterface
     case PT_PFV = 'Pflichtvorsorge'; // Pflichtvorsorge
     case PT_ANV = 'Angebotsvorsorge'; // Angebotsvorsorge
     case PT_WUV = 'Wunschvorsorge'; // Wunschvorsorge
+    case PT_EIG = 'Eignung'; // Eignung
 
     public function label(): string
     {
@@ -19,6 +20,7 @@ enum PreventionType: string implements HasOptionsInterface
             PreventionType::PT_PFV => 'Pflichtvorsorge',
             PreventionType::PT_ANV => 'Angebotsvorsorge',
             PreventionType::PT_WUV => 'Wunschvorsorge',
+            PreventionType::PT_EIG => 'Eignung',
         };
     }
 }

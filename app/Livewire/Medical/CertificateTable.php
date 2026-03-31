@@ -120,8 +120,8 @@ final class CertificateTable extends PowerGridComponent
     {
         return PowerGrid::fields()
             ->add('id')
-            ->add('birthday_formatted', function (Certificate $certificate){
-                return formatDate($certificate->birthday);
+            ->add('employee_birthday_formatted', function (Certificate $certificate){
+                return formatDate($certificate->employee_birthday);
             })
             ->add('issue_date_formatted', function (Certificate $certificate){
                 return formatDate($certificate->issue_date);
@@ -153,11 +153,11 @@ final class CertificateTable extends PowerGridComponent
                 ->searchable()
                 ->sortable(),
 
-            Column::make('Patient Nachname', 'last_name')
+            Column::make('Patient Nachname', 'employee_last_name')
                 ->searchable()
                 ->sortable(),
 
-            Column::make('Geburtsdatum', 'birthday_formatted', 'birthday')
+            Column::make('Geburtsdatum', 'employee_birthday_formatted', 'employee_birthday')
                 ->searchable()
                 ->sortable()
                 ->searchableRaw('DATE_FORMAT(birthday, "%d.%m.%Y") like ?'),
@@ -181,8 +181,8 @@ final class CertificateTable extends PowerGridComponent
         return [
             Filter::inputText('id')->operators(['contains']),
             Filter::inputText('certificate_number')->operators(['contains']),
-            Filter::inputText('last_name')->operators(['contains']),
-            Filter::datepicker('birthday_formatted', 'birthday')
+            Filter::inputText('employee_last_name')->operators(['contains']),
+            Filter::datepicker('employee_birthday_formatted', 'employee_birthday')
                 ->params([
                 'enableTime' => false,
                 'dateFormat' => 'd.m.Y',

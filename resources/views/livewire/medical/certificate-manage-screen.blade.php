@@ -117,17 +117,17 @@
                         <div class="row pt-4 pb-4">
                             <div class="col-sm-8">
                                 @if($updateMode)
-                                    <x-form.input name="certificateManageForm.certificate_number" wire:model="certificateManageForm.certificate_number" :label="__('Bescheinigung Nr.')" :labelClass="'col-sm-3'" disabled />
+                                    <x-form.input name="certificateManageForm.certificate_number" wire:model="certificateManageForm.certificate_number" :label="__('Bescheinigung Nr.')" :labelClass="'col-sm-4'" disabled />
                                 @endif
 
-                                <x-form.input name="certificateManageForm.employer_comment" wire:model="certificateManageForm.employer_comment" :label="__('Arbeitgeber Kommentar')" :labelClass="'col-sm-3'" />
-                                <x-form.select name="certificateManageForm.employer_comment_id" wire:model.live="certificateManageForm.employer_comment_id" :label="__('Arbeitgeber Kommentar Auswählen')" :options="$employerCommentOptions" :nullRowText="__('Keine Angaben')" :labelClass="'col-sm-3'"  />
+                                <x-form.textarea name="certificateManageForm.employer_comment" wire:model="certificateManageForm.employer_comment" :label="__('Arbeitgeber Kommentar')" :labelClass="'col-sm-4'" />
+                                <x-form.select name="certificateManageForm.employer_comment_id" wire:model.live="certificateManageForm.employer_comment_id" :label="__('Arbeitgeber Kommentar Auswählen')" :options="$employerCommentOptions" :nullRowText="__('Keine Angaben')" :labelClass="'col-sm-4'"  />
 
-                                <x-form.input name="certificateManageForm.employee_comment" wire:model="certificateManageForm.employee_comment" :label="__('Arbeitnehmer Kommentar')" :labelClass="'col-sm-3'" />
-                                <x-form.select name="certificateManageForm.employee_comment_id" wire:model.live="certificateManageForm.employee_comment_id" :label="__('Arbeitnehmer Kommentar Auswählen')" :options="$employeeCommentOptions" :nullRowText="__('Keine Angaben')" :labelClass="'col-sm-3'"  />
+                                <x-form.textarea name="certificateManageForm.employee_comment" wire:model="certificateManageForm.employee_comment" :label="__('Arbeitnehmer Kommentar')" :labelClass="'col-sm-4'" />
+                                <x-form.select name="certificateManageForm.employee_comment_id" wire:model.live="certificateManageForm.employee_comment_id" :label="__('Arbeitnehmer Kommentar Auswählen')" :options="$employeeCommentOptions" :nullRowText="__('Keine Angaben')" :labelClass="'col-sm-4'"  />
 
-                                <x-form.flat-pickr name="certificateManageForm.issue_date" wire:model="certificateManageForm.issue_date" :label="__('Erstellungsdatum')" :labelClass="'col-sm-3'" :week-numbers="true" :allow-input="true" />
-                                <x-form.flat-pickr name="certificateManageForm.examination_date" wire:model="certificateManageForm.examination_date" :label="__('Untersuchungsdatum')" :labelClass="'col-sm-3'" :week-numbers="true" :allow-input="true" />
+                                <x-form.flat-pickr name="certificateManageForm.issue_date" wire:model="certificateManageForm.issue_date" :label="__('Erstellungsdatum')" :labelClass="'col-sm-4'" :week-numbers="true" :allow-input="true" />
+                                <x-form.flat-pickr name="certificateManageForm.examination_date" wire:model="certificateManageForm.examination_date" :label="__('Untersuchungsdatum')" :labelClass="'col-sm-4'" :week-numbers="true" :allow-input="true" />
                             </div>
                         </div>
                     </div>

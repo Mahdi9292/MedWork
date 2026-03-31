@@ -24,6 +24,7 @@
 
                     <div class="col-lg-8 col-sm-12">
                         <x-form.show name="type" :label="__('Typ')"  :value="$comment->type->label()" :labelClass="'col-sm-3'"   />
+                        <x-form.show name="title" :label="__('Titel')" :value="$comment->title" :labelClass="'col-sm-3'"   />
                         <x-form.show name="content" :label="__('Ehemalig')" :value="$comment->content" :labelClass="'col-sm-3'"   />
 
                         <a href="{{ route('medical.comments.index') }}" class="btn btn-primary">{{ __('Zurück zur Übersicht') }}</a>

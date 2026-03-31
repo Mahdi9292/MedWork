@@ -23,8 +23,9 @@ class CommentRequest extends FormRequest
         $activityId = $this->route('comment')?->id;
 
         return [
-            'type' => 'nullable',
-            'content' => 'nullable',
+            'type' => 'required',
+            'title' => 'required',
+            'content' => 'required',
         ];
     }
 
