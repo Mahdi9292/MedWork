@@ -5,14 +5,14 @@
                     ['key' => config('constants.APPLICATIONS.MEDICAL.TITLE'), 'url' => url('medical')],
                     ['key' => __('Bescheinigungen'), 'url' => route('medical.certificates.index')]
                 ]" />
-            <h2 class="h4">{{ __('Bescheinigung') }}</h2>
+            <h2 class="h4">{{ __('Bescheinigung') }} <span><em><small class="text-muted"> {{$updateMode ? '(' . $certificate->certificate_number . ')' : ''}}</small></em></span> </h2>
         </div>
 
         <div class="btn-toolbar mb-2 mb-md-0">
             <div class="btn-group ms-2 ms-lg-3">
                 <a href="{{ route('medical.certificates.index') }}" class="btn btn-sm btn-outline-primary"><i class="fas fa-times-circle"></i> {{ __('Schließen') }}</a>
                 @if($updateMode)
-                    <a href="{{ route('medical.printCertificate', $certificate->id) }}" class="btn btn-sm btn-outline-primary"><i class="fas fa-print"></i> {{ __('drucken') }}</a>
+                    <a href="{{ route('medical.printCertificate', [$certificate->id, \App\Models\Medical\Certificate::DOWNLOAD_TYPE_ZIP]) }}" class="btn btn-sm btn-outline-primary"><i class="fas fa-print"></i> {{ __('drucken') }}</a>
                 @endif
                 <a wire:click="submit" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> {{ $updateMode ? __('Speichern') : __('Erstellen') }}</a>
             </div>
@@ -28,7 +28,7 @@
             <div class="col-12 mb-4">
                 <div class="card border-light shadow-sm components-section">
                     <div class="card-header">
-                        {{ __('Arbeitgeber') }}
+                        {{ __('Arbeitgeber') }} <span><em><small class="text-muted"> {{$updateMode ? '(' . $certificate->employer_name . ')' : ''}}</small></em></span>
                         @if($employerWithErrors)
                             <i class="fas fa-exclamation-circle text-danger ms-3"></i>
                         @endif
@@ -84,7 +84,7 @@
                     <div class="card-header">
                         <div class="row">
                             <div class="col-sm-2">
-                                {{ __('Arbeitnehmer') }} {{$updateMode ? '-' . __('Arbeitnehmer') . ':' .  $certificate->employee_lastname : ''}}
+                                {{ __('Arbeitnehmer') }} <span><em><small class="text-muted"> {{$updateMode ? '(' . $certificate->employee_first_name . ' ' . $certificate->employee_last_name . ')' : ''}}</small></em></span>
                             </div>
                         </div>
                     </div>
@@ -109,7 +109,7 @@
                     <div class="card-header">
                         <div class="row">
                             <div class="col-sm-2">
-                                {{ __('Bescheinigungsdaten') }} {{$updateMode ? '-' . __('Bescheinigung Nr.') . ':' .  $certificate->certificate_number : ''}}
+                                {{ __('Bescheinigungsdaten') }} <span><em><small class="text-muted">{{$updateMode ? '(' . __('Nr.: ') .  $certificate->certificate_number .')' : ''}}</small></em></span>
                             </div>
                         </div>
                     </div>

@@ -116,6 +116,8 @@ class CertificateManageScreen extends Component
 
         if(!$this->updateMode){
             $this->certificateManageForm->store();
+            $this->certificate = $this->certificateManageForm->certificate;
+            $this->redirect(route('medical.certificates.edit', $this->certificate));
         }else{
             $this->certificateManageForm->update();
         }
@@ -129,7 +131,7 @@ class CertificateManageScreen extends Component
 
         // if save and print was clicked
         if($print){
-            $this->redirect(route('medical.printCertificate', $this->certificate));
+            $this->redirect(route('medical.printCertificate', [$this->certificate, Certificate::DOWNLOAD_TYPE_ZIP]));
         }
     }
 

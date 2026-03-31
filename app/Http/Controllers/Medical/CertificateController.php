@@ -142,23 +142,24 @@ class CertificateController extends BaseMedicalController
         $this->authorize('delete', $certificate);
         $certificate->delete();
         return redirect()->route('medical.certificates.index')->with('info', __('Erfolgreich gelöscht'));
-
     }
 
     /**
      * show certificate pdf
      */
-    public function printCertificate(Certificate $certificate = null)
+    public function printCertificate(Certificate $certificate = null, string $downloadType = Certificate::DOWNLOAD_TYPE_ZIP)
     {
         //  $this->authorize('print', Certificate::class);
         try {
-            // print Employer's certificate
-            $this->certificateService->printCertificate($certificate, isEmployer: true);
-
-            // print Employee's certificate
-            $this->certificateService->printCertificate($certificate);
-
-        } catch (Exception $e) {
+            if($downloadType == Certificate::DOWNLOAD_TYPE_EMPLOYER){
+                return $this->certificateService->printCertificate($certificate, isEmployer: true);
+            }
+            if($downloadType == Certificate::DOWNLOAD_TYPE_EMPLOYEE){
+                return $this->certificateService->printCertificate($certificate, isEmployer: false);
+            }
+            return $this->certificateService->downloadCertificatesZip($certificate);
+        }
+        catch (Exception $e) {
             return $e->getMessage();
         }
     }

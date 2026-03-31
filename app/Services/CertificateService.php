@@ -8,6 +8,8 @@ use Mpdf\MpdfException;
 use setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException;
 use setasign\Fpdi\PdfParser\PdfParserException;
 use setasign\Fpdi\PdfParser\Type\PdfTypeException;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use ZipArchive;
 
 class CertificateService extends BaseService
 {
@@ -17,14 +19,18 @@ class CertificateService extends BaseService
      * print all the Services in the given order
      *
      * @param Certificate $certificate
+     * @param bool $isEmployer
      * @param string $destination
+     * @return false|string
      * @throws CrossReferenceException
      * @throws MpdfException
      * @throws PdfParserException
      * @throws PdfTypeException
      */
-    public function printCertificate(Certificate $certificate, $isEmployer = false , string $destination='D'): void
+    public function printCertificate(Certificate $certificate, bool $isEmployer = false , string $destination='D'): false|string
     {
+        $files = [];
+
         // Offer Cover page
         $mainPage = $this->generatePdf('templates.pdf.certificate_slip', ['certificate' => $certificate, 'isEmployer'=>$isEmployer , 'pageNumber' => 1]);
 
@@ -34,7 +40,35 @@ class CertificateService extends BaseService
 
         // merging all pages
         $fileName = $certificate->certificate_number . '-' . $mainName .'.pdf';
-        $this->mergePDFFiles($files, $fileName, $destination);
+        return $this->mergePDFFiles($files, $fileName, $destination);
+    }
+
+    /**
+     * @throws CrossReferenceException
+     * @throws MpdfException
+     * @throws PdfParserException
+     * @throws PdfTypeException
+     */
+    public function downloadCertificatesZip(Certificate $certificate): BinaryFileResponse
+    {
+        // 1. Generate both PDFs as files
+        $employerPath = $this->printCertificate($certificate, true, 'F');
+        $employeePath = $this->printCertificate($certificate, false, 'F');
+
+        // 2. Create ZIP
+        $zipName = $certificate->certificate_number . '.zip';
+        $zipPath = storage_path('app/mpdf/' . $zipName);
+
+        $zip = new ZipArchive;
+
+        if ($zip->open($zipPath, ZipArchive::CREATE | ZipArchive::OVERWRITE) === true) {
+            $zip->addFile($employerPath, basename($employerPath));
+            $zip->addFile($employeePath, basename($employeePath));
+            $zip->close();
+        }
+
+        // 3. Return response directly from service
+        return response()->download($zipPath)->deleteFileAfterSend(true);
     }
 
 }

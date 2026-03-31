@@ -71,9 +71,11 @@
     <div class="mt-8 font-size-10">
         <div class="fw-bold mb-1">Bemerkungen / Empfehlungen:</div>
         <div style="text-align: justify;">
-            Bitte stellen Sie sich mit den zugesendeten Laborwerten bei Ihrem Hausarzt vor.
-            Ihre Leberwerte sowie Ihr Bleispiegel im Körper sind nicht in Ordnung.
-            Bitte senden Sie mir anschließend die fachärztlichen Befunde zu.
+            @if($isEmployer)
+                {{ $certificate->employer_comment_id ? $certificate->employerComment?->content : $certificate->employer_comment }}
+            @else
+                {{ $certificate->employee_comment_id ? $certificate->employeeComment?->content : $certificate->employee_comment }}
+            @endif
         </div>
     </div>
 

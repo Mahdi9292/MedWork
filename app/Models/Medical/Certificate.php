@@ -12,6 +12,10 @@ class Certificate extends BaseModel
 {
     use SoftDeletes;
 
+    public const string DOWNLOAD_TYPE_ZIP = 'zip';
+    public const string DOWNLOAD_TYPE_EMPLOYER = 'employer';
+    public const string DOWNLOAD_TYPE_EMPLOYEE = 'employee';
+
     protected $table = 'medical_certificates';
     public $timestamps = true;
     protected $guarded = ['id'];
@@ -34,7 +38,7 @@ class Certificate extends BaseModel
         static::creating(function ($certificate) {
 
             $prefix = 'VB-';
-            $date = now()->format('ym');
+            $date = now()->format('ymi');
 
             do {
                 $unique = str_pad(random_int(0, 99), 2, '0', STR_PAD_LEFT);
