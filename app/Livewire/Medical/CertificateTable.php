@@ -153,6 +153,10 @@ final class CertificateTable extends PowerGridComponent
                 ->searchable()
                 ->sortable(),
 
+            Column::make('Arbeitgeber', 'employer_name')
+                ->searchable()
+                ->sortable(),
+
             Column::make('Patient Nachname', 'employee_last_name')
                 ->searchable()
                 ->sortable(),
@@ -181,6 +185,7 @@ final class CertificateTable extends PowerGridComponent
         return [
             Filter::inputText('id')->operators(['contains']),
             Filter::inputText('certificate_number')->operators(['contains']),
+            Filter::inputText('employer_name')->operators(['contains']),
             Filter::inputText('employee_last_name')->operators(['contains']),
             Filter::datepicker('employee_birthday_formatted', 'employee_birthday')
                 ->params([

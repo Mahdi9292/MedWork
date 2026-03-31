@@ -25,7 +25,7 @@ class Certificate extends BaseModel
         'issue_date'        => 'date:Y-m-d',
         'examination_date'  => 'date:Y-m-d',
         'employee_birthday'  => 'date:Y-m-d',
-        'salutation'        => SalutationType::class,
+        'employee_salutation'        => SalutationType::class,
     ];
 
 
@@ -34,7 +34,7 @@ class Certificate extends BaseModel
         static::creating(function ($certificate) {
 
             $prefix = 'VB-';
-            $date = now()->format('dmis');
+            $date = now()->format('ym');
 
             do {
                 $unique = str_pad(random_int(0, 99), 2, '0', STR_PAD_LEFT);

@@ -23,7 +23,7 @@
 @include('templates.pdf.footer')
 
 <div class="content">
-    <div class="text-center mt-2"> {{ $certificate->is_employer ? 'Arbeitgeber/in' : 'Arbeitnehmer/in' }}</div>
+    <div class="text-center mt-2"> {{ $isEmployer ? 'Arbeitgeber/in' : 'Arbeitnehmer/in' }}</div>
     <div class="title-section mt-4 mb-4">
         <div class="font-size-15 fw-bold mb-1">Vorsorgebescheinigung</div>
         <div class="font-size-11">
@@ -37,10 +37,10 @@
     </div>
 
     <div class="mb-4 font-size-10">
-        {{ $certificate->salutation ? ($certificate->salutation == \App\Enums\Medical\SalutationType::ST_MR ? __('Proband') : __('Probandin')) : __('Proband/in') }}<br>
-        <span class="fw-bold">{{$certificate->salutation?->label()}} {{$certificate->first_name}} {{$certificate->last_name}}</span><br>
-        Geburtsdatum: {{ formatDate($certificate->birthday) }}<br>
-        beschäftigt bei: {{$certificate->employed_at}}<br>
+        {{ $certificate->employee_salutation ? ($certificate->employee_salutation == \App\Enums\Medical\SalutationType::ST_MR ? __('Proband') : __('Probandin')) : __('Proband/in') }}<br>
+        <span class="fw-bold">{{$certificate->employee_salutation?->label()}} {{$certificate->employee_first_name}} {{$certificate->employee_last_name}}</span><br>
+        Geburtsdatum: {{ formatDate($certificate->employee_birthday) }}<br>
+        beschäftigt bei: {{$certificate->employer_name}}<br>
         Anschrift des Arbeitgebers: {{$certificate->employer_street}} {{$certificate->employer_house_number}}, {{$certificate->employer_postcode}} {{$certificate->employer_city}}<br><br>
         <span class="fw-bold">Untersuchungsdatum: {{ formatDate($certificate->examination_date) }}</span>
     </div>

@@ -23,17 +23,17 @@ class CertificateService extends BaseService
      * @throws PdfParserException
      * @throws PdfTypeException
      */
-    public function printCertificate(Certificate $certificate, string $destination='D'): void
+    public function printCertificate(Certificate $certificate, $isEmployer = false , string $destination='D'): void
     {
-
-
         // Offer Cover page
-        $mainPage = $this->generatePdf('templates.pdf.certificate_slip', ['certificate' => $certificate, 'pageNumber' => 1]);
+        $mainPage = $this->generatePdf('templates.pdf.certificate_slip', ['certificate' => $certificate, 'isEmployer'=>$isEmployer , 'pageNumber' => 1]);
 
         $files[] = $this->saveToTemp($mainPage);
 
+        $mainName = $isEmployer ? $certificate->employer_name : $certificate->employee_last_name;
+
         // merging all pages
-        $fileName = 'Bescheinigung_'.$certificate->certificate_number.'_' . $certificate->id .'.pdf';
+        $fileName = $certificate->certificate_number . '-' . $mainName .'.pdf';
         $this->mergePDFFiles($files, $fileName, $destination);
     }
 

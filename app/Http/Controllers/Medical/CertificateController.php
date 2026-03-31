@@ -150,9 +150,14 @@ class CertificateController extends BaseMedicalController
      */
     public function printCertificate(Certificate $certificate = null)
     {
-//        $this->authorize('print', Offer::class);
+        //  $this->authorize('print', Certificate::class);
         try {
+            // print Employer's certificate
+            $this->certificateService->printCertificate($certificate, isEmployer: true);
+
+            // print Employee's certificate
             $this->certificateService->printCertificate($certificate);
+
         } catch (Exception $e) {
             return $e->getMessage();
         }
