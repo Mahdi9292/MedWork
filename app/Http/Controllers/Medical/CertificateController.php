@@ -47,6 +47,7 @@ class CertificateController extends BaseMedicalController
     }
 
     /**
+     * @deprecated - due to Livewire
      * Store a newly created resource in storage.
      */
     public function store(CertificateRequest $request)
@@ -84,14 +85,11 @@ class CertificateController extends BaseMedicalController
     {
         $this->authorize('update', $certificate);
 
-        $data['activityOptions']            = Activity::all()->pluck('name', 'id')->toArray();
-        $data['preventionTypeOptions']      = PreventionType::options();
-        $data['salutationTypeOptions']      = SalutationType::options();
-
-        return view('templates.medical.certificate.edit', compact('certificate'), $data);
+        return view('templates.medical.certificate.edit', compact('certificate'));
     }
 
     /**
+     * @deprecated - due to Livewire
      * Update the specified resource in storage.
      */
     public function update(CertificateRequest $request, Certificate $certificate)

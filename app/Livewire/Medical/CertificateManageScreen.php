@@ -19,10 +19,9 @@ class CertificateManageScreen extends Component
     use WithFileUploads;
 
     public Certificate $certificate;
+    public CertificateManageForm $certificateManageForm;
     public Collection $inputs;
     public $updateMode = false;
-    public $updateSuccess = false;
-    public $attachments = [];
 
     protected $listeners = ['setEmployerData', 'removeInput'];
 
@@ -34,47 +33,9 @@ class CertificateManageScreen extends Component
 
     ];
 
-    protected function rules():array
+    public function mount($certificate): void
     {
-        return [
-            // Certificate head data
-            'certificate.certificate_number'          => 'nullable',
-            'certificate.issue_date'                  => 'nullable',
-            'certificate.examination_date'            => 'nullable',
-            'certificate.employer_comment_id'         => 'nullable',
-            'certificate.employee_comment_id'         => 'nullable',
-            'certificate.employer_comment'            => 'nullable',
-            'certificate.employee_comment'            => 'nullable',
-
-            // Employee
-            'certificate.employee_salutation'                    => 'nullable',
-            'certificate.employee_title'                         => 'nullable',
-            'certificate.employee_first_name'                    => 'nullable',
-            'certificate.employee_middle_name'                   => 'nullable',
-            'certificate.employee_last_name'                     => 'nullable',
-            'certificate.employee_birthday'                      => 'nullable',
-
-            // Employer
-            'certificate.employer_name'                 => 'nullable',
-            'certificate.employer_contact_person'       => 'nullable',
-            'certificate.employer_address'              => 'nullable',
-            'certificate.employer_street'               => 'nullable|max:191',
-            'certificate.employer_house_number'         => 'nullable|max:191',
-            'certificate.employer_city'                 => 'nullable|max:191',
-            'certificate.employer_postcode'             => 'nullable',
-            'certificate.employer_phone'                => 'nullable',
-            'certificate.employer_mobile'               => 'nullable',
-            'certificate.employer_email'                => 'nullable',
-
-            // Preventions
-            'inputs.*.activity_id'              => 'nullable',
-            'inputs.*.prevention_type'          => 'nullable',
-            'inputs.*.next_appointment_date'    => 'nullable',
-        ];
-    }
-
-    public function mount(): void
-    {
+        $this->certificateManageForm->setCertificate($certificate);
         $this->loadItems();
     }
 
@@ -87,18 +48,17 @@ class CertificateManageScreen extends Component
 
     public function setEmployerData($employer): void
     {
-        $this->certificate->employer_name = $employer['name'] ?? null;
-        $this->certificate->employer_contact_person = $employer['contact_person'] ?? null;
-        $this->certificate->employer_address = $employer['address'] ?? null;
-        $this->certificate->employer_street = $employer['street'] ?? null;
-        $this->certificate->employer_house_number = $employer['house_number'] ?? null;
-        $this->certificate->employer_postcode = $employer['postcode'] ?? null;
-        $this->certificate->employer_city = $employer['city'] ?? null;
-        $this->certificate->employer_phone = $employer['phone'] ?? null;
-        $this->certificate->employer_mobile = $employer['mobile'] ?? null;
-        $this->certificate->employer_email = $employer['mail'] ?? null;
+        $this->certificateManageForm->employer_name = $employer['name'] ?? null;
+        $this->certificateManageForm->employer_contact_person = $employer['contact_person'] ?? null;
+        $this->certificateManageForm->employer_address = $employer['address'] ?? null;
+        $this->certificateManageForm->employer_street = $employer['street'] ?? null;
+        $this->certificateManageForm->employer_house_number = $employer['house_number'] ?? null;
+        $this->certificateManageForm->employer_postcode = $employer['postcode'] ?? null;
+        $this->certificateManageForm->employer_city = $employer['city'] ?? null;
+        $this->certificateManageForm->employer_phone = $employer['phone'] ?? null;
+        $this->certificateManageForm->employer_mobile = $employer['mobile'] ?? null;
+        $this->certificateManageForm->employer_email = $employer['mail'] ?? null;
     }
-
 
     public function addInput(): void
     {
@@ -132,7 +92,6 @@ class CertificateManageScreen extends Component
         $this->dispatch('preventionCopied', lastIndex: $this->inputs->keys()->last());
     }
 
-
     public function getFieldID($key, $name, $prefix='inputs'): string
     {
         return join(".", [$prefix, $key, $name]);
@@ -152,63 +111,29 @@ class CertificateManageScreen extends Component
         return $data;
     }
 
-
-    public function updatedCertificateIssueDate($value): void
-    {
-        $value ?: $this->certificate->issue_date = null;
-        $this->validateOnly('certificate.issue_date');
-    }
-
-    public function updatedCertificateExaminationDate($value): void
-    {
-        $value ?: $this->certificate->examination_date = null;
-        $this->validateOnly('certificate.examination_date');
-    }
-
     public function submit($print=false): void
     {
-        $this->updateSuccess = false;
+        $this->certificateManageForm->inputs = $this->inputs;
 
-        // validation
-        $this->validate();
+        if(!$this->updateMode){
+            $this->certificateManageForm->store();
+        }else{
+            $this->certificateManageForm->update();
+        }
 
-        // saving the entities
-        $this->saveCertificateAndPreventions();
+        // success message
+        $this->dispatch('toast:alert', message: 'Speichern erfolgreich!', title: 'Success', status: 1);
 
         // refreshing the data
         $this->certificate->refresh();
         $this->loadItems();
 
-        // resetting file attachment
-        //$this->attachments = [];
 
-        // success message
-        $this->updateSuccess = true;
-        Session::flash('success', __('Speichern erfolgreich.'));
 
         // if save and print was clicked
         if($print){
             $this->redirect(route('medical.printCertificate', $this->certificate));
         }
-    }
-
-    public function saveCertificateAndPreventions(): void
-    {
-        // validation
-        $this->validate();
-
-        // saving offer & lines
-        $this->certificate->save();
-        if($this->inputs->count() > 0)
-        {
-            foreach ($this->inputs as $input)
-            {
-                $this->certificate->preventions()->updateOrCreate(['id'=> $input['id']], $input);
-            }
-        }
-
-        // success message
-        $this->dispatch('toast:alert', message: 'Speichern erfolgreich!', title: 'Success', status: 1);
     }
 
     public function render(): view

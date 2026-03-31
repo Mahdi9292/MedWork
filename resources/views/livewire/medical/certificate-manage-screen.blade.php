@@ -57,19 +57,19 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-sm-6">
-                                    <x-form.input id="employer_name" name="certificate.employer_name"  wire:model="certificate.employer_name" :label="__('Arbeitgeber')" :labelClass="'col-sm-3'" />
-                                    <x-form.input id="employer_contact_person" name="certificate.employer_contact_person"  wire:model="certificate.employer_contact_person" :label="__('Ansprechpartner')" :labelClass="'col-sm-3'" />
-                                    <x-form.input id="employer_address" name="certificate.employer_address"  wire:model="certificate.employer_address" :label="__('Adresse (Arbeitgeber)')" :labelClass="'col-sm-3'" />
-                                    <x-form.input id="employer_street" name="certificate.employer_street"  wire:model="certificate.employer_street" :label="__('Straße (Arbeitgeber)')" :labelClass="'col-sm-3'"  />
-                                    <x-form.input id="employer_house_number" name="certificate.employer_house_number"  wire:model="certificate.employer_house_number" :label="__('Hausnummer (Arbeitgeber)')" :labelClass="'col-sm-3'"  />
+                                    <x-form.input id="employer_name" name="certificateManageForm.employer_name"  wire:model="certificateManageForm.employer_name" :label="__('Arbeitgeber')" :labelClass="'col-sm-3'" />
+                                    <x-form.input id="employer_contact_person" name="certificateManageForm.employer_contact_person"  wire:model="certificateManageForm.employer_contact_person" :label="__('Ansprechpartner')" :labelClass="'col-sm-3'" />
+                                    <x-form.input id="employer_address" name="certificateManageForm.employer_address"  wire:model="certificateManageForm.employer_address" :label="__('Adresse (Arbeitgeber)')" :labelClass="'col-sm-3'" />
+                                    <x-form.input id="employer_street" name="certificateManageForm.employer_street"  wire:model="certificateManageForm.employer_street" :label="__('Straße (Arbeitgeber)')" :labelClass="'col-sm-3'"  />
+                                    <x-form.input id="employer_house_number" name="certificateManageForm.employer_house_number"  wire:model="certificateManageForm.employer_house_number" :label="__('Hausnummer (Arbeitgeber)')" :labelClass="'col-sm-3'"  />
 
                                 </div>
                                 <div class="col-sm-6">
-                                    <x-form.input id="employer_city" name="certificate.employer_city"  wire:model="certificate.employer_city" :label="__('Ort (Arbeitgeber)')" :labelClass="'col-sm-3'" />
-                                    <x-form.input id="employer_postcode" name="certificate.employer_postcode"  wire:model="certificate.employer_postcode" :label="__('PLZ (Arbeitgeber)')" :labelClass="'col-sm-3'" />
-                                    <x-form.input id="employer_phone" name="certificate.employer_phone"  wire:model="certificate.employer_phone" :label="__('Telefonnummer (Arbeitgeber)')" :labelClass="'col-sm-3'" />
-                                    <x-form.input id="employer_mobile" name="certificate.employer_mobile"  wire:model="certificate.employer_mobile" :label="__('Mobilnummer (Arbeitgeber)')" :labelClass="'col-sm-3'" />
-                                    <x-form.input id="employer_email" name="certificate.employer_email"  wire:model="certificate.employer_email" :label="__('E-Mail (Arbeitgeber)')" :labelClass="'col-sm-3'" />
+                                    <x-form.input id="employer_city" name="certificateManageForm.employer_city"  wire:model="certificateManageForm.employer_city" :label="__('Ort (Arbeitgeber)')" :labelClass="'col-sm-3'" />
+                                    <x-form.input id="employer_postcode" name="certificateManageForm.employer_postcode"  wire:model="certificateManageForm.employer_postcode" :label="__('PLZ (Arbeitgeber)')" :labelClass="'col-sm-3'" />
+                                    <x-form.input id="employer_phone" name="certificateManageForm.employer_phone"  wire:model="certificateManageForm.employer_phone" :label="__('Telefonnummer (Arbeitgeber)')" :labelClass="'col-sm-3'" />
+                                    <x-form.input id="employer_mobile" name="certificateManageForm.employer_mobile"  wire:model="certificateManageForm.employer_mobile" :label="__('Mobilnummer (Arbeitgeber)')" :labelClass="'col-sm-3'" />
+                                    <x-form.input id="employer_email" name="certificateManageForm.employer_email"  wire:model="certificateManageForm.employer_email" :label="__('E-Mail (Arbeitgeber)')" :labelClass="'col-sm-3'" />
                                 </div>
                             </div>
                         </div>
@@ -91,12 +91,12 @@
                     <div class="card-body collapse show pb-0 pt-0" id="collapseEmployee">
                         <div class="row pt-4 pb-4">
                             <div class="col-sm-8">
-                                <x-form.select name="certificate.employee_salutation" wire:model.live="certificate.employee_salutation" :label="__('Anrede')" :options="$salutationTypeOptions" :labelClass="'col-sm-3'"  />
-                                <x-form.input name="certificate.employee_title" wire:model="certificate.employee_title" :label="__('Titel')" :labelClass="'col-sm-3'" />
-                                <x-form.input name="certificate.employee_first_name" wire:model="certificate.employee_first_name" :label="__('Vorname')" :labelClass="'col-sm-3'" />
-                                <x-form.input name="certificate.employee_middle_name" wire:model="certificate.employee_middle_name" :label="__('Zweiter Vorname')" :labelClass="'col-sm-3'" />
-                                <x-form.input name="certificate.employee_last_name" wire:model="certificate.employee_last_name" :label="__('Nachname')" :labelClass="'col-sm-3'" />
-                                <x-form.flat-pickr name="certificate.employee_birthday" wire:model="certificate.employee_birthday" :label="__('Geburtsdatum')" :labelClass="'col-sm-3'" :week-numbers="true" :allow-input="true" />
+                                <x-form.select name="certificateManageForm.employee_salutation" wire:model.live="certificateManageForm.employee_salutation" :label="__('Anrede')" :options="$salutationTypeOptions" :labelClass="'col-sm-3'"  />
+                                <x-form.input name="certificateManageForm.employee_title" wire:model="certificateManageForm.employee_title" :label="__('Titel')" :labelClass="'col-sm-3'" />
+                                <x-form.input name="certificateManageForm.employee_first_name" wire:model="certificateManageForm.employee_first_name" :label="__('Vorname')" :labelClass="'col-sm-3'" />
+                                <x-form.input name="certificateManageForm.employee_middle_name" wire:model="certificateManageForm.employee_middle_name" :label="__('Zweiter Vorname')" :labelClass="'col-sm-3'" />
+                                <x-form.input name="certificateManageForm.employee_last_name" wire:model="certificateManageForm.employee_last_name" :label="__('Nachname')" :labelClass="'col-sm-3'" />
+                                <x-form.flat-pickr name="certificateManageForm.employee_birthday" wire:model="certificateManageForm.employee_birthday" :label="__('Geburtsdatum')" :labelClass="'col-sm-3'" :week-numbers="true" :allow-input="true" />
                             </div>
                         </div>
                     </div>
@@ -118,17 +118,17 @@
                         <div class="row pt-4 pb-4">
                             <div class="col-sm-8">
                                 @if($updateMode)
-                                    <x-form.input name="certificate.certificate_number" wire:model="certificate.certificate_number" :label="__('Bescheinigung Nr.')" :labelClass="'col-sm-3'" disabled />
+                                    <x-form.input name="certificateManageForm.certificate_number" wire:model="certificateManageForm.certificate_number" :label="__('Bescheinigung Nr.')" :labelClass="'col-sm-3'" disabled />
                                 @endif
 
-                                <x-form.input name="certificate.employer_comment" wire:model="certificate.employer_comment" :label="__('Arbeitgeber Kommentar')" :labelClass="'col-sm-3'" />
-                                <x-form.select name="certificate.employer_comment_id" wire:model.live="certificate.employer_comment_id" :label="__('Arbeitgeber Kommentar Auswählen')" :options="$employerCommentOptions" :nullRowText="__('Keine Angaben')" :labelClass="'col-sm-3'"  />
+                                <x-form.input name="certificateManageForm.employer_comment" wire:model="certificateManageForm.employer_comment" :label="__('Arbeitgeber Kommentar')" :labelClass="'col-sm-3'" />
+                                <x-form.select name="certificateManageForm.employer_comment_id" wire:model.live="certificateManageForm.employer_comment_id" :label="__('Arbeitgeber Kommentar Auswählen')" :options="$employerCommentOptions" :nullRowText="__('Keine Angaben')" :labelClass="'col-sm-3'"  />
 
-                                <x-form.input name="certificate.employee_comment" wire:model="certificate.employee_comment" :label="__('Arbeitnehmer Kommentar')" :labelClass="'col-sm-3'" />
-                                <x-form.select name="certificate.employee_comment_id" wire:model.live="certificate.employee_comment_id" :label="__('Arbeitnehmer Kommentar Auswählen')" :options="$employeeCommentOptions" :nullRowText="__('Keine Angaben')" :labelClass="'col-sm-3'"  />
+                                <x-form.input name="certificateManageForm.employee_comment" wire:model="certificateManageForm.employee_comment" :label="__('Arbeitnehmer Kommentar')" :labelClass="'col-sm-3'" />
+                                <x-form.select name="certificateManageForm.employee_comment_id" wire:model.live="certificateManageForm.employee_comment_id" :label="__('Arbeitnehmer Kommentar Auswählen')" :options="$employeeCommentOptions" :nullRowText="__('Keine Angaben')" :labelClass="'col-sm-3'"  />
 
-                                <x-form.flat-pickr name="certificate.issue_date" wire:model="certificate.issue_date" :label="__('Erstellungsdatum')" :labelClass="'col-sm-3'" :week-numbers="true" :allow-input="true" />
-                                <x-form.flat-pickr name="certificate.examination_date" wire:model="certificate.examination_date" :label="__('Untersuchungsdatum')" :labelClass="'col-sm-3'" :week-numbers="true" :allow-input="true" />
+                                <x-form.flat-pickr name="certificateManageForm.issue_date" wire:model="certificateManageForm.issue_date" :label="__('Erstellungsdatum')" :labelClass="'col-sm-3'" :week-numbers="true" :allow-input="true" />
+                                <x-form.flat-pickr name="certificateManageForm.examination_date" wire:model="certificateManageForm.examination_date" :label="__('Untersuchungsdatum')" :labelClass="'col-sm-3'" :week-numbers="true" :allow-input="true" />
                             </div>
                         </div>
                     </div>
