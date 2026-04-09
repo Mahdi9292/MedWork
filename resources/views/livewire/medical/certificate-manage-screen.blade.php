@@ -112,34 +112,10 @@
                                 @endif
 
                                 <x-form.textarea name="certificateManageForm.employer_comment" wire:model="certificateManageForm.employer_comment" :label="__('Arbeitgeber Kommentar')" :labelClass="'col-sm-4'" />
-                                <div class="row mb-3">
-                                    <label class="col-sm-4 form-label">{{ __('Arbeitgeber Kommentar Auswählen') }}</label>
-                                    <div class="col-sm-8">
-                                        @foreach($employerCommentOptions as $id => $content)
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" wire:model.live="certificateManageForm.employer_comment_ids" value="{{ $id }}" id="employer_comment_{{ $id }}">
-                                                <label class="form-check-label" for="employer_comment_{{ $id }}">
-                                                    {{ $content }}
-                                                </label>
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                </div>
+                                <x-form.checkboxes name="certificateManageForm.employer_comment_ids" wire:model.live="certificateManageForm.employer_comment_ids" :label="__('Arbeitgeber Kommentar Auswählen')" :options="$employerCommentOptions" :labelClass="'col-sm-4'" />
 
                                 <x-form.textarea name="certificateManageForm.employee_comment" wire:model="certificateManageForm.employee_comment" :label="__('Arbeitnehmer Kommentar')" :labelClass="'col-sm-4'" />
-                                <div class="row mb-3">
-                                    <label class="col-sm-4 form-label">{{ __('Arbeitnehmer Kommentar Auswählen') }}</label>
-                                    <div class="col-sm-8">
-                                        @foreach($employeeCommentOptions as $id => $content)
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" wire:model.live="certificateManageForm.employee_comment_ids" value="{{ $id }}" id="employee_comment_{{ $id }}">
-                                                <label class="form-check-label" for="employee_comment_{{ $id }}">
-                                                    {{ $content }}
-                                                </label>
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                </div>
+                                <x-form.checkboxes name="certificateManageForm.employee_comment_ids" wire:model.live="certificateManageForm.employee_comment_ids" :label="__('Arbeitnehmer Kommentar Auswählen')" :options="$employeeCommentOptions" :labelClass="'col-sm-4'" />
 
                                 <x-form.flat-pickr name="certificateManageForm.issue_date" wire:model="certificateManageForm.issue_date" :label="__('Erstellungsdatum')" :labelClass="'col-sm-4'" :week-numbers="true" :allow-input="true" />
                                 <x-form.flat-pickr name="certificateManageForm.examination_date" wire:model="certificateManageForm.examination_date" :label="__('Untersuchungsdatum')" :labelClass="'col-sm-4'" :week-numbers="true" :allow-input="true" />
