@@ -5,8 +5,10 @@ namespace App\Livewire\Medical;
 use App\Models\Medical\Certificate;
 use App\Models\Medical\Prevention;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
+use Throwable;
 
 class CertificateManageForm extends Form
 {
@@ -16,14 +18,14 @@ class CertificateManageForm extends Form
     #[Validate('nullable')]
     public $certificate_number;
 
-    #[Validate('required|date')]
+    #[Validate('nullable|date')]
     public $issue_date;
-    #[Validate('required|date')]
+    #[Validate('nullable|date')]
     public $examination_date;
-    #[Validate('nullable')]
-    public $employer_comment_id;
-    #[Validate('nullable')]
-    public $employee_comment_id;
+    #[Validate('nullable|array')]
+    public $employer_comment_ids = [];
+    #[Validate('nullable|array')]
+    public $employee_comment_ids = [];
     #[Validate('nullable')]
     public $employer_comment;
     #[Validate('nullable')]
@@ -64,7 +66,7 @@ class CertificateManageForm extends Form
     public $employer_email;
 
     // Nested Preventions
-    #[Validate(['inputs.*.activity_id' => 'required', 'inputs.*.prevention_type' => 'required', 'inputs.*.next_appointment_date' => 'required'])]
+    #[Validate(['inputs.*.activity_id' => 'nullable', 'inputs.*.prevention_type' => 'nullable', 'inputs.*.next_appointment_date' => 'nullable'])]
     public ?Collection $inputs;
 
     public function setCertificate(Certificate $certificate): void
@@ -77,8 +79,8 @@ class CertificateManageForm extends Form
         $this->certificate_number = $certificate->certificate_number;
         $this->issue_date = $certificate->issue_date??now();
         $this->examination_date = $certificate->examination_date??now();
-        $this->employer_comment_id = $certificate->employer_comment_id;
-        $this->employee_comment_id = $certificate->employee_comment_id;
+        $this->employer_comment_ids = is_array($certificate->employer_comment_ids) ? $certificate->employer_comment_ids : [];
+        $this->employee_comment_ids = is_array($certificate->employee_comment_ids) ? $certificate->employee_comment_ids : [];
         $this->employer_comment = $certificate->employer_comment;
         $this->employee_comment = $certificate->employee_comment;
 
@@ -102,15 +104,21 @@ class CertificateManageForm extends Form
         $this->employer_email = $certificate->employer_email;
     }
 
+    /**
+     * @throws Throwable
+     */
     public function store(): void
     {
         // validation
         $this->validate();
 
         // saving certificate & preventions
-        $this->certificate = $this->certificate->create(
-            $this->except(['certificate', 'inputs'])
-        );
+        DB::transaction(function () {
+            $this->certificate = Certificate::create(
+                $this->except(['certificate', 'inputs'])
+            );
+        });
+
 
         if($this->inputs->count() > 0)
         {

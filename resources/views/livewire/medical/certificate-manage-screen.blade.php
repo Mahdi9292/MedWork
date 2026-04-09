@@ -42,10 +42,6 @@
                                             'name' => 'employer_name',
                                             'contact_person' => 'employer_contact_person',
                                             'address' => 'employer_address',
-                                            'street' => 'employer_street',
-                                            'house_number' => 'employer_house_number',
-                                            'city' => 'employer_city',
-                                            'postcode' => 'employer_postcode',
                                             'phone' => 'employer_phone',
                                             'mobile' => 'employer_mobile',
                                             'email' => 'employer_email',
@@ -60,15 +56,10 @@
                                     <x-form.input id="employer_name" name="certificateManageForm.employer_name"  wire:model="certificateManageForm.employer_name" :label="__('Arbeitgeber')" :labelClass="'col-sm-3'" />
                                     <x-form.input id="employer_contact_person" name="certificateManageForm.employer_contact_person"  wire:model="certificateManageForm.employer_contact_person" :label="__('Ansprechpartner')" :labelClass="'col-sm-3'" />
                                     <x-form.input id="employer_address" name="certificateManageForm.employer_address"  wire:model="certificateManageForm.employer_address" :label="__('Adresse (Arbeitgeber)')" :labelClass="'col-sm-3'" />
-                                    <x-form.input id="employer_street" name="certificateManageForm.employer_street"  wire:model="certificateManageForm.employer_street" :label="__('Straße (Arbeitgeber)')" :labelClass="'col-sm-3'"  />
-                                    <x-form.input id="employer_house_number" name="certificateManageForm.employer_house_number"  wire:model="certificateManageForm.employer_house_number" :label="__('Hausnummer (Arbeitgeber)')" :labelClass="'col-sm-3'"  />
 
                                 </div>
                                 <div class="col-sm-6">
-                                    <x-form.input id="employer_city" name="certificateManageForm.employer_city"  wire:model="certificateManageForm.employer_city" :label="__('Ort (Arbeitgeber)')" :labelClass="'col-sm-3'" />
-                                    <x-form.input id="employer_postcode" name="certificateManageForm.employer_postcode"  wire:model="certificateManageForm.employer_postcode" :label="__('PLZ (Arbeitgeber)')" :labelClass="'col-sm-3'" />
                                     <x-form.input id="employer_phone" name="certificateManageForm.employer_phone"  wire:model="certificateManageForm.employer_phone" :label="__('Telefonnummer (Arbeitgeber)')" :labelClass="'col-sm-3'" />
-                                    <x-form.input id="employer_mobile" name="certificateManageForm.employer_mobile"  wire:model="certificateManageForm.employer_mobile" :label="__('Mobilnummer (Arbeitgeber)')" :labelClass="'col-sm-3'" />
                                     <x-form.input id="employer_email" name="certificateManageForm.employer_email"  wire:model="certificateManageForm.employer_email" :label="__('E-Mail (Arbeitgeber)')" :labelClass="'col-sm-3'" />
                                 </div>
                             </div>
@@ -121,10 +112,34 @@
                                 @endif
 
                                 <x-form.textarea name="certificateManageForm.employer_comment" wire:model="certificateManageForm.employer_comment" :label="__('Arbeitgeber Kommentar')" :labelClass="'col-sm-4'" />
-                                <x-form.select name="certificateManageForm.employer_comment_id" wire:model.live="certificateManageForm.employer_comment_id" :label="__('Arbeitgeber Kommentar Auswählen')" :options="$employerCommentOptions" :nullRowText="__('Keine Angaben')" :labelClass="'col-sm-4'"  />
+                                <div class="row mb-3">
+                                    <label class="col-sm-4 form-label">{{ __('Arbeitgeber Kommentar Auswählen') }}</label>
+                                    <div class="col-sm-8">
+                                        @foreach($employerCommentOptions as $id => $content)
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" wire:model.live="certificateManageForm.employer_comment_ids" value="{{ $id }}" id="employer_comment_{{ $id }}">
+                                                <label class="form-check-label" for="employer_comment_{{ $id }}">
+                                                    {{ $content }}
+                                                </label>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
 
                                 <x-form.textarea name="certificateManageForm.employee_comment" wire:model="certificateManageForm.employee_comment" :label="__('Arbeitnehmer Kommentar')" :labelClass="'col-sm-4'" />
-                                <x-form.select name="certificateManageForm.employee_comment_id" wire:model.live="certificateManageForm.employee_comment_id" :label="__('Arbeitnehmer Kommentar Auswählen')" :options="$employeeCommentOptions" :nullRowText="__('Keine Angaben')" :labelClass="'col-sm-4'"  />
+                                <div class="row mb-3">
+                                    <label class="col-sm-4 form-label">{{ __('Arbeitnehmer Kommentar Auswählen') }}</label>
+                                    <div class="col-sm-8">
+                                        @foreach($employeeCommentOptions as $id => $content)
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" wire:model.live="certificateManageForm.employee_comment_ids" value="{{ $id }}" id="employee_comment_{{ $id }}">
+                                                <label class="form-check-label" for="employee_comment_{{ $id }}">
+                                                    {{ $content }}
+                                                </label>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
 
                                 <x-form.flat-pickr name="certificateManageForm.issue_date" wire:model="certificateManageForm.issue_date" :label="__('Erstellungsdatum')" :labelClass="'col-sm-4'" :week-numbers="true" :allow-input="true" />
                                 <x-form.flat-pickr name="certificateManageForm.examination_date" wire:model="certificateManageForm.examination_date" :label="__('Untersuchungsdatum')" :labelClass="'col-sm-4'" :week-numbers="true" :allow-input="true" />

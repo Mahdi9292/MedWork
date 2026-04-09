@@ -144,8 +144,8 @@ class CertificateManageScreen extends Component
 
         // Dropdown options
         $data['activityOptions']            = Activity::all()->pluck('name', 'id')->toArray();
-        $data['employerCommentOptions']     = Comment::employer()->pluck('title', 'id')->toArray();
-        $data['employeeCommentOptions']     = Comment::employee()->pluck('title', 'id')->toArray();
+        $data['employerCommentOptions']     = Comment::employer()->pluck('content', 'id')->toArray();
+        $data['employeeCommentOptions']     = Comment::employee()->pluck('content', 'id')->toArray();
         $data['preventionTypeOptions']      = PreventionType::options();
         $data['salutationTypeOptions']      = SalutationType::options();
 

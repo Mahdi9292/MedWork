@@ -47,8 +47,8 @@ return new class extends Migration
 
             $table->enum('salutation', ['Mr', 'Ms'])->nullable();
             $table->string('title', 191)->nullable();
-            $table->string('first_name', 191);
-            $table->string('last_name', 191);
+            $table->string('first_name', 191)->nullable();
+            $table->string('last_name', 191)->nullable();
             $table->string('address', 191)->nullable();
             $table->string('phone', 191)->nullable();
             $table->string('email', 191)->nullable();
@@ -62,8 +62,8 @@ return new class extends Migration
         // medical_certificates
         Schema::create('medical_certificates', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('employer_comment_id')->nullable()->constrained('medical_comments')->cascadeOnDelete();
-            $table->foreignId('employee_comment_id')->nullable()->constrained('medical_comments')->cascadeOnDelete();
+            $table->json('employer_comment_ids')->nullable();
+            $table->json('employee_comment_ids')->nullable();
 
             $table->string('certificate_number');
 
@@ -90,8 +90,8 @@ return new class extends Migration
             $table->date('employee_birthday')->nullable();
             $table->string('employee_email')->nullable();
 
-            $table->date('issue_date');
-            $table->date('examination_date');
+            $table->date('issue_date')->nullable();
+            $table->date('examination_date')->nullable();
 
             $table->timestamps();
             $table->softDeletes();
@@ -110,11 +110,11 @@ return new class extends Migration
         // medical_preventions
         Schema::create('medical_preventions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('certificate_id')->constrained('medical_certificates')->cascadeOnDelete();
-            $table->foreignId('activity_id')->constrained('medical_activities')->cascadeOnDelete();
+            $table->foreignId('certificate_id')->nullable()->constrained('medical_certificates')->cascadeOnDelete();
+            $table->foreignId('activity_id')->nullable()->constrained('medical_activities')->cascadeOnDelete();
 
             $table->enum('prevention_type', ['Pflichtvorsorge','Angebotsvorsorge', 'Wunschvorsorge', 'Eignung'])->nullable();
-            $table->date('next_appointment_date');
+            $table->date('next_appointment_date')->nullable();
 
             $table->timestamps();
             $table->softDeletes();
