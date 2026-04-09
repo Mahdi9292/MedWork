@@ -12,6 +12,7 @@ use Illuminate\Support\Collection;
 use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Throwable;
 
 class CertificateManageScreen extends Component
 {
@@ -110,6 +111,9 @@ class CertificateManageScreen extends Component
         return $data;
     }
 
+    /**
+     * @throws Throwable
+     */
     public function submit($print=false): void
     {
         $this->certificateManageForm->inputs = $this->inputs;
@@ -117,6 +121,7 @@ class CertificateManageScreen extends Component
         if(!$this->updateMode){
             $this->certificateManageForm->store();
             $this->certificate = $this->certificateManageForm->certificate;
+
             $this->redirect(route('medical.certificates.edit', $this->certificate));
         }else{
             $this->certificateManageForm->update();

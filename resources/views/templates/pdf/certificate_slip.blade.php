@@ -16,7 +16,7 @@
 
         @page :first {
             /* Keep specific first-page logic if needed */
-            margin-top: 55mm;
+            margin-top: 46mm;
         }
         table {
             page-break-inside: auto;
@@ -45,7 +45,7 @@
     <div class="title-section mt-4">
         <div class="font-size-13 fw-bold mb-1">{{__('Vorsorgebescheinigung')}}</div>
         <div class="font-size-8">
-           <em>nach § 6 Absatz 3 Nr. 3 der Verordnung zur arbeitsmedizinischen Vorsorge</em>
+           <em>{{__('nach § 6 Absatz 3 Nr. 3 der Verordnung zur arbeitsmedizinischen Vorsorge')}}</em>
         </div>
         <div class="font-size-9 text-end mt-2">
             {{__('Bescheinigung Nr.')}}: {{ $certificate->certificate_number }} <br>
