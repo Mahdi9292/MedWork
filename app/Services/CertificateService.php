@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Medical\Certificate;
+use App\Models\Medical\Comment;
 use App\Traits\pdfTrait;
 use Mpdf\MpdfException;
 use setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException;
@@ -31,8 +32,18 @@ class CertificateService extends BaseService
     {
         $files = [];
 
-        // Offer Cover page
-        $mainPage = $this->generatePdf('templates.pdf.certificate_slip', ['certificate' => $certificate, 'isEmployer'=>$isEmployer , 'pageNumber' => 1]);
+        //Comments
+        $commentIds = $isEmployer ? $certificate->employer_comment_ids : $certificate->employee_comment_ids;
+        $comments = Comment::whereIn('id',$commentIds??[])->pluck('content')->toArray();
+
+        // Certificate Cover page
+        $mainPage = $this->generatePdf('templates.pdf.certificate_slip',
+            [
+                'certificate' => $certificate,
+                'isEmployer'=>$isEmployer ,
+                'pageNumber' => 1,
+                'comments' => $comments,
+            ]);
 
         $files[] = $this->saveToTemp($mainPage);
 

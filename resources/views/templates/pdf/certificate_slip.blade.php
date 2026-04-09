@@ -68,14 +68,18 @@
         </tbody>
     </table>
 
-    <div class="mt-8">
+    <div class="mt-4">
         <div class="fw-bold mb-1">{{__('Bemerkungen/ Empfehlungen')}}:</div>
         <div class="font-size-8" style="text-align: justify;">
-            @if($isEmployer)
-                {{ $certificate->employer_comment_id ? $certificate->employerComment?->content : $certificate->employer_comment }}
-            @else
-                {{ $certificate->employee_comment_id ? $certificate->employeeComment?->content : $certificate->employee_comment }}
+            <ul>
+
+            <li>{{ $isEmployer ? $certificate->employer_comment : $certificate->employee_comment }}</li>
+            @if(count($comments) >0)
+                @foreach($comments as $comment)
+                   <li>{{ $comment }}</li>
+                @endforeach
             @endif
+            </ul>
         </div>
     </div>
 
