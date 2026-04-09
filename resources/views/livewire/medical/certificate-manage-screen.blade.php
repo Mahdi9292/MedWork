@@ -221,7 +221,7 @@
                                     <div class="row">
                                         <div class="col-sm-10">
                                             <x-form.select name="inputs.{{$inputId}}.activity_id" wire:model.live="inputs.{{$inputId}}.activity_id" :label="__('Tätigkeit/ Anlass')" :options="$activityOptions" :nullRowText="__('Keine Angaben')" :labelClass="'col-sm-3'"  />
-                                            <x-form.select name="inputs.{{$inputId}}.prevention_type" wire:model.live="inputs.{{$inputId}}.prevention_type" :label="__('Art der Vorsorge')" :options="$preventionTypeOptions" :nullRowText="__('Keine Angaben')" :labelClass="'col-sm-3'"  />
+                                            <x-form.select name="inputs.{{$inputId}}.prevention_type_id" wire:model.live="inputs.{{$inputId}}.prevention_type_id" :label="__('Art der Vorsorge')" :options="$preventionTypeOptions" :nullRowText="__('Keine Angaben')" :labelClass="'col-sm-3'"  />
                                             <x-form.flat-pickr name="inputs.{{$inputId}}.next_appointment_date" wire:model="inputs.{{$inputId}}.next_appointment_date" :label="__('Nächster Termin')" :labelClass="'col-sm-3'" :week-numbers="true" :allow-input="true" />
                                         </div>
                                     </div>

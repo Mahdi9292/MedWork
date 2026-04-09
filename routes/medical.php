@@ -29,7 +29,8 @@ Route::group(['as' => 'medical.', 'prefix' => 'examinations'], function () {
 Route::group(['as' => 'medical.', 'prefix' => 'system'], function () {
 
     Route::resource('employers', 'EmployerController');
-    Route::resource('activities', 'ActivityController');
     Route::resource('comments', 'CommentController');
+    Route::resource('activities', 'ActivityController');
+    Route::resource('preventionTypes', 'PreventionTypeController');
 
 });

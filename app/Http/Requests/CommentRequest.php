@@ -24,7 +24,7 @@ class CommentRequest extends FormRequest
 
         return [
             'type' => 'required',
-            'title' => 'required',
+            'title' => 'nullable',
             'content' => 'required',
         ];
     }

@@ -50,6 +50,13 @@ return [
             'delete' => 'medical.activity.delete',
         ],
 
+        'preventionType' => [
+            'view'   => 'medical.preventionType.view',
+            'create' => 'medical.preventionType.create',
+            'update' => 'medical.preventionType.update',
+            'delete' => 'medical.preventionType.delete',
+        ],
+
         'employer' => [
             'view'   => 'medical.employer.view',
             'create' => 'medical.employer.create',

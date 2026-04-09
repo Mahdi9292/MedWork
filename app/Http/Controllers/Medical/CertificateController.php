@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Medical;
 
-use App\Enums\Medical\PreventionType;
 use App\Enums\Medical\SalutationType;
 use App\Http\Requests\CertificateRequest;
 use App\Models\Medical\Activity;

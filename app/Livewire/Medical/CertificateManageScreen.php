@@ -2,12 +2,12 @@
 
 namespace App\Livewire\Medical;
 
-use App\Enums\Medical\PreventionType;
 use App\Enums\Medical\SalutationType;
 use App\Models\Medical\Activity;
 use App\Models\Medical\Certificate;
 use App\Models\Medical\Comment;
 use App\Models\Medical\Prevention;
+use App\Models\Medical\PreventionType;
 use Illuminate\Support\Collection;
 use Illuminate\View\View;
 use Livewire\Component;
@@ -149,9 +149,9 @@ class CertificateManageScreen extends Component
 
         // Dropdown options
         $data['activityOptions']            = Activity::all()->pluck('name', 'id')->toArray();
+        $data['preventionTypeOptions']      = PreventionType::all()->pluck('name', 'id')->toArray();
         $data['employerCommentOptions']     = Comment::employer()->pluck('content', 'id')->toArray();
         $data['employeeCommentOptions']     = Comment::employee()->pluck('content', 'id')->toArray();
-        $data['preventionTypeOptions']      = PreventionType::options();
         $data['salutationTypeOptions']      = SalutationType::options();
 
         // getting sections with error to show validation symbol in card header

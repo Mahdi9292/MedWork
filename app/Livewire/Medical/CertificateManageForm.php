@@ -68,7 +68,7 @@ class CertificateManageForm extends Form
     public $employer_email;
 
     // Nested Preventions
-    #[Validate(['inputs.*.activity_id' => 'nullable', 'inputs.*.prevention_type' => 'nullable', 'inputs.*.next_appointment_date' => 'nullable'])]
+    #[Validate(['inputs.*.activity_id' => 'nullable', 'inputs.*.prevention_type_id' => 'nullable', 'inputs.*.next_appointment_date' => 'nullable'])]
     public ?Collection $inputs;
 
     public function setCertificate(Certificate $certificate): void

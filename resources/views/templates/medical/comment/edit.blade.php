@@ -25,7 +25,7 @@
                         <x-form.form :action="route('medical.comments.update', $comment->id)" method="PUT" novalidate hasJsValidation>
 
                             <x-form.select data-name="type" name="type" data-skip-name="false" :value="$comment->type?->value" :label="__('Typ')" :options="$commentTypeOptions" required />
-                            <x-form.input name="title" :value="$comment->title" :label="__('Titel')" required />
+                            <x-form.input name="title" :value="$comment->title" :label="__('Titel')" />
                             <x-form.textarea name="content" :value="$comment->content" :label="__('Inhalt')" required />
 
                             <button type="submit" class="btn btn-secondary">{{ __('Speichern') }}</button>

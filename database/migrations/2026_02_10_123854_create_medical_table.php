@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('medical_comments', function (Blueprint $table) {
             $table->id();
             $table->enum('type', ['employer', 'employee']);
-            $table->string('title',191);
+            $table->string('title',191)->nullable();
             $table->text('content');
 
             $table->timestamps();
@@ -106,13 +106,23 @@ return new class extends Migration
             $table->softDeletes();
         });
 
+        // medical_prevention_types
+        Schema::create('medical_prevention_types', function (Blueprint $table) {
+            $table->id();
+            $table->string('name',191)->unique();
+            $table->string('comment', 255)->nullable();
+
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
         // medical_preventions
         Schema::create('medical_preventions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('certificate_id')->nullable()->constrained('medical_certificates')->cascadeOnDelete();
             $table->foreignId('activity_id')->nullable()->constrained('medical_activities')->cascadeOnDelete();
+            $table->foreignId('prevention_type_id')->nullable()->constrained('medical_prevention_types')->cascadeOnDelete();
 
-            $table->enum('prevention_type', ['Pflichtvorsorge','Angebotsvorsorge', 'Wunschvorsorge', 'Eignung'])->nullable();
             $table->date('next_appointment_date')->nullable();
 
             $table->timestamps();
@@ -131,5 +141,6 @@ return new class extends Migration
         Schema::dropIfExists('medical_comments');
         Schema::dropIfExists('medical_employers');
         Schema::dropIfExists('medical_employees');
+        Schema::dropIfExists('medical_prevention_types');
     }
 };
