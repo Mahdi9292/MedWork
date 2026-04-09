@@ -28,6 +28,7 @@
             <div class="col-12 mb-4">
                 <div class="card border-light shadow-sm components-section">
                     <div class="card-header">
+                        <i class="fas fa-building me-2 text-primary"></i>
                         {{ __('Arbeitgeber') }} <span><em><small class="text-muted"> {{$updateMode ? '(' . $certificate->employer_name . ')' : ''}}</small></em></span>
                         @if($employerWithErrors)
                             <i class="fas fa-exclamation-circle text-danger ms-3"></i>
@@ -74,6 +75,7 @@
                     <div class="card-header">
                         <div class="row">
                             <div class="col-sm-2">
+                                <i class="fas fa-user me-2 text-primary"></i>
                                 {{ __('Arbeitnehmer') }} <span><em><small class="text-muted"> {{$updateMode ? '(' . $certificate->employee_first_name . ' ' . $certificate->employee_last_name . ')' : ''}}</small></em></span>
                             </div>
                         </div>
@@ -126,7 +128,7 @@
                                     <div class="accordion-item mb-1">
                                         <h2 class="accordion-header" id="headingOne">
                                             <button class="accordion-button bg-light fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true">
-                                                {{ __('Arbeitgeber Kommentar Bereich') }}
+                                                <i class="fas fa-building me-2 text-primary"></i> {{ __('Arbeitgeber Kommentar Bereich') }}
                                             </button>
                                         </h2>
                                         <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne">
@@ -145,7 +147,7 @@
                                     <div class="accordion-item">
                                         <h2 class="accordion-header" id="headingTwo">
                                             <button class="accordion-button bg-light fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true">
-                                                {{ __('Arbeitnehmer Kommentar Bereich') }}
+                                                <i class="fas fa-user me-2 text-primary"></i> {{ __('Arbeitnehmer Kommentar Bereich') }}
                                             </button>
                                         </h2>
                                         <div id="collapseTwo" class="accordion-collapse collapse show" aria-labelledby="headingTwo">
@@ -169,7 +171,10 @@
 
         <div id="preventions" class="card">
             <div class="card-header header-light">
-                <h5 class="float-start">{{ __('Vorsorgen') }}</h5>
+                <h5 class="float-start">
+                    <i class="fa-solid fa-file-pen"></i>
+                    {{ __('Vorsorgen') }}
+                </h5>
 
                 <button type="button" class="btn btn-sm btn-primary float-end sim-add-btn" wire:click.prevent="addInput" title="{{ __('hinzufügen') }}">
                     <i class="fas fa-plus-circle"></i>
@@ -184,51 +189,51 @@
 
                 <x-template.notification />
 
-                    @foreach($inputs as $inputId => $input)
-                        <div class="card mb-1">
-                            <h5 class="d-flex card-header">
-                                <div class="title-body">
-                                    {{ $inputId +1 . '.' }} {{ __('Vorsorge') }}
-                                    @if($inputsWithErrors->contains($inputId))
-                                        <i class="fas fa-exclamation-circle text-danger ms-3"></i>
-                                    @endif
-                                </div>
-                                @if($inputs[$inputId]['id'])
-                                    <div class="d-flex ms-auto">
-
-                                    </div>
+                @foreach($inputs as $inputId => $input)
+                    <div class="card mb-1">
+                        <h5 class="d-flex card-header">
+                            <div class="title-body">
+                                {{ $inputId +1 . '.' }} {{ __('Vorsorge') }}
+                                @if($inputsWithErrors->contains($inputId))
+                                    <i class="fas fa-exclamation-circle text-danger ms-3"></i>
                                 @endif
+                            </div>
+                            @if($inputs[$inputId]['id'])
+                                <div class="d-flex ms-auto">
 
-                                <div class="col-12 col-lg-7 col-md-7">
-                                    <div class="float-end">
-                                        {{--<button class="btn btn-offwhite"><i class="fas fa-save"></i> {{ __('Speichern') }}</button>--}}
-                                        <button wire:click.prevent="$dispatch('swal:confirm', {{ collect(['method' => 'removeInput', 'params' => [$inputId] ]) }})" class="btn btn-offwhite"><i class="fas fa-trash-alt"></i> {{ __('löschen') }}</button>
-                                        <button wire:click.prevent="copyInput({{$inputId}})" class="btn btn-offwhite"><i class="fas fa-copy"></i> {{ __('kopieren') }}</button>
-                                    </div>
-                                    <div wire:loading wire:target="copyInput, removeInput" class="me-1 mt-1 float-end">
-                                        <img  src="{{ asset('assets/img/ajax-loader1.gif') }}" />
-                                    </div>
                                 </div>
-                            </h5>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-12 col-lg-12">
-                                            <div class="card border-0 shadow">
-                                                <div class="card-body">
-                                                    <div class="row">
-                                                        <div class="col-sm-10">
-                                                            <x-form.select name="inputs.{{$inputId}}.activity_id" wire:model.live="inputs.{{$inputId}}.activity_id" :label="__('Tätigkeit/ Anlass')" :options="$activityOptions" :nullRowText="__('Keine Angaben')" :labelClass="'col-sm-3'"  />
-                                                            <x-form.select name="inputs.{{$inputId}}.prevention_type" wire:model.live="inputs.{{$inputId}}.prevention_type" :label="__('Art der Vorsorge')" :options="$preventionTypeOptions" :nullRowText="__('Keine Angaben')" :labelClass="'col-sm-3'"  />
-                                                            <x-form.flat-pickr name="inputs.{{$inputId}}.next_appointment_date" wire:model="inputs.{{$inputId}}.next_appointment_date" :label="__('Nächster Termin')" :labelClass="'col-sm-3'" :week-numbers="true" :allow-input="true" />
-                                                        </div>
-                                                    </div>
+                            @endif
+
+                            <div class="col-12 col-lg-7 col-md-7">
+                                <div class="float-end">
+                                    {{--<button class="btn btn-offwhite"><i class="fas fa-save"></i> {{ __('Speichern') }}</button>--}}
+                                    <button wire:click.prevent="$dispatch('swal:confirm', {{ collect(['method' => 'removeInput', 'params' => [$inputId] ]) }})" class="btn btn-offwhite"><i class="fas fa-trash-alt"></i> {{ __('löschen') }}</button>
+                                    <button wire:click.prevent="copyInput({{$inputId}})" class="btn btn-offwhite"><i class="fas fa-copy"></i> {{ __('kopieren') }}</button>
+                                </div>
+                                <div wire:loading wire:target="copyInput, removeInput" class="me-1 mt-1 float-end">
+                                    <img  src="{{ asset('assets/img/ajax-loader1.gif') }}" />
+                                </div>
+                            </div>
+                        </h5>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12 col-lg-12">
+                                    <div class="card border-0 shadow">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-sm-10">
+                                                    <x-form.select name="inputs.{{$inputId}}.activity_id" wire:model.live="inputs.{{$inputId}}.activity_id" :label="__('Tätigkeit/ Anlass')" :options="$activityOptions" :nullRowText="__('Keine Angaben')" :labelClass="'col-sm-3'"  />
+                                                    <x-form.select name="inputs.{{$inputId}}.prevention_type" wire:model.live="inputs.{{$inputId}}.prevention_type" :label="__('Art der Vorsorge')" :options="$preventionTypeOptions" :nullRowText="__('Keine Angaben')" :labelClass="'col-sm-3'"  />
+                                                    <x-form.flat-pickr name="inputs.{{$inputId}}.next_appointment_date" wire:model="inputs.{{$inputId}}.next_appointment_date" :label="__('Nächster Termin')" :labelClass="'col-sm-3'" :week-numbers="true" :allow-input="true" />
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
                         </div>
-                    @endforeach
+                    </div>
+                @endforeach
 
             </div>
 

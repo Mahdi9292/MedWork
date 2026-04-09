@@ -53,7 +53,7 @@
 
             <div class="form-text font-small mb-3 ms-2">
                 <i class="fas fa-question-circle"></i>
-                {{ __('Suchformat: ID  Name  Strasse  PLZ  Stadt  $Ansprechpartner') }}
+                {{ __('Suchformat: Name  Adresse  Ansprechpartner') }}
             </div>
         </div>
         <div class="col-1">
