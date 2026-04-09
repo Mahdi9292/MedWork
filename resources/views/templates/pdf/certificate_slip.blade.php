@@ -23,17 +23,17 @@
 @include('templates.pdf.footer')
 
 <div class="content">
-    <div class="text-center mt-2"> {{ $isEmployer ? 'Arbeitgeber/in' : 'Arbeitnehmer/in' }}</div>
-    <div class="title-section mt-4 mb-4">
-        <div class="font-size-15 fw-bold mb-1">{{__('Vorsorgebescheinigung')}}</div>
-        <div class="font-size-11">
-            nach § 6 Absatz 3 Nr. 3 der Verordnung zur arbeitsmedizinischen Vorsorge
+    <div class="text-center mt-1"> {{ $isEmployer ? 'Arbeitgeber/in' : 'Arbeitnehmer/in' }}</div>
+    <div class="title-section mt-4">
+        <div class="font-size-13 fw-bold mb-1">{{__('Vorsorgebescheinigung')}}</div>
+        <div class="font-size-8">
+           <em>nach § 6 Absatz 3 Nr. 3 der Verordnung zur arbeitsmedizinischen Vorsorge</em>
         </div>
         <div class="font-size-9 text-end mt-2">
             {{__('Bescheinigung Nr.')}}: {{ $certificate->certificate_number }} <br>
-            {{ __('Datum') }}: {{ formatDate($certificate->issue_date) }}
+            {{ __('Datum') }}: {{ formatDate($certificate->issue_date) }}<br>
+            {{ __('Ort') }}: {{ $certificate->issue_location ?: __('Brake') }}
         </div>
-
     </div>
 
     <div class="mb-4 font-size-9">
@@ -80,19 +80,10 @@
     </div>
 
     <div class="mt-12 font-size-9" style="width: 100%; clear: both; overflow: hidden;">
-
-        <div style="float: left; width: 50%; padding-top: 5px;">
-            <strong>
-                {{ __('Ort') }}: {{ $certificate->issue_location ?: __('Brake') }},
-                {{ __('Datum') }}: {{ formatDate($certificate->issue_date) }}
-            </strong>
-        </div>
-
-        <div style="float: right; width: 50%; text-align: center; color: #2e5da7; font-weight: bold; line-height: 1.2;">
+        <div style="width: 50%; text-align: center; color: #2e5da7; font-weight: bold; line-height: 1.2;">
             <div>{{__('Unterschrift: Dr. med. Majid Taghvaei')}}</div>
             <div>{{__('Facharzt für Arbeitsmedizin')}}</div>
         </div>
-
     </div>
 </div>
 

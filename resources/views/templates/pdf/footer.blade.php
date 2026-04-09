@@ -1,16 +1,14 @@
 <htmlpagefooter name="page-footer">
-    <div class="w-100p mb-4">
+    <div class="w-100p mb-4" style="border-top: 0.5pt solid #ccc; padding-top: 10px;">
         <table class="w-100p border-0">
             <tr>
-                <td class="w-40p text-start align-bottom font-size-9">
+                <td class="w-40p text-start align-bottom font-size-7">
                     E-Mail: Majid.Taghvaei@medwork24.de<br>
                     T: 0174 6896963<br>
                     HBR: 222180
                 </td>
-
                 <td class="w-20p"></td>
-
-                <td class="w-40p text-start align-bottom font-size-9">
+                <td class="w-40p text-start align-bottom font-size-7">
                     <span class="fw-bold">IBAN:</span> DE93 2805 0100 0096 0763 93<br>
                     LZO Oldenburg<br>
                     Steuer-Nr.: 78523011965
