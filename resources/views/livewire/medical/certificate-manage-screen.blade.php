@@ -56,7 +56,6 @@
                                     <x-form.input id="employer_name" name="certificateManageForm.employer_name"  wire:model="certificateManageForm.employer_name" :label="__('Arbeitgeber')" :labelClass="'col-sm-3'" />
                                     <x-form.input id="employer_contact_person" name="certificateManageForm.employer_contact_person"  wire:model="certificateManageForm.employer_contact_person" :label="__('Ansprechpartner')" :labelClass="'col-sm-3'" />
                                     <x-form.input id="employer_address" name="certificateManageForm.employer_address"  wire:model="certificateManageForm.employer_address" :label="__('Adresse (Arbeitgeber)')" :labelClass="'col-sm-3'" />
-
                                 </div>
                                 <div class="col-sm-6">
                                     <x-form.input id="employer_phone" name="certificateManageForm.employer_phone"  wire:model="certificateManageForm.employer_phone" :label="__('Telefonnummer (Arbeitgeber)')" :labelClass="'col-sm-3'" />
@@ -96,29 +95,70 @@
 
         <div class="row">
             <div class="col-12 mb-4">
-                <div class="card border-light shadow-sm components-section">
-                    <div class="card-header">
-                        <div class="row">
-                            <div class="col-sm-2">
-                                {{ __('Bescheinigungsdaten') }} <span><em><small class="text-muted">{{$updateMode ? '(' . __('Nr.: ') .  $certificate->certificate_number .')' : ''}}</small></em></span>
-                            </div>
-                        </div>
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white border-bottom py-3">
+                        <h5 class="card-title mb-0">
+                            {{ __('Bescheinigungsdaten') }}
+                            @if($updateMode)
+                                <small class="text-muted ms-2 fw-light fs-6">({{ __('Nr.: ') . $certificate->certificate_number }})</small>
+                            @endif
+                        </h5>
                     </div>
-                    <div class="card-body collapse show pb-0 pt-0" id="collapseCertificate">
-                        <div class="row pt-4 pb-4">
+
+                    <div class="card-body p-4">
+                        <div class="row g-4">
                             <div class="col-sm-8">
+
                                 @if($updateMode)
                                     <x-form.input name="certificateManageForm.certificate_number" wire:model="certificateManageForm.certificate_number" :label="__('Bescheinigung Nr.')" :labelClass="'col-sm-4'" disabled />
                                 @endif
 
-                                <x-form.textarea name="certificateManageForm.employer_comment" wire:model="certificateManageForm.employer_comment" :label="__('Arbeitgeber Kommentar')" :labelClass="'col-sm-4'" />
-                                <x-form.checkboxes name="certificateManageForm.employer_comment_ids" wire:model.live="certificateManageForm.employer_comment_ids" :label="__('Arbeitgeber Kommentar Auswählen')" :options="$employerCommentOptions" :labelClass="'col-sm-4'" />
-
-                                <x-form.textarea name="certificateManageForm.employee_comment" wire:model="certificateManageForm.employee_comment" :label="__('Arbeitnehmer Kommentar')" :labelClass="'col-sm-4'" />
-                                <x-form.checkboxes name="certificateManageForm.employee_comment_ids" wire:model.live="certificateManageForm.employee_comment_ids" :label="__('Arbeitnehmer Kommentar Auswählen')" :options="$employeeCommentOptions" :labelClass="'col-sm-4'" />
-
                                 <x-form.flat-pickr name="certificateManageForm.issue_date" wire:model="certificateManageForm.issue_date" :label="__('Erstellungsdatum')" :labelClass="'col-sm-4'" :week-numbers="true" :allow-input="true" />
                                 <x-form.flat-pickr name="certificateManageForm.examination_date" wire:model="certificateManageForm.examination_date" :label="__('Untersuchungsdatum')" :labelClass="'col-sm-4'" :week-numbers="true" :allow-input="true" />
+
+                            </div>
+                        </div>
+
+                        <div class="row g-4">
+                            <div class="col-sm-10">
+                                <div class="accordion shadow-sm mb-4" id="certificateAccordion">
+                                    <div class="accordion-item mb-1">
+                                        <h2 class="accordion-header" id="headingOne">
+                                            <button class="accordion-button bg-light fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true">
+                                                {{ __('Arbeitgeber Kommentar Bereich') }}
+                                            </button>
+                                        </h2>
+                                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne">
+                                            <div class="accordion-body p-4">
+                                                <div class="mb-4">
+                                                    <x-form.textarea name="certificateManageForm.employer_comment" wire:model="certificateManageForm.employer_comment" :label="__('Kommentar eingeben')" :labelClass="'col-sm-4'" />
+                                                </div>
+
+                                                <div class="row align-items-start text-wrap text-break">
+                                                    <x-form.checkboxes name="certificateManageForm.employer_comment_ids" wire:model.live="certificateManageForm.employer_comment_ids" :label="__('Kommentar Auswählen')" :options="$employerCommentOptions" :labelClass="'col-sm-4 mb-2'" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="headingTwo">
+                                            <button class="accordion-button bg-light fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true">
+                                                {{ __('Arbeitnehmer Kommentar Bereich') }}
+                                            </button>
+                                        </h2>
+                                        <div id="collapseTwo" class="accordion-collapse collapse show" aria-labelledby="headingTwo">
+                                            <div class="accordion-body p-4">
+                                                <div class="mb-4">
+                                                    <x-form.textarea name="certificateManageForm.employee_comment" wire:model="certificateManageForm.employee_comment" :label="__('Kommentar eingeben')" :labelClass="'col-sm-4'" />
+                                                </div>
+                                                <div class="row align-items-start text-wrap text-break">
+                                                    <x-form.checkboxes name="certificateManageForm.employee_comment_ids" wire:model.live="certificateManageForm.employee_comment_ids" :label="__('Kommentar Auswählen')" :options="$employeeCommentOptions" :labelClass="'col-sm-4 mb-2'" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
