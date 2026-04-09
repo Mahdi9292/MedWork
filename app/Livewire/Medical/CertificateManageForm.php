@@ -18,6 +18,8 @@ class CertificateManageForm extends Form
     #[Validate('nullable')]
     public $certificate_number;
 
+    #[Validate('nullable')]
+    public $issue_location;
     #[Validate('nullable|date')]
     public $issue_date;
     #[Validate('nullable|date')]
@@ -44,7 +46,7 @@ class CertificateManageForm extends Form
     public $employee_birthday;
 
     // Employer Properties
-    #[Validate('required')]
+    #[Validate('nullable')]
     public $employer_name;
     #[Validate('nullable')]
     public $employer_contact_person;
@@ -77,6 +79,7 @@ class CertificateManageForm extends Form
 
         // Certificate
         $this->certificate_number = $certificate->certificate_number;
+        $this->issue_location = $certificate->issue_location;
         $this->issue_date = $certificate->issue_date??now();
         $this->examination_date = $certificate->examination_date??now();
         $this->employer_comment_ids = is_array($certificate->employer_comment_ids) ? $certificate->employer_comment_ids : [];

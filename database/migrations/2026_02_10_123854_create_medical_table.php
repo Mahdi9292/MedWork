@@ -62,15 +62,17 @@ return new class extends Migration
         // medical_certificates
         Schema::create('medical_certificates', function (Blueprint $table) {
             $table->id();
-            $table->json('employer_comment_ids')->nullable();
-            $table->json('employee_comment_ids')->nullable();
 
             $table->string('certificate_number');
-
+            $table->string('issue_location')->nullable();
+            $table->date('issue_date')->nullable();
+            $table->date('examination_date')->nullable();
+            $table->json('employer_comment_ids')->nullable();
+            $table->json('employee_comment_ids')->nullable();
             $table->text('employer_comment')->nullable();
             $table->text('employee_comment')->nullable();
 
-            $table->string('employer_name');
+            $table->string('employer_name')->nullable();
             $table->string('employer_contact_person')->nullable();
             $table->string('employer_address')->nullable();
             $table->string('employer_street')->nullable();
@@ -89,9 +91,6 @@ return new class extends Migration
             $table->string('employee_phone')->nullable();
             $table->date('employee_birthday')->nullable();
             $table->string('employee_email')->nullable();
-
-            $table->date('issue_date')->nullable();
-            $table->date('examination_date')->nullable();
 
             $table->timestamps();
             $table->softDeletes();

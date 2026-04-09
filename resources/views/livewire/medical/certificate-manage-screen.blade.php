@@ -113,6 +113,7 @@
                                     <x-form.input name="certificateManageForm.certificate_number" wire:model="certificateManageForm.certificate_number" :label="__('Bescheinigung Nr.')" :labelClass="'col-sm-4'" disabled />
                                 @endif
 
+                                <x-form.input name="certificateManageForm.issue_location" wire:model="certificateManageForm.issue_location" :label="__('Erstellungsort')" :labelClass="'col-sm-4'" field-info="z.B. Brake" />
                                 <x-form.flat-pickr name="certificateManageForm.issue_date" wire:model="certificateManageForm.issue_date" :label="__('Erstellungsdatum')" :labelClass="'col-sm-4'" :week-numbers="true" :allow-input="true" />
                                 <x-form.flat-pickr name="certificateManageForm.examination_date" wire:model="certificateManageForm.examination_date" :label="__('Untersuchungsdatum')" :labelClass="'col-sm-4'" :week-numbers="true" :allow-input="true" />
 
