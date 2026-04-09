@@ -7,13 +7,31 @@
             size: auto;
             header: page-header;
             footer: page-footer;
+            /* Increase these if overlapping persists */
+            margin-top: 60mm;
+            margin-bottom: 10mm;
+            margin-header: 10mm;
+            margin-footer: 2mm;
         }
 
         @page :first {
-            header: page-header;
-            margin-header:10mm;
+            /* Keep specific first-page logic if needed */
             margin-top: 55mm;
-            font-family: frutiger;
+        }
+        table {
+            page-break-inside: auto;
+        }
+        tr {
+            page-break-inside: avoid;
+            page-break-after: auto;
+        }
+        thead {
+            display: table-header-group; /* Repeats header on every page */
+        }
+        .table-border {
+            width: 100%;
+            table-layout: fixed; /* Ensures the table stays within 100% width */
+            border-collapse: collapse;
         }
     </style>
 </head>
@@ -45,14 +63,14 @@
         <span class="fw-bold">{{__('Untersuchungsdatum')}}: {{ formatDate($certificate->examination_date) }}</span>
     </div>
 
-    <div class="mb-2 fw-bold font-size-10">{{__('Vorsorgen')}}:</div>
+    <div class="mb-1 fw-bold font-size-10">{{__('Vorsorgen')}}:</div>
 
     <table class="table-border w-100p font-size-9">
         <thead>
         <tr>
-            <th class="w-5p p-1 text-center">{{__('Nr.')}}</th>
+            <th class="p-1 text-center" style="width: 20px;">{{__('Nr.')}}</th>
             <th class="p-1 text-start ps-2">{{__('Anlass/ Tätigkeit')}}</th>
-            <th class="p-1 text-center">{{__('Art der Vorsorge gemäß ArbMedVV')}}</th>
+            <th class="p-1 text-center">{{__('Art der Vorsorge')}} <em><small>{{__('gemäß ArbMedVV')}}</small></em></th>
             <th class="w-20p p-1 text-center">{{__('Nächster Termin')}}</th>
         </tr>
         </thead>
@@ -68,7 +86,7 @@
         </tbody>
     </table>
 
-    <div class="mt-4">
+    <div class="mt-2" style="page-break-inside: avoid;">
         <div class="fw-bold mb-1">{{__('Bemerkungen/ Empfehlungen')}}:</div>
         <div class="font-size-8" style="text-align: justify;">
             <ul>
@@ -83,7 +101,7 @@
         </div>
     </div>
 
-    <div class="mt-12 font-size-9" style="width: 100%; clear: both; overflow: hidden;">
+    <div class="mt-6 font-size-9" style="width: 100%; clear: both; overflow: hidden; page-break-inside: avoid;">
         <div style="width: 50%; text-align: center; color: #2e5da7; font-weight: bold; line-height: 1.2;">
             <div>{{__('Unterschrift: Dr. med. Majid Taghvaei')}}</div>
             <div>{{__('Facharzt für Arbeitsmedizin')}}</div>

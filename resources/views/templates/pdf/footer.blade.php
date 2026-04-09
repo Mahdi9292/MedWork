@@ -16,7 +16,7 @@
             </tr>
         </table>
 
-        <div class="text-end font-size-8 mt-2 text-muted">
+        <div class="text-end font-size-8 text-muted">
             Seite {PAGENO} von {nbpg}
         </div>
     </div>
