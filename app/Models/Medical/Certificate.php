@@ -4,12 +4,17 @@ namespace App\Models\Medical;
 
 use App\Enums\Medical\SalutationType;
 use App\Models\BaseModel;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Certificate extends BaseModel
 {
     use SoftDeletes;
+
+    public const string DOWNLOAD_TYPE_ZIP = 'zip';
+    public const string DOWNLOAD_TYPE_EMPLOYER = 'employer';
+    public const string DOWNLOAD_TYPE_EMPLOYEE = 'employee';
 
     protected $table = 'medical_certificates';
     public $timestamps = true;
@@ -23,7 +28,10 @@ class Certificate extends BaseModel
     protected $casts = [
         'issue_date'        => 'date:Y-m-d',
         'examination_date'  => 'date:Y-m-d',
-        'salutation'        => SalutationType::class,
+        'employee_birthday'  => 'date:Y-m-d',
+        'employee_salutation'        => SalutationType::class,
+        'employer_comment_ids' => 'array',
+        'employee_comment_ids' => 'array',
     ];
 
 
@@ -32,15 +40,23 @@ class Certificate extends BaseModel
         static::creating(function ($certificate) {
 
             $prefix = 'VB-';
-            $date = now()->format('dmis');
+            $date = now()->format('ymi'); // e.g. 250401123
 
-            do {
-                $unique = str_pad(random_int(0, 99), 2, '0', STR_PAD_LEFT);
-                $number = $prefix . $date . $unique;
+            // Find last number for this time bucket
+            $last = self::where('certificate_number', 'like', $prefix . $date . '%')
+                ->orderByDesc('certificate_number')
+                ->lockForUpdate() // 🔴 important for concurrency
+                ->first();
 
-            } while (self::where('certificate_number', $number)->exists());
+            if ($last) {
+                // Extract last sequence
+                $lastSequence = (int) substr($last->certificate_number, -2);
+                $nextSequence = str_pad($lastSequence + 1, 2, '0', STR_PAD_LEFT);
+            } else {
+                $nextSequence = '01';
+            }
 
-            $certificate->certificate_number = $number;
+            $certificate->certificate_number = $prefix . $date . $nextSequence;
         });
     }
 
@@ -48,4 +64,6 @@ class Certificate extends BaseModel
     {
         return $this->hasMany(Prevention::class, 'certificate_id');
     }
+
+
 }

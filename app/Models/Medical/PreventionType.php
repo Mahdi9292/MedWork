@@ -6,16 +6,16 @@ use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Activity extends BaseModel
+class PreventionType extends BaseModel
 {
     use SoftDeletes;
 
-    protected $table = 'medical_activities';
+    protected $table = 'medical_prevention_types';
     public $timestamps = true;
     protected $guarded = ['id'];
 
-    public function preventions(): Activity|HasMany
+    public function preventions(): PreventionType|HasMany
     {
-        return $this->hasMany(Prevention::class, 'activity_id');
+        return $this->hasMany(Prevention::class, 'prevention_type_id');
     }
 }

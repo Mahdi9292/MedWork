@@ -11,31 +11,86 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // medical_comments
+        Schema::create('medical_comments', function (Blueprint $table) {
+            $table->id();
+            $table->enum('type', ['employer', 'employee']);
+            $table->string('title',191)->nullable();
+            $table->text('content');
+
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+        // medical_employers
+        Schema::create('medical_employers', function (Blueprint $table) {
+            $table->id();
+            $table->string('name', 191);
+            $table->string('contact_person', 191)->nullable();
+            $table->string('address', 255)->nullable();
+            $table->string('street', 191)->nullable();
+            $table->string('house_number', 191)->nullable();
+            $table->string('city', 191)->nullable();
+            $table->string('postcode', 191)->nullable();
+            $table->string('phone', 191)->nullable();
+            $table->string('mobile', 191)->nullable();
+            $table->string('email', 191)->nullable();
+
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+        // medical_employees
+        Schema::create('medical_employees', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('employer_id')->constrained('medical_employers')->cascadeOnDelete();
+
+            $table->enum('salutation', ['Mr', 'Ms'])->nullable();
+            $table->string('title', 191)->nullable();
+            $table->string('first_name', 191)->nullable();
+            $table->string('last_name', 191)->nullable();
+            $table->string('address', 191)->nullable();
+            $table->string('phone', 191)->nullable();
+            $table->string('email', 191)->nullable();
+
+            $table->date('birthday')->nullable();
+
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
         // medical_certificates
         Schema::create('medical_certificates', function (Blueprint $table) {
             $table->id();
 
             $table->string('certificate_number');
+            $table->string('issue_location')->nullable();
+            $table->date('issue_date')->nullable();
+            $table->date('examination_date')->nullable();
+            $table->json('employer_comment_ids')->nullable();
+            $table->json('employee_comment_ids')->nullable();
+            $table->text('employer_comment')->nullable();
+            $table->text('employee_comment')->nullable();
 
-            $table->enum('salutation', ['Mr', 'Ms'])->nullable();
-            $table->string('title', 191)->nullable();
-            $table->string('first_name', 191);
-            $table->string('middle_name', 191)->nullable();
-            $table->string('last_name', 191);
+            $table->string('employer_name')->nullable();
+            $table->string('employer_contact_person')->nullable();
+            $table->string('employer_address')->nullable();
+            $table->string('employer_street')->nullable();
+            $table->string('employer_house_number')->nullable();
+            $table->string('employer_city')->nullable();
+            $table->string('employer_postcode')->nullable();
+            $table->string('employer_phone')->nullable();
+            $table->string('employer_mobile')->nullable();
+            $table->string('employer_email')->nullable();
 
-            $table->string('employed_at', 255)->nullable();
-            $table->string('employer_street', 191)->nullable();
-            $table->string('employer_house_number', 191)->nullable();
-            $table->string('employer_city', 191)->nullable();
-            $table->string('employer_postcode', 191)->nullable();
-            $table->string('phone', 191)->nullable();
-            $table->string('mobile', 191)->nullable();
-
-            $table->date('birthday')->nullable();
-            $table->date('issue_date');
-            $table->date('examination_date');
-
-            $table->tinyInteger('is_employer')->default(0)->nullable();
+            $table->enum('employee_salutation', ['Mr', 'Ms'])->nullable();
+            $table->string('employee_title')->nullable();
+            $table->string('employee_first_name')->nullable();
+            $table->string('employee_last_name')->nullable();
+            $table->string('employee_address')->nullable();
+            $table->string('employee_phone')->nullable();
+            $table->date('employee_birthday')->nullable();
+            $table->string('employee_email')->nullable();
 
             $table->timestamps();
             $table->softDeletes();
@@ -51,14 +106,24 @@ return new class extends Migration
             $table->softDeletes();
         });
 
+        // medical_prevention_types
+        Schema::create('medical_prevention_types', function (Blueprint $table) {
+            $table->id();
+            $table->string('name',191)->unique();
+            $table->string('comment', 255)->nullable();
+
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
         // medical_preventions
         Schema::create('medical_preventions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('certificate_id')->constrained('medical_certificates')->cascadeOnDelete();
-            $table->foreignId('activity_id')->constrained('medical_activities')->cascadeOnDelete();
+            $table->foreignId('certificate_id')->nullable()->constrained('medical_certificates')->cascadeOnDelete();
+            $table->foreignId('activity_id')->nullable()->constrained('medical_activities')->cascadeOnDelete();
+            $table->foreignId('prevention_type_id')->nullable()->constrained('medical_prevention_types')->cascadeOnDelete();
 
-            $table->enum('prevention_type', ['Pflichtvorsorge','Angebotsvorsorge', 'Wunschvorsorge'])->nullable();
-            $table->date('next_appointment_date');
+            $table->date('next_appointment_date')->nullable();
 
             $table->timestamps();
             $table->softDeletes();
@@ -73,5 +138,9 @@ return new class extends Migration
         Schema::dropIfExists('medical_certificates');
         Schema::dropIfExists('medical_activities');
         Schema::dropIfExists('medical_preventions');
+        Schema::dropIfExists('medical_comments');
+        Schema::dropIfExists('medical_employers');
+        Schema::dropIfExists('medical_employees');
+        Schema::dropIfExists('medical_prevention_types');
     }
 };

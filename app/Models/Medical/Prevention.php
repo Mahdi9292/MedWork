@@ -2,7 +2,6 @@
 
 namespace App\Models\Medical;
 
-use App\Enums\Medical\PreventionType;
 use App\Models\BaseModel;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -24,7 +23,6 @@ class Prevention extends BaseModel
      */
     protected $casts = [
         'next_appointment_date' => 'date:Y-m-d',
-        'prevention_type'   => PreventionType::class,
     ];
 
     public function certificate(): BelongsTo
@@ -37,15 +35,8 @@ class Prevention extends BaseModel
         return $this->belongsTo(Activity::class, 'activity_id');
     }
 
-    protected function nextAppointmentDate(): Attribute
+    public function preventionType(): BelongsTo
     {
-        return Attribute::make(
-            set: function ($value) {
-                return $value
-                    ? Carbon::createFromFormat('d.m.Y', $value)->format('Y-m-d')
-                    : null;
-            }
-        );
+        return $this->belongsTo(PreventionType::class, 'prevention_type_id');
     }
-
 }

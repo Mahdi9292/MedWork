@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Medical;
 
-use App\Enums\Medical\PreventionType;
 use App\Enums\Medical\SalutationType;
 use App\Http\Requests\CertificateRequest;
 use App\Models\Medical\Activity;
@@ -41,16 +40,13 @@ class CertificateController extends BaseMedicalController
     {
         $this->authorize('create', Certificate::class);
 
-        $data['activityOptions']            = Activity::all()->pluck('name', 'id')->toArray();
-        $data['preventionTypeOptions']      = PreventionType::options();
-        $data['salutationTypeOptions']      = SalutationType::options();
-
         $certificate = new Certificate;
 
-        return view('templates.medical.certificate.create', compact('certificate'), $data);
+        return view('templates.medical.certificate.create', compact('certificate'));
     }
 
     /**
+     * @deprecated - due to Livewire
      * Store a newly created resource in storage.
      */
     public function store(CertificateRequest $request)
@@ -88,14 +84,11 @@ class CertificateController extends BaseMedicalController
     {
         $this->authorize('update', $certificate);
 
-        $data['activityOptions']            = Activity::all()->pluck('name', 'id')->toArray();
-        $data['preventionTypeOptions']      = PreventionType::options();
-        $data['salutationTypeOptions']      = SalutationType::options();
-
-        return view('templates.medical.certificate.edit', compact('certificate'), $data);
+        return view('templates.medical.certificate.edit', compact('certificate'));
     }
 
     /**
+     * @deprecated - due to Livewire
      * Update the specified resource in storage.
      */
     public function update(CertificateRequest $request, Certificate $certificate)
@@ -148,18 +141,24 @@ class CertificateController extends BaseMedicalController
         $this->authorize('delete', $certificate);
         $certificate->delete();
         return redirect()->route('medical.certificates.index')->with('info', __('Erfolgreich gelöscht'));
-
     }
 
     /**
      * show certificate pdf
      */
-    public function printCertificate(Certificate $certificate)
+    public function printCertificate(Certificate $certificate = null, string $downloadType = Certificate::DOWNLOAD_TYPE_ZIP)
     {
-//        $this->authorize('print', Offer::class);
+        //  $this->authorize('print', Certificate::class);
         try {
-            $this->certificateService->printCertificate($certificate);
-        } catch (Exception $e) {
+            if($downloadType == Certificate::DOWNLOAD_TYPE_EMPLOYER){
+                return $this->certificateService->printCertificate($certificate, isEmployer: true);
+            }
+            if($downloadType == Certificate::DOWNLOAD_TYPE_EMPLOYEE){
+                return $this->certificateService->printCertificate($certificate, isEmployer: false);
+            }
+            return $this->certificateService->downloadCertificatesZip($certificate);
+        }
+        catch (Exception $e) {
             return $e->getMessage();
         }
     }

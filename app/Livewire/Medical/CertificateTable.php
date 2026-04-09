@@ -120,8 +120,8 @@ final class CertificateTable extends PowerGridComponent
     {
         return PowerGrid::fields()
             ->add('id')
-            ->add('birthday_formatted', function (Certificate $certificate){
-                return formatDate($certificate->birthday);
+            ->add('employee_birthday_formatted', function (Certificate $certificate){
+                return formatDate($certificate->employee_birthday);
             })
             ->add('issue_date_formatted', function (Certificate $certificate){
                 return formatDate($certificate->issue_date);
@@ -153,11 +153,15 @@ final class CertificateTable extends PowerGridComponent
                 ->searchable()
                 ->sortable(),
 
-            Column::make('Patient Nachname', 'last_name')
+            Column::make('Arbeitgeber', 'employer_name')
                 ->searchable()
                 ->sortable(),
 
-            Column::make('Geburtsdatum', 'birthday_formatted', 'birthday')
+            Column::make('Patient Nachname', 'employee_last_name')
+                ->searchable()
+                ->sortable(),
+
+            Column::make('Geburtsdatum', 'employee_birthday_formatted', 'employee_birthday')
                 ->searchable()
                 ->sortable()
                 ->searchableRaw('DATE_FORMAT(birthday, "%d.%m.%Y") like ?'),
@@ -181,8 +185,9 @@ final class CertificateTable extends PowerGridComponent
         return [
             Filter::inputText('id')->operators(['contains']),
             Filter::inputText('certificate_number')->operators(['contains']),
-            Filter::inputText('last_name')->operators(['contains']),
-            Filter::datepicker('birthday_formatted', 'birthday')
+            Filter::inputText('employer_name')->operators(['contains']),
+            Filter::inputText('employee_last_name')->operators(['contains']),
+            Filter::datepicker('employee_birthday_formatted', 'employee_birthday')
                 ->params([
                 'enableTime' => false,
                 'dateFormat' => 'd.m.Y',
@@ -260,15 +265,11 @@ final class CertificateTable extends PowerGridComponent
     {
         return [
             Rule::button('edit_certificate')
-                ->when(fn() => !Auth::user()->can(config('perm.invoice.update')))
+                ->when(fn() => !Auth::user()->can(config('perm.medical.certificate.update')))
                 ->hide(),
 
-        //    Rule::button('view_certificate')
-        //        ->when(fn() => !Auth::user()->can(config('perm.invoice.view')))
-        //        ->hide(),
-
             Rule::button('delete_certificate')
-                ->when(fn() => !Auth::user()->can(config('perm.invoice.delete')))
+                ->when(fn() => !Auth::user()->can(config('perm.medical.certificate.delete')))
                 ->hide(),
         ];
     }

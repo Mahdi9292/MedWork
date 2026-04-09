@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Medical;
 
-use App\Models\Medical\Activity;
+use App\Models\Medical\Employer;
 use App\Traits\HasClearFiltersTrait;
 use App\Traits\HasFontAwesomeIconsTrait;
 use App\Traits\PowerGridOrderableColumnsTrait;
@@ -20,14 +20,14 @@ use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 
 use PowerComponents\LivewirePowerGrid\Traits\{WithExport};
 
-final class ActivityTable extends PowerGridComponent
+final class EmployerTable extends PowerGridComponent
 {
     use WithExport;
     use HasClearFiltersTrait;
     use HasFontAwesomeIconsTrait;
     use PowerGridOrderableColumnsTrait;
 
-    public string $tableName = 'medical-activity-table';
+    public string $tableName = 'medical-employer-table';
     public string $sortField = 'id';
     public string $sortDirection = 'desc';
 
@@ -45,8 +45,8 @@ final class ActivityTable extends PowerGridComponent
         $this->persist(['columns', 'filters']);
 
         return [
-            PowerGrid::exportable(fileName: 'Rechnungen')
-                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
+            PowerGrid::exportable(fileName: 'Arbeitgeber')
+                ->type(Exportable::TYPE_XLS),
             PowerGrid::header()
                 ->showSearchInput()
                 ->showToggleColumns(),
@@ -67,12 +67,12 @@ final class ActivityTable extends PowerGridComponent
     /**
      * PowerGrid datasource.
      *
-     * @return Builder|Activity
+     * @return Builder|Employer
      */
-    public function datasource(): Builder|Activity
+    public function datasource(): Builder|Employer
     {
         // Data Query
-        return Activity::query();
+        return Employer::query();
     }
 
     /*
@@ -109,9 +109,13 @@ final class ActivityTable extends PowerGridComponent
     {
         return PowerGrid::fields()
             ->add('id')
-            ->add('created_at')
-            ->add('updated_at_formatted', function (Activity $activity){
-                return formatDate($activity->updated_at);
+            ->add('name')
+            ->add('address')
+            ->add('created_at_formatted', function (Employer $employer){
+                return formatDate($employer->created_at);
+            })
+            ->add('updated_at_formatted', function (Employer $employer){
+                return formatDate($employer->updated_at);
             });
     }
 
@@ -135,12 +139,20 @@ final class ActivityTable extends PowerGridComponent
             Column::make('NR', 'id')
                 ->headerAttribute('', 'width: 200px;')
                 ->bodyAttribute('', 'width: 100px;'),
+
             Column::make('Name', 'name')
                 ->searchable()
                 ->sortable(),
-            Column::make('Ehemalig', 'former_name')
+
+            Column::make('Anschrift', 'address')
                 ->searchable()
                 ->sortable(),
+
+            Column::make('Erstellt am', 'created_at_formatted', 'created_at')
+                ->searchable()
+                ->sortable()
+                ->searchableRaw('DATE_FORMAT(created_at, "%d.%m.%Y") like ?'),
+
             Column::make('Letzte Änderung', 'updated_at_formatted', 'updated_at')
                 ->searchable()
                 ->sortable()
@@ -160,7 +172,12 @@ final class ActivityTable extends PowerGridComponent
         return [
             Filter::inputText('id')->operators(['contains']),
             Filter::inputText('name')->operators(['contains']),
-            Filter::inputText('former_name')->operators(['contains']),
+            Filter::inputText('address')->operators(['contains']),
+            Filter::datepicker('created_at_formatted', 'created_at')
+                ->params([
+                    'enableTime' => false,
+                    'dateFormat' => 'd.m.Y',
+                ]),
             Filter::datepicker('updated_at_formatted', 'updated_at')
                 ->params([
                 'enableTime' => false,
@@ -177,32 +194,32 @@ final class ActivityTable extends PowerGridComponent
     public function actions($row): array
     {
         return [
-            Button::make('edit_activity')
+            Button::make('edit_employer')
                 ->slot($this->editIcon()->renderIcon())
                 ->class('btn btn-sm btn-offwhite btn-border-gray-2  float-start')
-                ->tooltip('Activity bearbeiten')
-                ->route('medical.activities.edit',['activity' => $row->id], '_self'),
-            Button::make('view_activity')
+                ->tooltip('Employer bearbeiten')
+                ->route('medical.employers.edit',['employer' => $row->id], '_self'),
+            Button::make('view_employer')
                 ->slot($this->showIcon()->renderIcon())
                 ->class('btn btn-sm btn-offwhite btn-border-gray-2  float-start')
-                ->tooltip('Activity anzeigen')
-                ->route('medical.activities.show', ['activity' => $row->id], '_self'),
-            Button::make('delete_activity')
+                ->tooltip('Employer anzeigen')
+                ->route('medical.employers.show', ['employer' => $row->id], '_self'),
+            Button::make('delete_employer')
                 ->slot($this->deleteIcon()->renderIcon())
                 //  ->confirm('Rechnung wirklich löschen?')
-                ->tooltip('Activity löschen')
-                ->dispatch('deleteActivity', ['id' => $row->id])
+                ->tooltip('Employer löschen')
+                ->dispatch('deleteEmployer', ['id' => $row->id])
                 ->class('btn btn-sm btn-danger text-white btn-outline-danger float-start'),
         ];
     }
 
 
-    #[On('deleteActivity')]
-    public function deleteActivity($id, $confirmed = false): void
+    #[On('deleteEmployer')]
+    public function deleteEmployer($id, $confirmed = false): void
     {
         if(!$confirmed){
             $this->dispatch('swal:confirm',
-                method: 'deleteActivity',
+                method: 'deleteEmployer',
                 icon: 'warning',
                 text: __('Achtung! Are you sure?'),
                 params: ['id' => $id, 'confirmed'=>true],
@@ -212,28 +229,28 @@ final class ActivityTable extends PowerGridComponent
             return;
         }
 
-        $activity = Activity::findOrFail($id);
-        $activityName = $activity->name;
+        $employer = Employer::findOrFail($id);
+        $employerName = $employer->name;
 
-        $activity->delete();
+        $employer->delete();
 
-        $this->dispatch('toast:alert', message: 'Tätigkeit ' . $activityName . ' wurde erfolgreich gelöcht!', title: 'Success', status: 1);
+        $this->dispatch('toast:alert', message: 'Arbeitgeber ' . $employerName . ' wurde erfolgreich gelöcht!', title: 'Success', status: 1);
     }
 
     // Rules
     public function actionRules(): array
     {
         return [
-            Rule::button('edit_activity')
-                ->when(fn() => !Auth::user()->can(config('perm.medical.activity.update')))
+            Rule::button('edit_employer')
+                ->when(fn() => !Auth::user()->can(config('perm.medical.employer.update')))
                 ->hide(),
 
-            Rule::button('view_activity')
-                ->when(fn() => !Auth::user()->can(config('perm.medical.activity.view')))
+            Rule::button('view_employer')
+                ->when(fn() => !Auth::user()->can(config('perm.medical.employer.view')))
                 ->hide(),
 
-            Rule::button('delete_activity')
-                ->when(fn() => !Auth::user()->can(config('perm.medical.activity.delete')))
+            Rule::button('delete_employer')
+                ->when(fn() => !Auth::user()->can(config('perm.medical.employer.delete')))
                 ->hide(),
         ];
     }

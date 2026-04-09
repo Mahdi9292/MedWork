@@ -59,6 +59,11 @@ class RolesAndPermissionsSeeder extends Seeder
             config('perm.finance.service.view'),
             config('perm.medical.certificate.view'),
             config('perm.medical.activity.view'),
+            config('perm.medical.employer.view'),
+            config('perm.medical.employee.view'),
+            config('perm.medical.comment.view'),
+            config('perm.medical.prevention.view'),
+            config('perm.medical.preventionType.view'),
         ]);
     }
 }
