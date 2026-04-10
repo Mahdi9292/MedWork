@@ -71,6 +71,7 @@ return new class extends Migration
             $table->json('employee_comment_ids')->nullable();
             $table->text('employer_comment')->nullable();
             $table->text('employee_comment')->nullable();
+            $table->tinyInteger('signed')->nullable()->default(0);
 
             $table->string('employer_name')->nullable();
             $table->string('employer_contact_person')->nullable();

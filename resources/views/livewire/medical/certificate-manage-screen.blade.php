@@ -73,12 +73,8 @@
             <div class="col-12 mb-4">
                 <div class="card border-light shadow-sm components-section">
                     <div class="card-header">
-                        <div class="row">
-                            <div class="col-sm-2">
-                                <i class="fas fa-user me-2 text-primary"></i>
-                                {{ __('Arbeitnehmer') }} <span><em><small class="text-muted"> {{$updateMode ? '(' . $certificate->employee_first_name . ' ' . $certificate->employee_last_name . ')' : ''}}</small></em></span>
-                            </div>
-                        </div>
+                        <i class="fas fa-user me-2 text-primary"></i>
+                        {{ __('Arbeitnehmer') }} <span><em><small class="text-muted"> {{$updateMode ? '(' . $certificate->employee_first_name . ' ' . $certificate->employee_last_name . ')' : ''}}</small></em></span>
                     </div>
                     <div class="card-body collapse show pb-0 pt-0" id="collapseEmployee">
                         <div class="row pt-4 pb-4">
@@ -115,6 +111,7 @@
                                     <x-form.input name="certificateManageForm.certificate_number" wire:model="certificateManageForm.certificate_number" :label="__('Bescheinigung Nr.')" :labelClass="'col-sm-4'" disabled />
                                 @endif
 
+                                <x-form.checkbox name="certificateManageForm.signed" wire:model="certificateManageForm.signed" :label="__('Mit Unterschrift?')" :switch="true" :checked="$certificateManageForm->signed" :labelClass="'col-sm-4'"/>
                                 <x-form.input name="certificateManageForm.issue_location" wire:model="certificateManageForm.issue_location" :label="__('Erstellungsort')" :labelClass="'col-sm-4'" field-info="z.B. Brake" />
                                 <x-form.flat-pickr name="certificateManageForm.issue_date" wire:model="certificateManageForm.issue_date" :label="__('Erstellungsdatum')" :labelClass="'col-sm-4'" :week-numbers="true" :allow-input="true" />
                                 <x-form.flat-pickr name="certificateManageForm.examination_date" wire:model="certificateManageForm.examination_date" :label="__('Untersuchungsdatum')" :labelClass="'col-sm-4'" :week-numbers="true" :allow-input="true" />

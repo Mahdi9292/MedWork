@@ -79,7 +79,7 @@
             <tr>
                 <td class="text-center p-1 align-middle">{{ $index+1 }}</td>
                 <td class="ps-2 p-1 align-middle">{{$prevention->activity?->former_name ? $prevention->activity?->former_name . '-' : ''}} {{ $prevention?->activity?->name }}</td>
-                <td class="ps-2 p-1 align-middle">{{ $prevention->prevention_type?->label() }}</td>
+                <td class="ps-2 p-1 align-middle">{{ $prevention->preventionType?->name }}</td>
                 <td class="text-center p-1 align-middle">{{ formatDate($prevention->next_appointment_date) }}</td>
             </tr>
         @endforeach
@@ -101,10 +101,19 @@
         </div>
     </div>
 
-    <div class="mt-6 font-size-9" style="width: 100%; clear: both; overflow: hidden; page-break-inside: avoid;">
+    <div class="mt-6 font-size-9" style="width: 100%; clear: both; page-break-inside: avoid;">
         <div style="width: 50%; text-align: center; color: #2e5da7; font-weight: bold; line-height: 1.2;">
-            <div>{{__('Unterschrift: Dr. med. Majid Taghvaei')}}</div>
-            <div>{{__('Facharzt für Arbeitsmedizin')}}</div>
+
+            <div style="position: relative; z-index: 1;">
+                <div>{{__('Unterschrift: Dr. med. Majid Taghvaei')}}</div>
+                <div>{{__('Facharzt für Arbeitsmedizin')}}</div>
+            </div>
+
+            @if($certificate->signed)
+                <div style="position: relative; z-index: 2; margin-top: -80px;">
+                    <img src="{{ asset('assets/img/brand/stamp_and_signature.jpg') }}" style="width: 160px; transform: rotate(-2deg); opacity: 0.9; mix-blend-mode: multiply; pointer-events: none;">
+                </div>
+            @endif
         </div>
     </div>
 </div>

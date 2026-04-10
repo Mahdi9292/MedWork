@@ -32,6 +32,8 @@ class CertificateManageForm extends Form
     public $employer_comment;
     #[Validate('nullable')]
     public $employee_comment;
+    #[Validate('nullable')]
+    public $signed;
 
     // Employee Properties
     #[Validate('nullable')]
@@ -86,6 +88,7 @@ class CertificateManageForm extends Form
         $this->employee_comment_ids = is_array($certificate->employee_comment_ids) ? $certificate->employee_comment_ids : [];
         $this->employer_comment = $certificate->employer_comment;
         $this->employee_comment = $certificate->employee_comment;
+        $this->signed = $certificate->signed ? $certificate->signed : false;
 
         // Employee
         $this->employee_salutation = $certificate->employee_salutation;
