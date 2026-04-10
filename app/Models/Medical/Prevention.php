@@ -2,6 +2,7 @@
 
 namespace App\Models\Medical;
 
+use App\Casts\IntegerNullable;
 use App\Models\BaseModel;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -23,6 +24,8 @@ class Prevention extends BaseModel
      */
     protected $casts = [
         'next_appointment_date' => 'date:Y-m-d',
+        'activity_id'                      => IntegerNullable::class,
+        'prevention_type_id'               => IntegerNullable::class,
     ];
 
     public function certificate(): BelongsTo
