@@ -3,7 +3,6 @@
 namespace App\Livewire\Medical;
 
 use App\Models\Medical\Certificate;
-use App\Models\Medical\Prevention;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Validate;
@@ -124,7 +123,6 @@ class CertificateManageForm extends Form
                 $this->except(['certificate', 'inputs'])
             );
         });
-
 
         if($this->inputs->count() > 0)
         {

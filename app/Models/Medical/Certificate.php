@@ -4,7 +4,6 @@ namespace App\Models\Medical;
 
 use App\Enums\Medical\SalutationType;
 use App\Models\BaseModel;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -45,7 +44,7 @@ class Certificate extends BaseModel
             // Find last number for this time bucket
             $last = self::where('certificate_number', 'like', $prefix . $date . '%')
                 ->orderByDesc('certificate_number')
-                ->lockForUpdate() // 🔴 important for concurrency
+                ->lockForUpdate() // 🔴 important for concurrency --> the create function must be used in DB::transaction(function () {});
                 ->first();
 
             if ($last) {
@@ -55,7 +54,6 @@ class Certificate extends BaseModel
             } else {
                 $nextSequence = '01';
             }
-
             $certificate->certificate_number = $prefix . $date . $nextSequence;
         });
     }
@@ -64,6 +62,4 @@ class Certificate extends BaseModel
     {
         return $this->hasMany(Prevention::class, 'certificate_id');
     }
-
-
 }
