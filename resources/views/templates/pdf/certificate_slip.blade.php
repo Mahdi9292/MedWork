@@ -101,8 +101,8 @@
         </div>
     </div>
 
-    <div class="mt-6 font-size-9" style="width: 100%; clear: both; page-break-inside: avoid;">
-        <div style="width: 50%; text-align: center; color: #2e5da7; font-weight: bold; line-height: 1.2;">
+    <div class="mt-15 font-size-9" style="width: 100%; clear: both; page-break-inside: avoid;">
+        <div style="width: 50%; margin-left: auto; margin-right: 0; text-align: center; color: #2e5da7; font-weight: bold; line-height: 1.2;">
 
             <div style="position: relative; z-index: 1;">
                 <div>{{__('Unterschrift: Dr. med. Majid Taghvaei')}}</div>
