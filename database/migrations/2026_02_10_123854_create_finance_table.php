@@ -15,14 +15,15 @@ return new class extends Migration
         Schema::create('finance_invoices', function (Blueprint $table) {
             $table->id();
 
-            $table->string('invoice_number');
-            $table->string('name', 255);
-            $table->string('street', 255);
-            $table->string('house_number', 255);
-            $table->string('city', 255);
-            $table->string('postcode', 255);
-            $table->string('phone', 191)->nullable();
-            $table->string('mobile', 191)->nullable();
+            $table->string('invoice_number')->nullable();
+            $table->string('receiver_name', 191)->nullable();
+            $table->string('receiver_address', 255)->nullable();
+            $table->string('receiver_street', 191)->nullable();
+            $table->string('receiver_house_number', 191)->nullable();
+            $table->string('receiver_city', 191)->nullable();
+            $table->string('receiver_postcode', 191)->nullable();
+            $table->string('receiver_phone', 191)->nullable()->nullable();
+            $table->string('receiver_mobile', 191)->nullable();
 
             $table->date('invoice_date')->nullable();
 
@@ -32,21 +33,31 @@ return new class extends Migration
             $table->softDeletes();
         });
 
-        // finance_invoice_services
-        Schema::create('finance_invoice_services', function (Blueprint $table) {
+        // finance_invoice_items
+        Schema::create('finance_invoice_items', function (Blueprint $table) {
             $table->id();
             $table->foreignId('invoice_id')->constrained('finance_invoices')->cascadeOnDelete();
+            $table->foreignId('item_type_id')->nullable()->constrained('finance_invoice_item_types')->cascadeOnDelete();
 
-            $table->enum('service_type', ['occupational_medical_examination', 'travel_costs', 'labor', 'consulting', 'asa_meeting', 'bem_meeting', 'site_inspection'])->nullable();
             $table->enum('quantity', [1, 2, 3, 4, 5, 6, 7, 8, 9, 10])->nullable();
-            $table->string('service_title', 255)->nullable();
+            $table->enum('quantity_type', ['person', 'hour'])->nullable();
+            $table->string('item_title', 255)->nullable();
             $table->text('description')->nullable();
-            $table->date('service_date');
+            $table->date('item_date')->nullable();
             $table->decimal('unit_price', 10, 2)->default(0);
 
             $table->timestamps();
             $table->softDeletes();
+        });
 
+        // finance_invoice_item_types
+        Schema::create('finance_invoice_item_types', function (Blueprint $table) {
+            $table->id();
+            $table->string('name',191);
+            $table->text('comment')->nullable();
+
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -56,6 +67,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('finance_invoices');
-        Schema::dropIfExists('finance_invoice_services');
+        Schema::dropIfExists('finance_invoice_items');
     }
 };

@@ -25,7 +25,7 @@
 
 
     {{-- BELOW STILL REMAINING --}}
-    
+
     <form wire:submit="submit">
 
         <div class="row">

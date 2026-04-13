@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Finance;
 
-use App\Enums\Finance\HourAmount;
+use App\Enums\Finance\Quantity;
 use App\Enums\Finance\InvoiceItemType;
 use App\Http\Requests\InvoiceRequest;
 use App\Models\Finance\Invoice;
@@ -42,7 +42,9 @@ class InvoiceController extends BaseFinanceController
         $this->authorize('create', Invoice::class);
 
         $invoice = new Invoice;
-
+        // Dropdown options
+        $data['serviceTypeOptions']    = InvoiceItemType::options();
+        $data['quantityOptions']       = Quantity::options();
         return view('templates.finance.invoice.create', compact('invoice'), $data);
     }
 
@@ -83,7 +85,7 @@ class InvoiceController extends BaseFinanceController
 
         // Dropdown options
         $data['serviceTypeOptions']    = InvoiceItemType::options();
-        $data['quantityOptions']       = HourAmount::options();
+        $data['quantityOptions']       = Quantity::options();
         return view('templates.finance.invoice.edit', compact('invoice'), $data);
     }
 

@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Finance;
 
-use App\Enums\Finance\HourAmount;
+use App\Enums\Finance\Quantity;
 use App\Enums\Finance\InvoiceItemType;
 use App\Models\Finance\Invoice;
 use App\Models\Finance\InvoiceItem;
@@ -147,7 +147,7 @@ class InvoiceManageScreen extends Component
 
         // Dropdown options
         $data['serviceTypeOptions']    = InvoiceItemType::options();
-        $data['quantityOptions']       = HourAmount::options();
+        $data['quantityOptions']       = Quantity::options();
 
         // getting sections with error to show validation symbol in card header
         $data = $this->getSectionsWithError($data);

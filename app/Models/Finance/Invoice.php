@@ -2,7 +2,6 @@
 
 namespace App\Models\Finance;
 
-use App\Casts\GermanNumber;
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -58,7 +57,6 @@ class Invoice extends BaseModel
         $netPrice = $this->getTotalNetPrice();
         return floor($netPrice * $vat * 100) / 100;
     }
-
 
     /**
      * Get the Invoice Total Gross Price.

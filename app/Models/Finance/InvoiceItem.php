@@ -3,11 +3,9 @@
 namespace App\Models\Finance;
 
 use App\Casts\GermanNumber;
-use App\Enums\Finance\HourAmount;
-use App\Enums\Finance\InvoiceItemType;
+use App\Enums\Finance\Quantity;
+use App\Enums\Finance\QuantityType;
 use App\Models\BaseModel;
-use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -15,7 +13,7 @@ class InvoiceItem extends BaseModel
 {
     use SoftDeletes;
 
-    protected $table = 'finance_invoice_services';
+    protected $table = 'finance_invoice_items';
     public $timestamps = true;
     protected $guarded = ['id'];
 
@@ -27,7 +25,8 @@ class InvoiceItem extends BaseModel
     protected $casts = [
         'service_date' => 'date:Y-m-d',
         'service_type' => InvoiceItemType::class,
-        'quantity'     => HourAmount::class,
+        'quantity'     => Quantity::class,
+        'quantity_type' => QuantityType::class,
         'unit_price' => GermanNumber::class,
     ];
 
@@ -36,14 +35,8 @@ class InvoiceItem extends BaseModel
         return $this->belongsTo(Invoice::class, 'invoice_id');
     }
 
-    protected function serviceDate(): Attribute
+    public function itemType(): BelongsTo
     {
-        return Attribute::make(
-            set: function ($value) {
-                return $value
-                    ? Carbon::createFromFormat('d.m.Y', $value)->format('Y-m-d')
-                    : null;
-            }
-        );
+        return $this->belongsTo(InvoiceItemType::class, 'item_type_id');
     }
 }
