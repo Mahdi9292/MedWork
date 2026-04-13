@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
         <div class="d-block mb-3 mb-md-0">
 {{--            <x-template.breadcrumb :activePage="config('constants.APPLICATIONS.TWAP.TITLE')" />--}}
@@ -10,7 +9,7 @@
         </div>
     </div>
 
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    <div class="row row-cols-1 row-cols-md-4 row-cols-lg-4 g-4">
         <x-template.landing-page-tile
             wrapClass="col"
             title="Finanz" :url="url('/finance')"
@@ -20,7 +19,6 @@
             :permissions="['manager', 'user']"
             {{--            :version="config('constants.app_version.OrderBook')"--}}
         />
-
         <x-template.landing-page-tile
             wrapClass="col"
             title="Medizin" :url="url('/medical')"
@@ -30,12 +28,9 @@
             :permissions="['manager', 'user']"
             {{--            :version="config('constants.app_version.OrderBook')"--}}
         />
-
     </div>
-
     <hr>
-
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    <div class="row row-cols-1 row-cols-md-4 row-cols-lg-4 g-4">
         <x-template.landing-page-tile
             wrapClass="col"
             title="Administration" :url="route('users.roles.edit', Auth::user())"
@@ -46,7 +41,4 @@
             {{--            :version="config('constants.app_version.OrderBook')"--}}
         />
     </div>
-
-
-
 @endsection

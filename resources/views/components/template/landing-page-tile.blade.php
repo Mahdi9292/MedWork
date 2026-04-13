@@ -3,12 +3,14 @@
 <div class="{{ $wrapClass }} h-100">
     <div class="card border-0 shadow h-100">
         <div class="card-header ps-3 pe-3 pb-2 pt-2">
-            <div class="row align-items-center">
-                <div class="col-10">
-                    <h5 class="card-title mb-0">{{ $title }}</h5>
-                </div>
-                <div class="col-2 text-end">
-                    <a href="{{ $url }}" class="btn btn-primary btn-sm"><i class="fas fa-external-link-alt"></i></a>
+            <div class="d-flex justify-content-between align-items-center gap-2">
+                <h5 class="card-title mb-0 text-truncate">
+                    {{ $title }}
+                </h5>
+                <div class="flex-shrink-0">
+                    <a href="{{ $url }}" class="btn btn-primary btn-sm">
+                        <i class="fas fa-external-link-alt"></i>
+                    </a>
                 </div>
             </div>
         </div>
