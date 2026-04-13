@@ -54,13 +54,13 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-sm-6">
-                                    <x-form.input id="employer_name" name="certificateManageForm.employer_name"  wire:model="certificateManageForm.employer_name" :label="__('Arbeitgeber')" :labelClass="'col-sm-3'" />
-                                    <x-form.input id="employer_contact_person" name="certificateManageForm.employer_contact_person"  wire:model="certificateManageForm.employer_contact_person" :label="__('Ansprechpartner')" :labelClass="'col-sm-3'" />
-                                    <x-form.input id="employer_address" name="certificateManageForm.employer_address"  wire:model="certificateManageForm.employer_address" :label="__('Adresse (Arbeitgeber)')" :labelClass="'col-sm-3'" />
+                                    <x-form.input id="employer_name" name="certificateManageForm.employer_name"  wire:model="certificateManageForm.employer_name" :label="__('Arbeitgeber')" :labelClass="'col-sm-3'" :disable-autofill="true" />
+                                    <x-form.input id="employer_contact_person" name="certificateManageForm.employer_contact_person"  wire:model="certificateManageForm.employer_contact_person" :label="__('Ansprechpartner')" :labelClass="'col-sm-3'" :disable-autofill="true" />
+                                    <x-form.input id="employer_address" name="certificateManageForm.employer_address"  wire:model="certificateManageForm.employer_address" :label="__('Adresse (Arbeitgeber)')" :labelClass="'col-sm-3'" :disable-autofill="true" />
                                 </div>
                                 <div class="col-sm-6">
-                                    <x-form.input id="employer_phone" name="certificateManageForm.employer_phone"  wire:model="certificateManageForm.employer_phone" :label="__('Telefonnummer (Arbeitgeber)')" :labelClass="'col-sm-3'" />
-                                    <x-form.input id="employer_email" name="certificateManageForm.employer_email"  wire:model="certificateManageForm.employer_email" :label="__('E-Mail (Arbeitgeber)')" :labelClass="'col-sm-3'" />
+                                    <x-form.input id="employer_phone" name="certificateManageForm.employer_phone"  wire:model="certificateManageForm.employer_phone" :label="__('Telefonnummer (Arbeitgeber)')" :labelClass="'col-sm-3'" :disable-autofill="true" />
+                                    <x-form.input id="employer_email" name="certificateManageForm.employer_email"  wire:model="certificateManageForm.employer_email" :label="__('E-Mail (Arbeitgeber)')" :labelClass="'col-sm-3'" :disable-autofill="true" />
                                 </div>
                             </div>
                         </div>
