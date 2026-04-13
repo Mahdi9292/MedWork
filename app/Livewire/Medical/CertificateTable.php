@@ -75,7 +75,7 @@ final class CertificateTable extends PowerGridComponent
     public function datasource(): Builder|Certificate
     {
         // Data Query
-        return Certificate::query()->with(['preventions', 'preventions.activity']);
+        return Certificate::query();
     }
 
     /*
@@ -94,15 +94,7 @@ final class CertificateTable extends PowerGridComponent
     public function relationSearch(): array
     {
         // Relational columns enabled to search
-        return [
-            'preventions' => [
-                'id', // column enabled to search
-                'activity' => [
-                    'id', // column enabled to search
-                ],
-            ],
-
-        ];
+        return [];
     }
 
     /*
@@ -164,7 +156,7 @@ final class CertificateTable extends PowerGridComponent
             Column::make('Geburtsdatum', 'employee_birthday_formatted', 'employee_birthday')
                 ->searchable()
                 ->sortable()
-                ->searchableRaw('DATE_FORMAT(birthday, "%d.%m.%Y") like ?'),
+                ->searchableRaw('DATE_FORMAT(employee_birthday, "%d.%m.%Y") like ?'),
 
             Column::make('Bescheinigung Datum', 'issue_date_formatted', 'issue_date')
                 ->searchable()
