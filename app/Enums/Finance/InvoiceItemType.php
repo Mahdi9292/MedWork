@@ -5,7 +5,7 @@ namespace App\Enums\Finance;
 use App\Interfaces\HasOptionsInterface;
 use App\Traits\EnumToCollectionTrait;
 
-enum ServiceType: string implements HasOptionsInterface
+enum InvoiceItemType: string implements HasOptionsInterface
 {
     use EnumToCollectionTrait;
 
@@ -20,13 +20,13 @@ enum ServiceType: string implements HasOptionsInterface
     public function label(): string
     {
         return match ($this) {
-            ServiceType::ST_OCCUPATIONAL_MEDICAL_EXAMINATION => 'Arbeitsmedizinische Vorsorgeuntersuchung',
-            ServiceType::ST_TRAVEL_COSTS => 'Fahrkosten',
-            ServiceType::ST_LABOR => 'Labor',
-            ServiceType::ST_CONSULTING => 'Beratung',
-            ServiceType::ST_ASA_MEETING => 'ASA Sitzung',
-            ServiceType::ST_BEM_MEETING => 'Begehung',
-            ServiceType::ST_SITE_INSPECTION => 'BEM Gespräch',
+            InvoiceItemType::ST_OCCUPATIONAL_MEDICAL_EXAMINATION => 'Arbeitsmedizinische Vorsorgeuntersuchung',
+            InvoiceItemType::ST_TRAVEL_COSTS => 'Fahrkosten',
+            InvoiceItemType::ST_LABOR => 'Labor',
+            InvoiceItemType::ST_CONSULTING => 'Beratung',
+            InvoiceItemType::ST_ASA_MEETING => 'ASA Sitzung',
+            InvoiceItemType::ST_BEM_MEETING => 'Begehung',
+            InvoiceItemType::ST_SITE_INSPECTION => 'BEM Gespräch',
         };
     }
 }

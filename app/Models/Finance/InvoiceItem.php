@@ -4,14 +4,14 @@ namespace App\Models\Finance;
 
 use App\Casts\GermanNumber;
 use App\Enums\Finance\HourAmount;
-use App\Enums\Finance\ServiceType;
+use App\Enums\Finance\InvoiceItemType;
 use App\Models\BaseModel;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class InvoiceService extends BaseModel
+class InvoiceItem extends BaseModel
 {
     use SoftDeletes;
 
@@ -26,7 +26,7 @@ class InvoiceService extends BaseModel
      */
     protected $casts = [
         'service_date' => 'date:Y-m-d',
-        'service_type' => ServiceType::class,
+        'service_type' => InvoiceItemType::class,
         'quantity'     => HourAmount::class,
         'unit_price' => GermanNumber::class,
     ];

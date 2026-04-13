@@ -20,6 +20,8 @@
 
 @section('content')
 
+    <livewire:medical.invoice-manage-screen :invoice="$invoice" :update-mode="false" />
+
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
         <div class="d-block mb-4 mb-md-0">
             <x-template.breadcrumb :activePage="__('neuer Rechnung')" :links="[
@@ -116,5 +118,24 @@
     </x-form.form>
 @endsection
 
+@section('pageScripts')
+    @parent
+    <script>
+        document.addEventListener('livewire:init', function () {
+            Livewire.on('invoiceItemAdded', (params) => {
+                closeAll();
+                setTimeout(() => {
+                    openOne(params.lastIndex);
+                }, 300);
+            })
 
+            Livewire.on('invoiceItemCopied', params => {
+                closeAll();
+                setTimeout(() => {
+                    openOne(params.lastIndex);
+                }, 300);
+            })
+        })
+    </script>
+@endsection
 

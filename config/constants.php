@@ -3,7 +3,7 @@
 return [
     'APPLICATIONS' => [
         'MEDWORK'               => ['KEY' => 'medwork', 'TITLE' => 'MedWork'],
-        'FINANCE'               => ['KEY' => 'finance', 'TITLE' => 'Finance'],
+        'FINANCE'               => ['KEY' => 'finance', 'TITLE' => 'Finanz'],
         'MEDICAL'               => ['KEY' => 'medical', 'TITLE' => 'Medizin'],
     ],
 
