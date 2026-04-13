@@ -10,17 +10,19 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         <x-template.landing-page-tile
-            title="Rechnungen" :url="url('/finance')"
+            wrapClass="col"
+            title="Finanz" :url="url('/finance')"
             :version="'1.1'"
-            :sub-title="__('neuen Bestelleingänge')"
-            :short-info="__('Übersicht und Erfassung der Bestelleingänge zu neuen Maschinen')"
+            :sub-title="__('Finanzmanagement')"
+            :short-info="__('Übersicht und Erfassung der Rechnungen')"
             :permissions="['manager', 'user']"
             {{--            :version="config('constants.app_version.OrderBook')"--}}
         />
 
         <x-template.landing-page-tile
+            wrapClass="col"
             title="Medizin" :url="url('/medical')"
             :version="'1.1'"
             :sub-title="__('Vorsorge Bescheinigungen')"
@@ -28,21 +30,23 @@
             :permissions="['manager', 'user']"
             {{--            :version="config('constants.app_version.OrderBook')"--}}
         />
+
     </div>
 
     <hr>
 
-    <div class="row">
-        <div class="row">
-            <x-template.landing-page-tile
-                title="Administration" :url="route('users.roles.edit', Auth::user())"
-                :version="'1.1'"
-                :sub-title="__('Rolle bearbeiten')"
-                :short-info="__('Übersicht für Administration')"
-                :permissions="['']"
-                {{--            :version="config('constants.app_version.OrderBook')"--}}
-            />
-        </div>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        <x-template.landing-page-tile
+            wrapClass="col"
+            title="Administration" :url="route('users.roles.edit', Auth::user())"
+            :version="'1.1'"
+            :sub-title="__('Rolle bearbeiten')"
+            :short-info="__('Übersicht für Administration')"
+            :permissions="['']"
+            {{--            :version="config('constants.app_version.OrderBook')"--}}
+        />
     </div>
+
+
 
 @endsection
