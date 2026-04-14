@@ -23,8 +23,7 @@ class InvoiceItem extends BaseModel
      * @var array
      */
     protected $casts = [
-        'service_date' => 'date:Y-m-d',
-        'service_type' => InvoiceItemType::class,
+        'item_date' => 'date:Y-m-d',
         'quantity'     => Quantity::class,
         'quantity_type' => QuantityType::class,
         'unit_price' => GermanNumber::class,

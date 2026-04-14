@@ -11,6 +11,7 @@ enum QuantityType: string implements HasOptionsInterface
 
     case QT_PERSON = 'person'; // Person
     case QT_HOUR = 'hour'; // Stunde
+    case QT_EMPLOYEE = 'employee'; // Mitarbeiter
 
 
     public function label(): string
@@ -18,6 +19,7 @@ enum QuantityType: string implements HasOptionsInterface
         return match ($this) {
             QuantityType::QT_PERSON => 'Person/en',
             QuantityType::QT_HOUR => 'Stunde/n',
+            QuantityType::QT_EMPLOYEE => 'Mitarbeiter/in',
         };
     }
 }

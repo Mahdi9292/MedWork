@@ -2,6 +2,8 @@
 namespace App\Providers;
 
 use App\Models\Finance\Invoice;
+use App\Models\Finance\InvoiceItem;
+use App\Models\Finance\InvoiceItemType;
 use App\Models\Medical\Activity;
 use App\Models\Medical\Certificate;
 use App\Models\Medical\Comment;
@@ -10,6 +12,8 @@ use App\Models\Medical\Employer;
 use App\Models\Medical\Prevention;
 use App\Models\Medical\PreventionType;
 use App\Models\User;
+use App\Policies\Finance\InvoiceItemPolicy;
+use App\Policies\Finance\InvoiceItemTypePolicy;
 use App\Policies\Finance\InvoicePolicy;
 use App\Policies\Medical\ActivityPolicy;
 use App\Policies\Medical\CertificatePolicy;
@@ -26,11 +30,13 @@ class AuthServiceProvider extends ServiceProvider
 {
     protected $policies = [
 
-        // Invoice
-        Invoice::class => InvoicePolicy::class,
-
         // User
         User::class => UserPolicy::class,
+
+        // Invoice
+        Invoice::class => InvoicePolicy::class,
+        InvoiceItem::class => InvoiceItemPolicy::class,
+        InvoiceItemType::class => InvoiceItemTypePolicy::class,
 
         // Medical
         Certificate::class => CertificatePolicy::class,

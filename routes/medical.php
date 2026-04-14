@@ -23,7 +23,6 @@ Route::group(['as' => 'medical.', 'prefix' => 'examinations'], function () {
 
     // print Certificate
     Route::get('/printCertificate/{certificate}/{downloadType?}', [CertificateController::class, 'printCertificate'])->name('printCertificate');
-
 });
 
 Route::group(['as' => 'medical.', 'prefix' => 'system'], function () {

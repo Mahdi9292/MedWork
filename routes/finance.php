@@ -20,7 +20,13 @@ Route::get('/', [FinanceController::class, 'index'])->name('finance.home');
 Route::group(['as' => 'finance.', 'prefix' => 'invoices'], function () {
 
     Route::resource('invoices', 'InvoiceController');
+
     // print Invoice
     Route::get('/printInvoice/{invoice}', [InvoiceController::class, 'printInvoice'])->name('printInvoice');
+});
+
+Route::group(['as' => 'finance.', 'prefix' => 'system'], function () {
+
+    Route::resource('invoiceItemTypes', 'InvoiceItemTypeController');
 
 });

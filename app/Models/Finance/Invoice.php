@@ -29,7 +29,7 @@ class Invoice extends BaseModel
     /**
      * Get the lines for the offer.
      */
-    public function invoiceServices(): HasMany
+    public function invoiceItems(): HasMany
     {
         return $this->hasMany(InvoiceItem::class, 'invoice_id');
     }
