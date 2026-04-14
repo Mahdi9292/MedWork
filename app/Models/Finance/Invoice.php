@@ -26,6 +26,29 @@ class Invoice extends BaseModel
         'invoice_date' => 'date:Y-m-d',
     ];
 
+    protected static function booted(): void
+    {
+        static::creating(function ($invoice) {
+
+            $date = now()->format('ymi'); // e.g. 250401123
+
+            // Find last number for this time bucket
+            $last = self::where('invoice_number', 'like', $date . '%')
+                ->orderByDesc('invoice_number')
+                ->lockForUpdate() // 🔴 important for concurrency --> the create function must be used in DB::transaction(function () {});
+                ->first();
+
+            if ($last) {
+                // Extract last sequence
+                $lastSequence = (int) substr($last->invoice_number, -2);
+                $nextSequence = str_pad($lastSequence + 1, 2, '0', STR_PAD_LEFT);
+            } else {
+                $nextSequence = '01';
+            }
+            $invoice->invoice_number = $date . $nextSequence;
+        });
+    }
+
     public function invoiceItems(): HasMany
     {
         return $this->hasMany(InvoiceItem::class, 'invoice_id');
