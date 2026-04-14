@@ -107,13 +107,13 @@
             </div>
         </div>
 
-        <div id="preventions" class="card border-0 shadow-sm mb-4" x-data="{ openMain: true }">
+        <div id="invoiceItems" class="card border-0 shadow-sm mb-4" x-data="{ openMain: true }">
             <div class="card-header bg-white border-bottom py-2 px-3 d-flex justify-content-between align-items-center">
                 <div class="d-flex align-items-center flex-grow-1 py-1" @click="openMain = !openMain" style="cursor: pointer;">
                     <h5 class="card-title mb-0">
                         <i class="fas fa-chevron-right me-2 text-muted" :class="openMain ? 'fa-rotate-90' : ''" style="font-size: 0.9rem; transition: transform 0.2s;"></i>
                         <i class="fa-solid fa-file-pen me-2 text-primary"></i>
-                        {{ __('Vorsorgen') }}
+                        {{ __('Leistungen') }}
                     </h5>
                 </div>
 
@@ -127,7 +127,7 @@
                 </div>
             </div>
 
-            <div id="collapsePreventionsMain" x-show="openMain">
+            <div id="collapseInvoiceItemsMain" x-show="openMain">
                 <div class="card-body p-4 bg-light bg-opacity-50">
 
                     <x-template.notification />
@@ -138,7 +138,7 @@
                                 <div class="d-flex align-items-center flex-grow-1" @click="openItem = !openItem" style="cursor: pointer;">
                                     <h6 class="mb-0 fw-semibold text-dark">
                                         <i class="fas fa-chevron-right me-2 text-muted" :class="openItem ? 'fa-rotate-90' : ''" style="font-size: 0.8rem; transition: transform 0.2s;"></i>
-                                        {{ $inputId + 1 . '.' }} {{ __('Vorsorge') }}
+                                        {{ $inputId + 1 . '.' }} {{ __('Leistung') }}
                                         @if($inputsWithErrors->contains($inputId))
                                             <i class="fas fa-exclamation-circle text-danger ms-3"></i>
                                         @endif
@@ -154,13 +154,11 @@
                                 </div>
                             </div>
 
-                            <div id="collapsePrevention{{ $inputId }}" x-show="openItem">
+                            <div id="collapseInvoiceItem{{ $inputId }}" x-show="openItem">
                                 <div class="card-body p-4">
                                     <div class="row">
                                         <div class="col-sm-10">
-                                            <x-form.select name="inputs.{{$inputId}}.activity_id" wire:model.live="inputs.{{$inputId}}.activity_id" :label="__('Tätigkeit/ Anlass')" :options="$activityOptions" :nullRowText="__('Keine Angaben')" :labelClass="'col-sm-3'"  />
-                                            <x-form.select name="inputs.{{$inputId}}.prevention_type_id" wire:model.live="inputs.{{$inputId}}.prevention_type_id" :label="__('Art der Vorsorge')" :options="$preventionTypeOptions" :nullRowText="__('Keine Angaben')" :labelClass="'col-sm-3'"  />
-                                            <x-form.flat-pickr name="inputs.{{$inputId}}.next_appointment_date" wire:model="inputs.{{$inputId}}.next_appointment_date" :label="__('Nächster Termin')" :labelClass="'col-sm-3'" :week-numbers="true" :allow-input="true" />
+
                                         </div>
                                     </div>
                                 </div>
@@ -173,6 +171,77 @@
                 <div class="card-footer border-top p-3 bg-white">
                     <button type="button" class="btn btn-primary sim-add-btn" @click="openMain = true" wire:click.prevent.stop="addInput"><i class="fas fa-plus"></i> {{ __('hinzufügen') }}</button>
                     <div wire:loading wire:target="addInput" class="ms-2 mt-1">
+                        <img src="{{ asset('assets/img/ajax-loader1.gif') }}" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="travelExpenses" class="card border-0 shadow-sm mb-4" x-data="{ openMain: true }">
+            <div class="card-header bg-white border-bottom py-2 px-3 d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center flex-grow-1 py-1" @click="openMain = !openMain" style="cursor: pointer;">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-chevron-right me-2 text-muted" :class="openMain ? 'fa-rotate-90' : ''" style="font-size: 0.9rem; transition: transform 0.2s;"></i>
+                        <i class="fa-solid fa-plane-departure me-2 text-primary"></i>
+                        {{ __('Reisekosten') }}
+                    </h5>
+                </div>
+
+                <div class="d-flex align-items-center">
+                    <div wire:loading wire:target="addTravelExpense" class="me-2 mt-1">
+                        <img src="{{ asset('assets/img/ajax-loader1.gif') }}" />
+                    </div>
+                    <button type="button" class="btn btn-sm btn-primary sim-add-btn" @click="openMain = true" wire:click.prevent.stop="addTravelExpense" title="{{ __('hinzufügen') }}">
+                        <i class="fas fa-plus-circle"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div id="collapseTravelExpensesMain" x-show="openMain">
+                <div class="card-body p-4 bg-light bg-opacity-50">
+
+                    <x-template.notification />
+
+                    @foreach($travelExpenses as $index => $expense)
+                        <div class="card mb-3 shadow-sm border-light" wire:key="travel-expense-item-{{ $index }}" x-data="{ openItem: true }">
+                            <div class="card-header bg-white d-flex justify-content-between align-items-center py-2 px-3">
+                                <div class="d-flex align-items-center flex-grow-1" @click="openItem = !openItem" style="cursor: pointer;">
+                                    <h6 class="mb-0 fw-semibold text-dark">
+                                        <i class="fas fa-chevron-right me-2 text-muted" :class="openItem ? 'fa-rotate-90' : ''" style="font-size: 0.8rem; transition: transform 0.2s;"></i>
+                                        {{ $index + 1 . '.' }} {{ __('Reisekosten') }}
+                                        @if($travelExpensesWithErrors->contains($index))
+                                            <i class="fas fa-exclamation-circle text-danger ms-3"></i>
+                                        @endif
+                                    </h6>
+                                </div>
+
+                                <div class="d-flex align-items-center">
+                                    <button wire:click.prevent.stop="$dispatch('swal:confirm', {{ collect(['method' => 'removeTravelExpense', 'params' => [$index] ]) }})" class="btn btn-sm btn-light border text-muted py-1 px-2 me-2"><i class="fas fa-trash-alt"></i> {{ __('löschen') }}</button>
+                                    <button wire:click.prevent.stop="copyTravelExpense({{$index}})" class="btn btn-sm btn-light border text-muted py-1 px-2"><i class="fas fa-copy"></i> {{ __('kopieren') }}</button>
+                                    <div wire:loading wire:target="copyTravelExpense, removeTravelExpense" class="ms-2">
+                                        <img src="{{ asset('assets/img/ajax-loader1.gif') }}" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="collapseTravelExpense{{ $index }}" x-show="openItem">
+                                <div class="card-body p-4">
+                                    <div class="row">
+                                        <div class="col-sm-10">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+
+                </div>
+
+                <div class="card-footer border-top p-3 bg-white">
+                    <button type="button" class="btn btn-primary sim-add-btn" @click="openMain = true" wire:click.prevent.stop="addTravelExpense"><i class="fas fa-plus"></i> {{ __('hinzufügen') }}</button>
+                    <div wire:loading wire:target="addTravelExpense" class="ms-2 mt-1">
                         <img src="{{ asset('assets/img/ajax-loader1.gif') }}" />
                     </div>
                 </div>

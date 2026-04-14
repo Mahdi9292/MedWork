@@ -43,7 +43,6 @@ class InvoiceController extends BaseFinanceController
 
         $invoice = new Invoice;
         // Dropdown options
-        $data['serviceTypeOptions']    = InvoiceItemType::options();
         $data['quantityOptions']       = Quantity::options();
         return view('templates.finance.invoice.create', compact('invoice'), $data);
     }
