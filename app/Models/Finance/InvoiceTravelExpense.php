@@ -1,0 +1,34 @@
+<?php
+
+namespace App\Models\Finance;
+
+use App\Casts\GermanNumber;
+use App\Enums\Finance\Quantity;
+use App\Enums\Finance\QuantityType;
+use App\Enums\Finance\TripType;
+use App\Models\BaseModel;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+class InvoiceTravelExpense extends BaseModel
+{
+    use SoftDeletes;
+
+    protected $table = 'finance_invoice_items';
+    public $timestamps = true;
+    protected $guarded = ['id'];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'trip_type'     => TripType::class,
+    ];
+
+    public function invoice(): BelongsTo
+    {
+        return $this->belongsTo(Invoice::class, 'invoice_id');
+    }
+}

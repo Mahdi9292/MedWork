@@ -26,12 +26,14 @@ class Invoice extends BaseModel
         'invoice_date' => 'date:Y-m-d',
     ];
 
-    /**
-     * Get the lines for the offer.
-     */
     public function invoiceItems(): HasMany
     {
         return $this->hasMany(InvoiceItem::class, 'invoice_id');
+    }
+
+    public function invoiceTravelExpenses(): HasMany
+    {
+        return $this->hasMany(InvoiceTravelExpense::class, 'invoice_id');
     }
 
     /**

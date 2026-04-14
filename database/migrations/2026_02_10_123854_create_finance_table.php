@@ -63,6 +63,24 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+
+        // finance_invoice_travel_expenses
+        Schema::create('finance_invoice_travel_expenses', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('invoice_id')->constrained('finance_invoices')->cascadeOnDelete();
+
+            $table->string('start_location', 191)->nullable();
+            $table->string('destination', 191)->nullable();
+            $table->string('distance', 191)->nullable();
+            $table->decimal('price_per_km', 10, 2)->default(0);
+
+            $table->enum('trip_type', ['round_trip', 'one_way'])->nullable();
+
+            $table->date('travel_date')->nullable();
+
+            $table->timestamps();
+            $table->softDeletes();
+        });
     }
 
     /**
@@ -72,5 +90,7 @@ return new class extends Migration
     {
         Schema::dropIfExists('finance_invoices');
         Schema::dropIfExists('finance_invoice_items');
+        Schema::dropIfExists('finance_invoice_item_types');
+        Schema::dropIfExists('finance_invoice_travel_expenses');
     }
 };
