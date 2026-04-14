@@ -3,9 +3,9 @@
 namespace App\Livewire\Finance;
 
 use App\Enums\Finance\Quantity;
-use App\Enums\Finance\InvoiceItemType;
 use App\Models\Finance\Invoice;
 use App\Models\Finance\InvoiceItem;
+use App\Models\Finance\InvoiceItemType;
 use Illuminate\Support\Collection;
 use Illuminate\View\View;
 use Livewire\Component;
@@ -152,6 +152,6 @@ class InvoiceManageScreen extends Component
         // getting sections with error to show validation symbol in card header
         $data = $this->getSectionsWithError($data);
 
-        return view('livewire.invoice.invoice-manage-screen', $data);
+        return view('livewire.finance.invoice-manage-screen', $data);
     }
 }

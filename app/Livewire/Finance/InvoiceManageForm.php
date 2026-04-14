@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Medical;
+namespace App\Livewire\Finance;
 
 use App\Models\Medical\Certificate;
 use Illuminate\Support\Collection;
@@ -9,7 +9,7 @@ use Livewire\Attributes\Validate;
 use Livewire\Form;
 use Throwable;
 
-class CertificateManageForm extends Form
+class InvoiceManageForm extends Form
 {
     public ?Certificate $certificate;
 
