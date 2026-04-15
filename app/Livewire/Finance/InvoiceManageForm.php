@@ -43,7 +43,7 @@ class InvoiceManageForm extends Form
     // Invoice Items
     #[Validate([
         'inputs.*.item_type_id' => 'nullable',
-        'inputs.*.title' => 'nullable',
+        'inputs.*.item_type_other' => 'nullable',
         'inputs.*.serving_date' => 'nullable',
         'inputs.*.quantity' => 'nullable',
         'inputs.*.quantity_type' => 'nullable',
@@ -57,7 +57,7 @@ class InvoiceManageForm extends Form
     #[Validate([
         'travelExpenses.*.start_location' => 'nullable',
         'travelExpenses.*.destination' => 'nullable',
-        'travelExpenses.*.distance' => 'nullable',
+        'travelExpenses.*.distance' => ['nullable', new Currency],
         'travelExpenses.*.price_per_km' => ['nullable', new Currency],
         'travelExpenses.*.trip_type' => 'nullable',
         'travelExpenses.*.travel_date' => 'nullable|date'

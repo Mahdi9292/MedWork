@@ -2,6 +2,7 @@
 
 namespace App\Models\Finance;
 
+use App\Enums\Finance\QuantityType;
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -66,10 +67,28 @@ class Invoice extends BaseModel
     {
         $netPrice = 0;
 
-        foreach ($this->services as $service) {
-            $quantity = $service->quantity?->value ?: 1;
-            $netPrice += parseNumber($service->unit_price) * $quantity;
+        foreach ($this->invoiceItems as $invoiceItem) {
+            // if no value, take it as 1 (neutral) in calculation
+            $quantity = $invoiceItem->quantity?->value ?: 1;
+
+            // Quantity-Type Employee has no quantity
+            if($invoiceItem->quantity_type == QuantityType::QT_EMPLOYEE){
+                $quantity = 1;
+            }
+            $netPrice += parseNumber($invoiceItem->unit_price) * $quantity;
         }
+
+        foreach ($this->invoiceTravelExpenses as $invoiceTravelExpense) {
+
+            if(!$invoiceTravelExpense->distance || !$invoiceTravelExpense->price_per_km){
+                continue;
+            }
+
+            $distance = parseNumber($invoiceTravelExpense->distance);
+            $kmPrice = parseNumber($invoiceTravelExpense->price_per_km);
+            $netPrice += $distance * $kmPrice;
+        }
+
         return $netPrice;
     }
 

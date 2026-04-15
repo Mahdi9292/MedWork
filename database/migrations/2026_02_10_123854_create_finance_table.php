@@ -50,7 +50,7 @@ return new class extends Migration
             $table->foreignId('invoice_id')->constrained('finance_invoices')->cascadeOnDelete();
             $table->foreignId('item_type_id')->nullable()->constrained('finance_invoice_item_types')->cascadeOnDelete();
 
-            $table->string('title', 255)->nullable();
+            $table->string('item_type_other', 255)->nullable();
             $table->date('serving_date')->nullable();
 
             $table->enum('quantity', [1, 2, 3, 4, 5, 6, 7, 8, 9, 10])->nullable();
@@ -72,7 +72,7 @@ return new class extends Migration
 
             $table->string('start_location', 191)->nullable();
             $table->string('destination', 191)->nullable();
-            $table->string('distance', 191)->nullable();
+            $table->decimal('distance',8, 2)->nullable();
             $table->decimal('price_per_km', 10, 2)->default(0);
 
             $table->enum('trip_type', ['round_trip', 'one_way'])->nullable();

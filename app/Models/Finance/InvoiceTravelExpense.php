@@ -14,7 +14,7 @@ class InvoiceTravelExpense extends BaseModel
 {
     use SoftDeletes;
 
-    protected $table = 'finance_invoice_items';
+    protected $table = 'finance_invoice_travel_expenses';
     public $timestamps = true;
     protected $guarded = ['id'];
 
@@ -24,7 +24,10 @@ class InvoiceTravelExpense extends BaseModel
      * @var array
      */
     protected $casts = [
+        'travel_date'   => 'date:Y-m-d',
         'trip_type'     => TripType::class,
+        'distance'      => GermanNumber::class,
+        'price_per_km'  => GermanNumber::class,
     ];
 
     public function invoice(): BelongsTo
