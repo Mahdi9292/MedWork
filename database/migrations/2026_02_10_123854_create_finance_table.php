@@ -26,9 +26,10 @@ return new class extends Migration
             $table->string('receiver_phone', 191)->nullable();
             $table->string('receiver_email', 191)->nullable();
 
-            $table->date('invoice_date')->nullable();
+            $table->date('issue_date')->nullable();
 
             $table->integer('value_added_tax')->nullable();
+            $table->decimal('total_amount', 10, 2)->nullable();
 
             $table->timestamps();
             $table->softDeletes();

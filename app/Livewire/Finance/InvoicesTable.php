@@ -71,7 +71,7 @@ final class InvoicesTable extends PowerGridComponent
     public function datasource(): Builder|Invoice
     {
         // Data Query
-        return Invoice::query()->with(['services']);
+        return Invoice::query();
     }
 
     /*
@@ -90,11 +90,7 @@ final class InvoicesTable extends PowerGridComponent
     public function relationSearch(): array
     {
         // Relational columns enabled to search
-        return [
-            'services' => [
-                'id', // column enabled to search
-            ],
-        ];
+        return [];
     }
 
     /*
@@ -112,10 +108,11 @@ final class InvoicesTable extends PowerGridComponent
     {
         return PowerGrid::fields()
             ->add('id')
-            ->add('invoice_number')
-            ->add('name')
-            ->add('invoice_date_formatted', function (Invoice $invoice){
-                return formatDate($invoice->invoice_date);
+            ->add('total_amount',function (Invoice $invoice){
+                return formatNumber($invoice->getTotalGrossAmount()) . ' €';
+            })
+            ->add('issue_date_formatted', function (Invoice $invoice){
+                return formatDate($invoice->issue_date);
             })
             ->add('service_type', function (Invoice  $invoice){
                 return 'THIS IS SERVICE TYPE';
@@ -144,16 +141,23 @@ final class InvoicesTable extends PowerGridComponent
             Column::make('NR', 'id')
                 ->headerAttribute('', 'width: 200px;')
                 ->bodyAttribute('', 'width: 100px;'),
+
             Column::make('Rechnung Nr.', 'invoice_number')
                 ->searchable()
                 ->sortable(),
-            Column::make('Name', 'name')
+
+            Column::make('Empfänger Name', 'receiver_name')
                 ->searchable()
                 ->sortable(),
-            Column::make('Rechnung Datum', 'invoice_date_formatted', 'invoice_date')
+
+            Column::make('Erstellungsdatum', 'issue_date_formatted', 'issue_date')
                 ->searchable()
                 ->sortable()
-                ->searchableRaw('DATE_FORMAT(invoice_date, "%d.%m.%Y") like ?'),
+                ->searchableRaw('DATE_FORMAT(issue_date, "%d.%m.%Y") like ?'),
+
+            Column::make('Rechnungsbetrag', 'total_amount')
+                ->searchable()
+                ->sortable(),
 
             Column::action('Action')->headerAttribute('text-center', '')->bodyAttribute('', 'width: 150px;'),
         ];
@@ -169,8 +173,9 @@ final class InvoicesTable extends PowerGridComponent
         return [
             Filter::inputText('id')->operators(['contains']),
             Filter::inputText('invoice_number')->operators(['contains']),
-            Filter::inputText('name')->operators(['contains']),
-            Filter::datepicker('invoice_date_formatted', 'invoice_date')
+            Filter::inputText('receiver_name')->operators(['contains']),
+            Filter::inputText('total_amount')->operators(['contains']),
+            Filter::datepicker('issue_date_formatted', 'issue_date')
                 ->params([
                 'enableTime' => false,
                 'dateFormat' => 'd.m.Y',
@@ -189,14 +194,8 @@ final class InvoicesTable extends PowerGridComponent
             Button::make('edit_invoice')
                 ->slot($this->editIcon()->renderIcon())
                 ->class('btn btn-sm btn-offwhite btn-border-gray-2  float-start')
-                ->tooltip('Invoice bearbeiten')
+                ->tooltip('Rechnung bearbeiten')
                 ->route('finance.invoices.edit',['invoice' => $row->id], '_self'),
-
-            //  Button::make('view_invoice')
-            //      ->slot($this->showIcon()->renderIcon())
-            //      ->class('btn btn-sm btn-offwhite btn-border-gray-2  float-start')
-            //      ->tooltip('Invoice anzeigen')
-            //      ->route('finance.invoices.show', ['invoice' => $row->id], '_self'),
 
             Button::make('print_invoice')
                 ->slot('<i class="fa-solid fa-print"></i>')
@@ -207,7 +206,7 @@ final class InvoicesTable extends PowerGridComponent
             Button::make('delete_invoice')
                 ->slot($this->deleteIcon()->renderIcon())
                 //  ->confirm('Rechnung wirklich löschen?')
-                ->tooltip('Invoice löschen')
+                ->tooltip('Rechnung löschen')
                 ->dispatch('deleteInvoice', ['id' => $row->id])
                 ->class('btn btn-sm btn-danger text-white btn-outline-danger float-start'),
         ];
@@ -221,7 +220,7 @@ final class InvoicesTable extends PowerGridComponent
             $this->dispatch('swal:confirm',
                 method: 'deleteInvoice',
                 icon: 'warning',
-                text: __('Achtung! Are you sure?'),
+                text: __('Achtung! sind Sie sicher?'),
                 params: ['id' => $id, 'confirmed'=>true],
                 title: __('Bitte bestätigen'),
                 confirmButtonText: __('Fortfahren')
@@ -232,23 +231,20 @@ final class InvoicesTable extends PowerGridComponent
         $invoice = Invoice::findOrFail($id);
         $invoiceNumber = $invoice->invoice_number;
 
-        $invoice->services()->delete();
+        $invoice->invoiceItems()->delete();
+        $invoice->invoiceTravelExpenses()->delete();
         $invoice->delete();
 
         $this->dispatch('toast:alert', message: 'Rechnung Nr. ' . $invoiceNumber . ' wurde erfolgreich gelöcht!', title: 'Success', status: 1);
     }
 
     // Rules
-    public function actionRules($invoice): array
+    public function actionRules(): array
     {
         return [
             Rule::button('edit_invoice')
                 ->when(fn() => !Auth::user()->can(config('perm.finance.invoice.update')))
                 ->hide(),
-
-        //    Rule::button('view_invoice')
-        //        ->when(fn() => !Auth::user()->can(config('perm.finance.invoice.view')))
-        //        ->hide(),
 
             Rule::button('delete_invoice')
                 ->when(fn() => !Auth::user()->can(config('perm.finance.invoice.delete')))

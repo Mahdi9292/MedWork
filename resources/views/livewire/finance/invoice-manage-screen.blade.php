@@ -95,7 +95,7 @@
                                 @endif
 
                                 <x-form.input name="invoiceManageForm.value_added_tax" wire:model="invoiceManageForm.value_added_tax" :label="__('MwSt in %')" :trailingAddon="'%'" :labelClass="'col-sm-4'" />
-                                <x-form.flat-pickr name="invoiceManageForm.invoice_date" wire:model="invoiceManageForm.invoice_date" :label="__('Rechnungsdatum')" :labelClass="'col-sm-4'" :week-numbers="true" :allow-input="true" />
+                                <x-form.flat-pickr name="invoiceManageForm.issue_date" wire:model="invoiceManageForm.issue_date" :label="__('Erstellungsdatum')" :labelClass="'col-sm-4'" :week-numbers="true" :allow-input="true" />
                             </div>
                         </div>
 

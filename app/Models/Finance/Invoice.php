@@ -2,6 +2,7 @@
 
 namespace App\Models\Finance;
 
+use App\Casts\GermanNumber;
 use App\Enums\Finance\QuantityType;
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -24,7 +25,8 @@ class Invoice extends BaseModel
      * @var array
      */
     protected $casts = [
-        'invoice_date' => 'date:Y-m-d',
+        'issue_date' => 'date:Y-m-d',
+        'total_amount' => GermanNumber::class,
     ];
 
     protected static function booted(): void
@@ -48,8 +50,13 @@ class Invoice extends BaseModel
             }
             $invoice->invoice_number = $date . $nextSequence;
         });
+
+        static::saved(function ($invoice) {
+            $invoice->total_amount = $invoice->getTotalGrossAmount();
+        });
     }
 
+    #region: relations
     public function invoiceItems(): HasMany
     {
         return $this->hasMany(InvoiceItem::class, 'invoice_id');
@@ -60,12 +67,15 @@ class Invoice extends BaseModel
         return $this->hasMany(InvoiceTravelExpense::class, 'invoice_id');
     }
 
+    #endregion
+
+    #region: functions
     /**
      * Get the Invoice Total Net Price.
      */
-    public function getTotalNetPrice(): float
+    public function getTotalNetAmount(): float
     {
-        $netPrice = 0;
+        $netAmount = 0;
 
         foreach ($this->invoiceItems as $invoiceItem) {
             // if no value, take it as 1 (neutral) in calculation
@@ -75,7 +85,7 @@ class Invoice extends BaseModel
             if($invoiceItem->quantity_type == QuantityType::QT_EMPLOYEE){
                 $quantity = 1;
             }
-            $netPrice += parseNumber($invoiceItem->unit_price) * $quantity;
+            $netAmount += parseNumber($invoiceItem->unit_price) * $quantity;
         }
 
         foreach ($this->invoiceTravelExpenses as $invoiceTravelExpense) {
@@ -86,27 +96,29 @@ class Invoice extends BaseModel
 
             $distance = parseNumber($invoiceTravelExpense->distance);
             $kmPrice = parseNumber($invoiceTravelExpense->price_per_km);
-            $netPrice += $distance * $kmPrice;
+            $netAmount += $distance * $kmPrice;
         }
 
-        return $netPrice;
+        return $netAmount;
     }
 
     /**
      * Get the Invoice Tax Price.
      */
-    public function getTaxPrice(): float
+    public function getTaxAmount(): float
     {
         $vat = $this->value_added_tax ?? self::DEFAULT_VAT;
-        $netPrice = $this->getTotalNetPrice();
-        return floor($netPrice * $vat * 100) / 100;
+        $netAmount = $this->getTotalNetAmount();
+        return floor($netAmount * $vat * 100) / 100;
     }
 
     /**
      * Get the Invoice Total Gross Price.
      */
-    public function getTotalGrossPrice(): float
+    public function getTotalGrossAmount(): float
     {
-        return $this->getTotalNetPrice() + $this->getTaxPrice();
+        return $this->getTotalNetAmount() + $this->getTaxAmount();
     }
+
+    #endregion
 }

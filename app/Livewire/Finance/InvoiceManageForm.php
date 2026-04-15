@@ -18,9 +18,11 @@ class InvoiceManageForm extends Form
     #[Validate('nullable')]
     public $invoice_number;
     #[Validate('nullable|date')]
-    public $invoice_date;
+    public $issue_date;
     #[Validate('nullable')]
     public $value_added_tax;
+    #[Validate('nullable')]
+    public $total_amount;
 
     // Receiver
     #[Validate('nullable')]
@@ -76,8 +78,9 @@ class InvoiceManageForm extends Form
 
         // Invoice
         $this->invoice_number = $invoice->invoice_number;
-        $this->invoice_date = $invoice->invoice_date??now();
+        $this->issue_date = $invoice->issue_date ?? now();
         $this->value_added_tax = $invoice->value_added_tax;
+        $this->total_amount = $invoice->total_amount ?? $invoice->getTotalGrossAmount();
 
         // Receiver
         $this->receiver_name = $invoice->receiver_name;
