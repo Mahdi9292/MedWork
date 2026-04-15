@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Finance;
 
 use App\Enums\Finance\Quantity;
-use App\Enums\Finance\InvoiceItemType;
 use App\Http\Requests\InvoiceRequest;
 use App\Models\Finance\Invoice;
 use App\Services\InvoiceService;
@@ -42,9 +41,7 @@ class InvoiceController extends BaseFinanceController
         $this->authorize('create', Invoice::class);
 
         $invoice = new Invoice;
-        // Dropdown options
-        $data['quantityOptions']       = Quantity::options();
-        return view('templates.finance.invoice.create', compact('invoice'), $data);
+        return view('templates.finance.invoice.create', compact('invoice'));
     }
 
     /**

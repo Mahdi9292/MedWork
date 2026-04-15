@@ -32,8 +32,10 @@
             <div class="col-12 mb-4">
                 <div class="card border-light shadow-sm components-section">
                     <div class="card-header">
-                        <i class="fas fa-building me-2 text-primary"></i>
-                        {{ __('Rechnung Empfänger') }} <span><em><small class="text-muted"> {{$updateMode ? '(' . $invoice->receiver_name . ')' : ''}}</small></em></span>
+                        <h5 class="card-title mb-0">
+                            <i class="fas fa-building me-2 text-primary"></i>
+                            {{ __('Rechnung Empfänger') }} <span><em><small class="text-muted"> {{$updateMode ? '(' . $invoice->receiver_name . ')' : ''}}</small></em></span>
+                        </h5>
                         @if($receiverWithErrors)
                             <i class="fas fa-exclamation-circle text-danger ms-3"></i>
                         @endif
@@ -83,6 +85,7 @@
                 <div class="card border-0 shadow-sm">
                     <div class="card-header bg-white border-bottom py-3">
                         <h5 class="card-title mb-0">
+                            <i class="fa-solid fa-file-invoice me-2 text-primary"></i>
                             {{ __('Rechnungsdaten') }}
                             @if($updateMode)
                                 <small class="text-muted ms-2 fw-light fs-6">({{ __('Nr.: ') . $invoice->invoice_number }})</small>
@@ -112,7 +115,7 @@
                 <div class="d-flex align-items-center flex-grow-1 py-1" @click="openMain = !openMain" style="cursor: pointer;">
                     <h5 class="card-title mb-0">
                         <i class="fas fa-chevron-right me-2 text-muted" :class="openMain ? 'fa-rotate-90' : ''" style="font-size: 0.9rem; transition: transform 0.2s;"></i>
-                        <i class="fa-solid fa-file-pen me-2 text-primary"></i>
+                        <i class="fa-solid fa-rectangle-list me-2 text-primary"></i>
                         {{ __('Leistungen') }}
                     </h5>
                 </div>
@@ -183,8 +186,8 @@
                 <div class="d-flex align-items-center flex-grow-1 py-1" @click="openMain = !openMain" style="cursor: pointer;">
                     <h5 class="card-title mb-0">
                         <i class="fas fa-chevron-right me-2 text-muted" :class="openMain ? 'fa-rotate-90' : ''" style="font-size: 0.9rem; transition: transform 0.2s;"></i>
-                        <i class="fa-solid fa-plane-departure me-2 text-primary"></i>
-                        {{ __('Reisekosten') }}
+                        <i class="fa-solid fa-car-side me-2 text-primary"></i>
+                        {{ __('Fahrtkosten') }}
                     </h5>
                 </div>
 
@@ -209,7 +212,7 @@
                                 <div class="d-flex align-items-center flex-grow-1" @click="openItem = !openItem" style="cursor: pointer;">
                                     <h6 class="mb-0 fw-semibold text-dark">
                                         <i class="fas fa-chevron-right me-2 text-muted" :class="openItem ? 'fa-rotate-90' : ''" style="font-size: 0.8rem; transition: transform 0.2s;"></i>
-                                        {{ $index + 1 . '.' }} {{ __('Reisekosten') }}
+                                        {{ $index + 1 . '.' }} {{ __('Fahrtkosten') }}
                                         @if($travelExpensesWithErrors->contains($index))
                                             <i class="fas fa-exclamation-circle text-danger ms-3"></i>
                                         @endif

@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-11">
             <div class="input-group">
-                <input type="text" class="form-control" placeholder="Kunden suchen" aria-label="Kunden suchen" wire:model="searchTerm" wire:keydown.debounce.1000ms="doSearch" />
+                <input type="text" class="form-control" placeholder="Arbeitgeber suchen" aria-label="Arbeitgeber suchen" wire:model="searchTerm" wire:keydown.debounce.1000ms="doSearch" />
                 <button class="input-group-control btn btn-outline-primary btn-border-gray m-0" type="button" wire:click="doSearch">{{ __('Suche') }}</button>
                 <span class="input-group-text text-gray-600 @if($searchCount>0)tmh-bg-green @elseif($searchCount===0 && $searchTerm) tmh-bg-light-red @endif"><span class="badge bg-primary m-0">{{ $searchCount }}</span></span>
                 <button class="input-group-control btn btn-outline-primary btn-border-gray m-0 dropdown-toggle p-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">

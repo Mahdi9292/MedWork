@@ -3,9 +3,11 @@
 namespace App\Livewire\Finance;
 
 use App\Enums\Finance\Quantity;
+use App\Enums\Finance\QuantityType;
 use App\Models\Finance\Invoice;
 use App\Models\Finance\InvoiceItem;
 use App\Models\Finance\InvoiceItemType;
+use App\Models\Finance\InvoiceTravelExpense;
 use Illuminate\Support\Collection;
 use Illuminate\View\View;
 use Livewire\Component;
@@ -19,9 +21,10 @@ class InvoiceManageScreen extends Component
     public Invoice $invoice;
     public InvoiceManageForm $invoiceManageForm;
     public Collection $inputs;
+    public Collection $travelExpenses;
     public $updateMode = false;
 
-    protected $listeners = ['setReceiverData', 'removeInput'];
+    protected $listeners = ['setReceiverData', 'removeInput', 'removeTravelExpense'];
 
     private const string nullable_MESSAGE = 'Dieses Feld muss ausgefüllt werden.';
     private const string NUMERIC_MESSAGE = 'Dieses Feld muss eine Zahl sein.';
@@ -40,8 +43,9 @@ class InvoiceManageScreen extends Component
     private function loadItems(): void
     {
         $invoiceItems = collect($this->invoice->invoiceItems->toArray());
+        $travelExpenses = collect($this->invoice->invoiceTravelExpenses->toArray());
 
-        $this->fill(['inputs' => $invoiceItems]);
+        $this->fill(['inputs' => $invoiceItems, 'travelExpenses' => $travelExpenses]);
     }
 
     public function setReceiverData($receiver): void
@@ -90,22 +94,54 @@ class InvoiceManageScreen extends Component
         $this->dispatch('invoiceItemCopied', lastIndex: $this->inputs->keys()->last());
     }
 
-    public function getFieldID($key, $name, $prefix='inputs'): string
+    public function addTravelExpense(): void
     {
-        return join(".", [$prefix, $key, $name]);
+        $this->travelExpenses->push(['id' => 0]);
+        $this->dispatch('invoiceTravelExpenseAdded', lastIndex: $this->travelExpenses->keys()->last());
+    }
+
+    public function removeTravelExpense($key): void
+    {
+        $itemToDelete = $this->travelExpenses->get($key);
+
+        // removing item from datatable.
+        if($itemToDelete['id']){
+            InvoiceTravelExpense::find($itemToDelete['id'])->delete();
+        }
+
+        // removing from the page
+        $this->travelExpenses->pull($key);
+    }
+
+    public function copyTravelExpense($key): void
+    {
+        // getting the selected line
+        $clone = $this->travelExpenses->get($key);
+
+        // setting db id to null to create as new when saving
+        $clone['id'] = 0;
+
+        // pushing into the travelExpenses
+        $this->travelExpenses->push($clone);
+        $this->dispatch('invoiceTravelExpenseCopied', lastIndex: $this->travelExpenses->keys()->last());
     }
 
     private function getSectionsWithError(array $data): array
     {
         $errorsCollection = collect($this->getErrorBag())->keys();
 
+        $data['receiverWithErrors'] = $errorsCollection->contains(function ($value, $key) {
+            return \Str::contains($value, 'invoice.receiver_');
+        });
+
         $data['inputsWithErrors'] = $errorsCollection->map(function($name) {
             return preg_replace('/[^0-9]/', '', $name);
         })->unique();
 
-        $data['receiverWithErrors'] = $errorsCollection->contains(function ($value, $key) {
-            return \Str::contains($value, 'invoice.receiver_');
-        });
+        $data['travelExpensesWithErrors'] = $errorsCollection->map(function($name) {
+            return preg_replace('/[^0-9]/', '', $name);
+        })->unique();
+
         return $data;
     }
 
@@ -115,6 +151,7 @@ class InvoiceManageScreen extends Component
     public function submit($print=false): void
     {
         $this->invoiceManageForm->inputs = $this->inputs;
+        $this->invoiceManageForm->travelExpenses = $this->travelExpenses;
 
         if(!$this->updateMode){
             $this->invoiceManageForm->store();
@@ -146,8 +183,9 @@ class InvoiceManageScreen extends Component
         }
 
         // Dropdown options
-        $data['serviceTypeOptions']    = InvoiceItemType::options();
-        $data['quantityOptions']       = Quantity::options();
+        $data['itemTypeOptions']        = InvoiceItemType::all()->pluck('name', 'id')->toArray();
+        $data['quantityOptions']        = Quantity::options();
+        $data['quantityTypeOptions']    = QuantityType::options();
 
         // getting sections with error to show validation symbol in card header
         $data = $this->getSectionsWithError($data);

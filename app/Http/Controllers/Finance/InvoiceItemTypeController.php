@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Finance;
 
-use App\Http\Controllers\Medical\BaseMedicalController;
+use App\Http\Controllers\Finance\BaseFinanceController;
 use App\Http\Requests\InvoiceItemTypeRequest;
 use App\Models\Finance\InvoiceItemType;
 
-class InvoiceItemTypeController extends BaseMedicalController
+class InvoiceItemTypeController extends BaseFinanceController
 {
 
     /**

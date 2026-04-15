@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 */
 Route::get('/', [FinanceController::class, 'index'])->name('finance.home');
 
-Route::group(['as' => 'finance.', 'prefix' => 'invoices'], function () {
+Route::group(['as' => 'finance.', 'prefix' => 'accounting'], function () {
 
     Route::resource('invoices', 'InvoiceController');
 
