@@ -45,7 +45,7 @@
                                     <livewire:medical.employer-search wire:key="employer-{{ uniqid($invoice->id) }}" :fields="collect([
                                             //'id'=> 'customer_id',
                                             'name' => 'receiver_name',
-                                            'contact_person' => 'receiver_contact_person',
+                                            'contact_person' => 'receiver_additional_name',
                                             'street' => 'receiver_street',
                                             'house_number' => 'receiver_house_number',
                                             'city' => 'receiver_city',
@@ -61,7 +61,7 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <x-form.input id="receiver_name" name="invoiceManageForm.receiver_name"  wire:model="invoiceManageForm.receiver_name" :label="__('Empfänger Name')" :labelClass="'col-sm-3'" :disable-autofill="true" />
-                                    <x-form.input id="receiver_contact_person" name="invoiceManageForm.receiver_contact_person"  wire:model="invoiceManageForm.receiver_contact_person" :label="__('Empfänger zusatz')" :labelClass="'col-sm-3'" :disable-autofill="true" />
+                                    <x-form.input id="receiver_additional_name" name="invoiceManageForm.receiver_additional_name"  wire:model="invoiceManageForm.receiver_additional_name" :label="__('Empfänger zusatz')" :labelClass="'col-sm-3'" :disable-autofill="true" />
                                     <x-form.input id="receiver_street" name="invoiceManageForm.receiver_street"  wire:model="invoiceManageForm.receiver_street" :label="__('Straße')" :labelClass="'col-sm-3'" :disable-autofill="true" />
                                     <x-form.input id="receiver_house_number" name="invoiceManageForm.receiver_house_number"  wire:model="invoiceManageForm.receiver_house_number" :label="__('Haus Nr.')" :labelClass="'col-sm-3'" :disable-autofill="true" />
                                 </div>
@@ -94,7 +94,7 @@
                         <div class="row g-4">
                             <div class="col-sm-8">
                                 @if($updateMode)
-                                    <x-form.input name="invoiceManageForm.certificate_number" wire:model="invoiceManageForm.certificate_number" :label="__('Rechnung Nr.')" :labelClass="'col-sm-4'" disabled />
+                                    <x-form.input name="invoiceManageForm.invoice_number" wire:model="invoiceManageForm.invoice_number" :label="__('Rechnung Nr.')" :labelClass="'col-sm-4'" disabled />
                                 @endif
 
                                 <x-form.input name="invoiceManageForm.value_added_tax" wire:model="invoiceManageForm.value_added_tax" :label="__('MwSt in %')" :trailingAddon="'%'" :labelClass="'col-sm-4'" />

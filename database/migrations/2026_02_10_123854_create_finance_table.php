@@ -17,13 +17,14 @@ return new class extends Migration
 
             $table->string('invoice_number')->nullable();
             $table->string('receiver_name', 191)->nullable();
+            $table->string('receiver_additional_name', 191)->nullable();
             $table->string('receiver_address', 255)->nullable();
             $table->string('receiver_street', 191)->nullable();
             $table->string('receiver_house_number', 191)->nullable();
             $table->string('receiver_city', 191)->nullable();
             $table->string('receiver_postcode', 191)->nullable();
-            $table->string('receiver_phone', 191)->nullable()->nullable();
-            $table->string('receiver_mobile', 191)->nullable();
+            $table->string('receiver_phone', 191)->nullable();
+            $table->string('receiver_email', 191)->nullable();
 
             $table->date('invoice_date')->nullable();
 
