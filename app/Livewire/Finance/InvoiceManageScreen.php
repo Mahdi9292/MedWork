@@ -49,18 +49,21 @@ class InvoiceManageScreen extends Component
         $this->fill(['inputs' => $invoiceItems, 'travelExpenses' => $travelExpenses]);
     }
 
-    public function setReceiverData($receiver): void
+    /*
+     * parameter: $employer -> must be the same defined in medwork.js file
+     */
+    public function setReceiverData($employer): void
     {
-        $this->invoiceManageForm->receiver_name = $receiver['name'] ?? null;
-        $this->invoiceManageForm->receiver_contact_person = $receiver['contact_person'] ?? null;
-        $this->invoiceManageForm->receiver_address = $receiver['address'] ?? null;
-        $this->invoiceManageForm->receiver_street = $receiver['street'] ?? null;
-        $this->invoiceManageForm->receiver_house_number = $receiver['house_number'] ?? null;
-        $this->invoiceManageForm->receiver_postcode = $receiver['postcode'] ?? null;
-        $this->invoiceManageForm->receiver_city = $receiver['city'] ?? null;
-        $this->invoiceManageForm->receiver_phone = $receiver['phone'] ?? null;
-        $this->invoiceManageForm->receiver_mobile = $receiver['mobile'] ?? null;
-        $this->invoiceManageForm->receiver_email = $receiver['mail'] ?? null;
+        $this->invoiceManageForm->receiver_name = $employer['name'] ?? null;
+        $this->invoiceManageForm->receiver_contact_person = $employer['contact_person'] ?? null;
+        $this->invoiceManageForm->receiver_address = $employer['address'] ?? null;
+        $this->invoiceManageForm->receiver_street = $employer['street'] ?? null;
+        $this->invoiceManageForm->receiver_house_number = $employer['house_number'] ?? null;
+        $this->invoiceManageForm->receiver_postcode = $employer['postcode'] ?? null;
+        $this->invoiceManageForm->receiver_city = $employer['city'] ?? null;
+        $this->invoiceManageForm->receiver_phone = $employer['phone'] ?? null;
+        $this->invoiceManageForm->receiver_mobile = $employer['mobile'] ?? null;
+        $this->invoiceManageForm->receiver_email = $employer['email'] ?? null;
     }
 
     public function addInput(): void

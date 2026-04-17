@@ -14,6 +14,8 @@ class InvoiceManageForm extends Form
 {
     public ?Invoice $invoice;
 
+    #region: Properties
+
     // Invoice
     #[Validate('nullable')]
     public $invoice_number;
@@ -66,6 +68,9 @@ class InvoiceManageForm extends Form
     ])]
     public ?Collection $travelExpenses;
 
+    #endregion
+
+    #region: man functions
     public function setInvoice(Invoice $invoice): void
     {
         $inputs = collect($invoice->invoiceItems?->toArray());
@@ -108,15 +113,8 @@ class InvoiceManageForm extends Form
             );
         });
 
-        if($this->inputs->count() > 0)
-        {
-            $this->saveInvoiceItems();
-        }
-
-        if($this->travelExpenses->count() > 0)
-        {
-            $this->saveInvoiceTravelExpenses();
-        }
+        $this->saveItemsAndTravelExpenses();
+        $this->setTotalAmount();
     }
 
     public function update(): void
@@ -127,17 +125,13 @@ class InvoiceManageForm extends Form
         $this->invoice->fill($data);
         $this->invoice->save();
 
-        if($this->inputs->count() > 0)
-        {
-            $this->saveInvoiceItems();
-        }
-
-        if($this->travelExpenses->count() > 0)
-        {
-            $this->saveInvoiceTravelExpenses();
-        }
+        $this->saveItemsAndTravelExpenses();
+        $this->setTotalAmount();
     }
 
+    #endregion
+
+    #region: process functions
     protected function saveInvoiceItems(): void
     {
         if(!$this->inputs || $this->inputs->count() < 1){
@@ -161,4 +155,18 @@ class InvoiceManageForm extends Form
             $this->invoice->invoiceTravelExpenses()->updateOrCreate(['id'=> $travelExpense['id']], $travelExpense);
         }
     }
+
+    protected function saveItemsAndTravelExpenses(): void
+    {
+         $this->saveInvoiceItems();
+         $this->saveInvoiceTravelExpenses();
+    }
+
+    protected function setTotalAmount(): void
+    {
+        $this->invoice->total_amount = $this->invoice->getTotalGrossAmount();
+        $this->invoice->save();
+    }
+
+    #endregion
 }

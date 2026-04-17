@@ -49,7 +49,7 @@ class EmployerSearch extends Component
     {
         $employer = Employer::find($employerId);
 
-        $this->dispatch('employerSelected', employer: $employer, fields: $this->fields);
+        $this->dispatch('employerSelected', employer: $employer, fields: $this->fields, eventName: $this->eventName);
     }
 
     public function render(): View

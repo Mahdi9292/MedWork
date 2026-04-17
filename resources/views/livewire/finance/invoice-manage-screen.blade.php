@@ -38,7 +38,7 @@
                         <div class="row pt-4 pb-4">
                             <div class="col-sm-8">
                                 <div>
-                                    <livewire:medical.employer-search wire:key="employer-{{ uniqid($invoice->id) }}" :fields="collect([
+                                    <livewire:medical.employer-search wire:key="employer-{{ uniqid($invoice->id) }}" :event-name="'setReceiverData'" :fields="collect([
                                             //'id'=> 'customer_id',
                                             'name' => 'receiver_name',
                                             'contact_person' => 'receiver_additional_name',

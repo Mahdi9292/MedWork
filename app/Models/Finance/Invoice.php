@@ -50,10 +50,6 @@ class Invoice extends BaseModel
             }
             $invoice->invoice_number = $date . $nextSequence;
         });
-
-        static::saved(function ($invoice) {
-            $invoice->total_amount = $invoice->getTotalGrossAmount();
-        });
     }
 
     #region: relations
