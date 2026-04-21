@@ -96,6 +96,7 @@
 
                                 <x-form.input name="invoiceManageForm.value_added_tax" wire:model="invoiceManageForm.value_added_tax" :label="__('MwSt in %')" :trailingAddon="'%'" :labelClass="'col-sm-4'" />
                                 <x-form.flat-pickr name="invoiceManageForm.issue_date" wire:model="invoiceManageForm.issue_date" :label="__('Erstellungsdatum')" :labelClass="'col-sm-4'" :week-numbers="true" :allow-input="true" />
+                                <x-form.select name="invoiceManageForm.invoice_type" wire:model.live="invoiceManageForm.invoice_type" :label="__('Rechnungstyp')" :options="$invoiceTypeOptions" :labelClass="'col-sm-4'"  />
                             </div>
                         </div>
 
@@ -156,8 +157,7 @@
                                         <div class="col-sm-10">
                                             <x-form.select name="inputs.{{$inputId}}.item_type_id" wire:model.live="inputs.{{$inputId}}.item_type_id" :label="__('Leistungstyp')" :options="$itemTypeOptions" :labelClass="'col-sm-3'"  />
                                             <x-form.input name="inputs.{{$inputId}}.item_type_other" wire:model="inputs.{{$inputId}}.item_type_other" :label="__('Sonstiger Leistungstyp')" :labelClass="'col-sm-3'" />
-                                            <x-form.select name="inputs.{{$inputId}}.quantity_type" wire:model.live="inputs.{{$inputId}}.quantity_type" :label="__('Einheit')" :options="$quantityTypeOptions" :labelClass="'col-sm-3'"  />
-                                            @if(($input['quantity_type']??null) && $input['quantity_type'] == \App\Enums\Finance\QuantityType::QT_EMPLOYEE->value)
+                                            @if($invoiceManageForm->invoice_type == \App\Enums\Finance\InvoiceType::QT_EMPLOYEE->value)
                                                 <x-form.input name="inputs.{{$inputId}}.employee_name" wire:live="inputs.{{$inputId}}.employee_name" :label="__('Mitarbeiter/in')" :labelClass="'col-sm-3'" />
                                             @else
                                                 <x-form.select name="inputs.{{$inputId}}.quantity" wire:model.live="inputs.{{$inputId}}.quantity" :label="__('Menge')" :options="$quantityOptions" :labelClass="'col-sm-3'"  />

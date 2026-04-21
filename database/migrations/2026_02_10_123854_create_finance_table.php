@@ -16,6 +16,7 @@ return new class extends Migration
             $table->id();
 
             $table->string('invoice_number')->nullable();
+            $table->enum('invoice_type', ['person', 'hour', 'employee'])->nullable();
             $table->string('receiver_name', 191)->nullable();
             $table->string('receiver_additional_name', 191)->nullable();
             $table->string('receiver_address', 255)->nullable();
@@ -55,7 +56,6 @@ return new class extends Migration
             $table->date('serving_date')->nullable();
 
             $table->enum('quantity', [1, 2, 3, 4, 5, 6, 7, 8, 9, 10])->nullable();
-            $table->enum('quantity_type', ['person', 'hour', 'employee'])->nullable();
 
             $table->string('employee_name', 255)->nullable();
             $table->text('description')->nullable();

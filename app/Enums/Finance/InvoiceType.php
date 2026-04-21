@@ -5,7 +5,7 @@ namespace App\Enums\Finance;
 use App\Interfaces\HasOptionsInterface;
 use App\Traits\EnumToCollectionTrait;
 
-enum QuantityType: string implements HasOptionsInterface
+enum InvoiceType: string implements HasOptionsInterface
 {
     use EnumToCollectionTrait;
 
@@ -17,9 +17,9 @@ enum QuantityType: string implements HasOptionsInterface
     public function label(): string
     {
         return match ($this) {
-            QuantityType::QT_PERSON => 'Person/en',
-            QuantityType::QT_HOUR => 'Stunde/n',
-            QuantityType::QT_EMPLOYEE => 'Mitarbeiter/in',
+            InvoiceType::QT_PERSON => 'Person/en',
+            InvoiceType::QT_HOUR => 'Stunde/n',
+            InvoiceType::QT_EMPLOYEE => 'Mitarbeiter/in',
         };
     }
 }

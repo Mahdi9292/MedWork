@@ -3,8 +3,6 @@
 namespace App\Models\Finance;
 
 use App\Casts\GermanNumber;
-use App\Enums\Finance\Quantity;
-use App\Enums\Finance\QuantityType;
 use App\Enums\Finance\TripType;
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

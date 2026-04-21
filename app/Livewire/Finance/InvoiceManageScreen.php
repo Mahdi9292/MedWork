@@ -3,7 +3,7 @@
 namespace App\Livewire\Finance;
 
 use App\Enums\Finance\Quantity;
-use App\Enums\Finance\QuantityType;
+use App\Enums\Finance\InvoiceType;
 use App\Enums\Finance\TripType;
 use App\Models\Finance\Invoice;
 use App\Models\Finance\InvoiceItem;
@@ -189,7 +189,7 @@ class InvoiceManageScreen extends Component
         // Dropdown options
         $data['itemTypeOptions']        = InvoiceItemType::all()->pluck('name', 'id')->toArray();
         $data['quantityOptions']        = Quantity::options();
-        $data['quantityTypeOptions']    = QuantityType::options();
+        $data['invoiceTypeOptions']     = InvoiceType::options();
         $data['tripTypeOptions']        = TripType::options();
 
         // getting sections with error to show validation symbol in card header

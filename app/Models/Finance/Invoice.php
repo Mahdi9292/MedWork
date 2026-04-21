@@ -3,7 +3,7 @@
 namespace App\Models\Finance;
 
 use App\Casts\GermanNumber;
-use App\Enums\Finance\QuantityType;
+use App\Enums\Finance\InvoiceType;
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -27,6 +27,7 @@ class Invoice extends BaseModel
     protected $casts = [
         'issue_date' => 'date:Y-m-d',
         'total_amount' => GermanNumber::class,
+        'invoice_type' => InvoiceType::class,
     ];
 
     protected static function booted(): void
@@ -78,7 +79,7 @@ class Invoice extends BaseModel
             $quantity = $invoiceItem->quantity?->value ?: 1;
 
             // Quantity-Type Employee has no quantity
-            if($invoiceItem->quantity_type == QuantityType::QT_EMPLOYEE){
+            if($this->invoice_type == InvoiceType::QT_EMPLOYEE){
                 $quantity = 1;
             }
             $netAmount += parseNumber($invoiceItem->unit_price) * $quantity;

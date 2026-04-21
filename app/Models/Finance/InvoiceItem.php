@@ -3,8 +3,9 @@
 namespace App\Models\Finance;
 
 use App\Casts\GermanNumber;
+use App\Casts\IntegerNullable;
 use App\Enums\Finance\Quantity;
-use App\Enums\Finance\QuantityType;
+use App\Enums\Finance\InvoiceType;
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -25,8 +26,8 @@ class InvoiceItem extends BaseModel
     protected $casts = [
         'item_date' => 'date:Y-m-d',
         'quantity'     => Quantity::class,
-        'quantity_type' => QuantityType::class,
         'unit_price' => GermanNumber::class,
+        'item_type_id' => IntegerNullable::class,
     ];
 
     public function invoice(): BelongsTo
