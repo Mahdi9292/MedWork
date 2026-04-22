@@ -15,11 +15,18 @@ return [
             'delete' => 'finance.invoice.delete',
         ],
 
-        'service' => [
-            'view'   => 'finance.service.view',
-            'create' => 'finance.service.create',
-            'update' => 'finance.service.update',
-            'delete' => 'finance.service.delete',
+        'invoiceItem' => [
+            'view'   => 'finance.invoiceItem.view',
+            'create' => 'finance.invoiceItem.create',
+            'update' => 'finance.invoiceItem.update',
+            'delete' => 'finance.invoiceItem.delete',
+        ],
+
+        'invoiceItemType' => [
+            'view'   => 'finance.invoiceItemType.view',
+            'create' => 'finance.invoiceItemType.create',
+            'update' => 'finance.invoiceItemType.update',
+            'delete' => 'finance.invoiceItemType.delete',
         ],
     ],
 

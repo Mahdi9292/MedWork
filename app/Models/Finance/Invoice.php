@@ -3,6 +3,7 @@
 namespace App\Models\Finance;
 
 use App\Casts\GermanNumber;
+use App\Enums\Finance\InvoiceType;
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -24,47 +25,97 @@ class Invoice extends BaseModel
      * @var array
      */
     protected $casts = [
-        'invoice_date' => 'date:Y-m-d',
+        'issue_date' => 'date:Y-m-d',
+        'total_amount' => GermanNumber::class,
+        'invoice_type' => InvoiceType::class,
     ];
 
-    /**
-     * Get the lines for the offer.
-     */
-    public function services(): HasMany
+    protected static function booted(): void
     {
-        return $this->hasMany(InvoiceService::class, 'invoice_id');
+        static::creating(function ($invoice) {
+
+            $date = now()->format('ymi'); // e.g. 250401123
+
+            // Find last number for this time bucket
+            $last = self::where('invoice_number', 'like', $date . '%')
+                ->orderByDesc('invoice_number')
+                ->lockForUpdate() // 🔴 important for concurrency --> the create function must be used in DB::transaction(function () {});
+                ->first();
+
+            if ($last) {
+                // Extract last sequence
+                $lastSequence = (int) substr($last->invoice_number, -2);
+                $nextSequence = str_pad($lastSequence + 1, 2, '0', STR_PAD_LEFT);
+            } else {
+                $nextSequence = '01';
+            }
+            $invoice->invoice_number = $date . $nextSequence;
+        });
     }
 
+    #region: relations
+    public function invoiceItems(): HasMany
+    {
+        return $this->hasMany(InvoiceItem::class, 'invoice_id');
+    }
+
+    public function invoiceTravelExpenses(): HasMany
+    {
+        return $this->hasMany(InvoiceTravelExpense::class, 'invoice_id');
+    }
+
+    #endregion
+
+    #region: functions
     /**
      * Get the Invoice Total Net Price.
      */
-    public function getTotalNetPrice(): float
+    public function getTotalNetAmount(): float
     {
-        $netPrice = 0;
+        $netAmount = 0;
 
-        foreach ($this->services as $service) {
-            $quantity = $service->quantity?->value ?: 1;
-            $netPrice += parseNumber($service->unit_price) * $quantity;
+        foreach ($this->invoiceItems as $invoiceItem) {
+            // if no value, take it as 1 (neutral) in calculation
+            $quantity = $invoiceItem->quantity?->value ?: 1;
+
+            // Quantity-Type Employee has no quantity
+            if($this->invoice_type == InvoiceType::QT_EMPLOYEE){
+                $quantity = 1;
+            }
+            $netAmount += parseNumber($invoiceItem->unit_price) * $quantity;
         }
-        return $netPrice;
+
+        foreach ($this->invoiceTravelExpenses as $invoiceTravelExpense) {
+
+            if(!$invoiceTravelExpense->distance || !$invoiceTravelExpense->price_per_km){
+                continue;
+            }
+
+            $distance = parseNumber($invoiceTravelExpense->distance);
+            $kmPrice = parseNumber($invoiceTravelExpense->price_per_km);
+            $netAmount += $distance * $kmPrice;
+        }
+
+        return $netAmount;
     }
 
     /**
      * Get the Invoice Tax Price.
      */
-    public function getTaxPrice(): float
+    public function getTaxAmount(): float
     {
         $vat = $this->value_added_tax ?? self::DEFAULT_VAT;
-        $netPrice = $this->getTotalNetPrice();
-        return floor($netPrice * $vat * 100) / 100;
+        $netAmount = $this->getTotalNetAmount();
+        return floor($netAmount * $vat * 100) / 100;
     }
-
 
     /**
      * Get the Invoice Total Gross Price.
      */
-    public function getTotalGrossPrice(): float
+    public function getTotalGrossAmount(): float
     {
-        return $this->getTotalNetPrice() + $this->getTaxPrice();
+        return $this->getTotalNetAmount() + $this->getTaxAmount();
     }
+
+    #endregion
 }

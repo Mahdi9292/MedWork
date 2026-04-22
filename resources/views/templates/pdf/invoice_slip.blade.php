@@ -25,9 +25,9 @@
 
 <div class="mt-4">
     <div class="mb-4">
-        Rechnung an: {{ $invoice->name }}<br>
-        {{$invoice->street}} {{$invoice->house_number}}<br>
-        {{$invoice->postcode}} {{$invoice->city}}<br><br>
+        Rechnung an: {{ $invoice->receiver_name }}<br>
+        {{$invoice->receiver_street}} {{$invoice->receiver_house_number}}<br>
+        {{$invoice->receiver_postcode}} {{$invoice->receiver_city}}<br><br>
         <strong>Rechnung Nr.: {{ $invoice->invoice_number }}</strong>
     </div>
 
@@ -42,27 +42,29 @@
                     <th class="p-1 text-center">Beschreibung</th>
                 @endif
                 <th class="w-15p p-1 text-center">Datum</th>
-                <th class="w-10p p-1 text-center">Menge</th>
-                <th class="w-10p p-1 text-center">Einzelpreis<br>/Gesamt</th>
+                <th class="w-10p p-1 text-center">{{ $invoice->invoice_type?->label() ?: $invoice->invoice_type_other }}</th>
+                <th class="w-10p p-1 text-center">Einzelpreis</th>
+                <th class="w-10p p-1 text-center">Gesamtpreis</th>
             </tr>
         </thead>
         <tbody>
-        @foreach($invoice->services as $index=>$service)
+        @foreach($invoice->invoiceItems as $index=>$item)
             <tr>
                 <td class="text-center p-1">{{ $index+1 }}</td>
-                <td class="ps-2 p-1">{{ $service->service_type?->label() ?: $service->service_title }}</td>
+                <td class="ps-2 p-1">{{ $item->itemType?->name ?: $item->item_type_other }}</td>
                 @if($hasDescription)
-                    <td class="font-size-8 {{$service->description?'': 'text-center'}}">{{ $service->description ?: '—' }}</td>
+                    <td class="font-size-8 {{$item->description?'': 'text-center'}}">{{ $item->description ?: '—' }}</td>
                 @endif
-                <td class="text-center p-1">{{ formatDate($service->service_date)}}</td>
-                <td class="text-center p-1">{{ $service->quantity?->label() ?: 1 }} </td>
-                <td class="text-end pe-2 p-1">{{ formatNumber(parseNumber($service->unit_price) * ($service->quantity?->value ?: 1))}} €</td>
+                <td class="text-center p-1">{{ formatDate($item->serving_date)}}</td>
+                <td class="text-center p-1">{{ $item->quantity?->label() ?: 1 }} </td>
+                <td class="text-center p-1">{{ $item->unit_price }} €</td>
+                <td class="text-end pe-2 p-1">{{ formatNumber(parseNumber($item->unit_price) * ($item->quantity?->value ?: 1))}} €</td>
             </tr>
         @endforeach
 
         <tr>
-            <td colspan="{{ $hasDescription ? 5 : 4 }}" class="text-end pe-2 p-1 fw-bold">Gesamt Netto</td>
-            <td class="text-end pe-2 p-1 fw-bold">{{ formatNumber($invoice->getTotalNetPrice()) }} €</td>
+            <td colspan="{{ $hasDescription ? 6 : 5 }}" class="text-end pe-2 p-1 fw-bold">Gesamt Netto</td>
+            <td class="text-end pe-2 p-1 fw-bold">{{ formatNumber($invoice->getTotalNetAmount()) }} €</td>
         </tr>
         </tbody>
     </table>
@@ -71,15 +73,17 @@
         <table class="w-100p border-0 font-size-10">
             <tr>
                 <td>Netto:</td>
-                <td class="text-end">{{ formatNumber($invoice->getTotalNetPrice()) }} €</td>
+                <td class="text-end">{{ formatNumber($invoice->getTotalNetAmount()) }} €</td>
             </tr>
-            <tr>
-                <td class="fw-bold">MwSt ({{ $invoice->value_added_tax ?? 19 }}%):</td>
-                <td class="text-end">{{ formatNumber($invoice->getTaxPrice()) }} €</td>
-            </tr>
+            @if($invoice->value_added_tax !== 0)
+                <tr>
+                    <td class="fw-bold">MwSt ({{ $invoice->value_added_tax ?? 19 }}%):</td>
+                    <td class="text-end">{{ formatNumber($invoice->getTaxAmount()) }} €</td>
+                </tr>
+            @endif
             <tr class="border-top-0">
                 <td class="fw-bold">Rechnungsbetrag:</td>
-                <td class="text-end fw-bold">{{ formatNumber($invoice->getTotalGrossPrice()) }} €</td>
+                <td class="text-end fw-bold">{{ formatNumber($invoice->getTotalGrossAmount()) }} €</td>
             </tr>
         </table>
     </div>

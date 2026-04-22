@@ -25,7 +25,7 @@ class InvoiceRequest extends FormRequest
             // Invoice header
             // =========================
             'invoice_number' => 'required',
-            'invoice_date'   => 'required',
+            'issue_date'   => 'required',
             'value_added_tax'   => ['nullable'],
 
             'name'           => 'required',
@@ -57,7 +57,7 @@ class InvoiceRequest extends FormRequest
         return [
 
             // Invoice
-            'invoice_date.required' => 'Rechnungsdatum muss ausgefüllt werden.',
+            'issue_date.required' => 'Rechnungsdatum muss ausgefüllt werden.',
             'name.required'         => 'Name muss ausgefüllt werden.',
             'street.required'       => 'Straße muss ausgefüllt werden.',
             'house_number.required' => 'Hausnummer muss ausgefüllt werden.',

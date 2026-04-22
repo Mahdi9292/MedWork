@@ -19,7 +19,7 @@ class FinanceSidebar extends Component
      *
      * @var array
      */
-    private array $parentItems = ['invoices'];
+    private array $parentItems = ['accounting', 'system'];
 
     /**
      * Create a new component instance.

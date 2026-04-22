@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers\Finance;
 
-use App\Enums\Finance\HourAmount;
-use App\Enums\Finance\ServiceType;
+use App\Enums\Finance\Quantity;
 use App\Http\Requests\InvoiceRequest;
 use App\Models\Finance\Invoice;
 use App\Services\InvoiceService;
@@ -40,34 +39,10 @@ class InvoiceController extends BaseFinanceController
     public function create()
     {
         $this->authorize('create', Invoice::class);
-
-        // Dropdown options
-        $data['serviceTypeOptions']    = ServiceType::options();
-        $data['quantityOptions']       = HourAmount::options();
         $invoice = new Invoice;
-
-        return view('templates.finance.invoice.create', compact('invoice'), $data);
+        return view('templates.finance.invoice.create', compact('invoice'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(InvoiceRequest $request)
-    {
-        $this->authorize('create', Invoice::class);
-
-        $validated = $request->validated();
-        // Remove services from invoice data
-        $invoiceData = collect($validated)->except('services')->toArray();
-
-        $invoice = Invoice::create($invoiceData);
-
-        foreach ($validated['services'] as $service) {
-            $invoice->services()->create($service);
-        }
-
-        return redirect()->route('finance.invoices.index')->with('success', 'Rechnung wurde erfolgreich erstellt');
-    }
 
     /**
      * Display the specified resource.
@@ -84,57 +59,7 @@ class InvoiceController extends BaseFinanceController
     {
         $this->authorize('update', $invoice);
 
-        // Dropdown options
-        $data['serviceTypeOptions']    = ServiceType::options();
-        $data['quantityOptions']       = HourAmount::options();
-        return view('templates.finance.invoice.edit', compact('invoice'), $data);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(InvoiceRequest $request, Invoice $invoice)
-    {
-        $this->authorize('update', $invoice);
-
-        $validated = $request->validated();
-
-        // Update invoice main data
-        $invoiceData = collect($validated)->except('services')->toArray();
-        $invoice->update($invoiceData);
-
-        $existingServiceIds = [];
-
-        foreach ($validated['services'] as $serviceData) {
-
-            // Normalize empty ID
-            $serviceId = $serviceData['id'] ?? null;
-
-            if (!empty($serviceId)) {
-
-                // Update existing service (safely scoped to this invoice)
-                $service = $invoice->services()
-                    ->where('id', $serviceId)
-                    ->first();
-
-                if ($service) {
-                    $service->update($serviceData);
-                    $existingServiceIds[] = $service->id;
-                }
-
-            } else {
-                // Create new service
-                $service = $invoice->services()->create($serviceData);
-                $existingServiceIds[] = $service->id;
-            }
-        }
-
-        // Delete removed services
-        $invoice->services()->whereNotIn('id', $existingServiceIds)->delete();
-
-        return redirect()
-            ->route('finance.invoices.index')
-            ->with('success', 'Rechnung Nr. ' . $invoice->invoice_number . ' wurde erfolgreich aktualisiert');
+        return view('templates.finance.invoice.edit', compact('invoice'));
     }
 
     /**

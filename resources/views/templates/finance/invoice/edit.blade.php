@@ -19,145 +19,42 @@
 @extends('layouts.app')
 
 @section('content')
+    <livewire:finance.invoice-manage-screen :invoice="$invoice" :update-mode="true" />
+@endsection
 
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
-        <div class="d-block mb-4 mb-md-0">
-            <x-template.breadcrumb :activePage="$invoice->id" :links="[['key' => config('constants.APPLICATIONS.FINANCE.TITLE'), 'url' => url('finance')]]" >
-                <li class="breadcrumb-item"><a href="{{ route('finance.invoices.index') }}">{{ __('Rechnungen') }}</a></li>
-            </x-template.breadcrumb>
-            <h2 class="h4">{{ __('Rechnung bearbeiten') }}</h2>
-            <p class="mb-0"></p>
-        </div>
-        <div class="btn-toolbar mb-2 mb-md-0">
-            <div class="btn-group">
-                <a href="{{ route("finance.invoices.index") }}" class="btn btn-sm btn-outline-primary">{{ __('Alle') }}</a>
-            </div>
-            <a href="javascript:" onclick="document.getElementById('btnFormSubmit').click();" class="btn btn-sm btn-secondary mx-2">{{ __('Speichern') }}</a>
+@section('pageScripts')
+    @parent
+    <script>
+        document.addEventListener('livewire:init', function () {
+            Livewire.on('invoiceItemAdded', (params) => {
+                closeAll();
+                setTimeout(() => {
+                    openOne(params.lastIndex);
+                }, 300);
+            })
 
-        </div>
+            Livewire.on('invoiceItemCopied', params => {
+                closeAll();
+                setTimeout(() => {
+                    openOne(params.lastIndex);
+                }, 300);
+            })
 
-    </div>
+            Livewire.on('invoiceTravelExpenseAdded', (params) => {
+                closeAll();
+                setTimeout(() => {
+                    openOne(params.lastIndex);
+                }, 300);
+            })
 
-    <x-form.form :action="route('finance.invoices.update', $invoice->id)" method="PUT" id="editInvoiceForm" novalidate hasJsValidation>
-        <div class="row">
-            <div class="col-12 mb-4">
-                <div class="card border-light shadow-sm components-section">
-                    <div class="card-header">
-                        {{ __('Rechnung Empfänger') }}
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <x-form.input name="invoice_number" :label="__('Rechnung Nr.')" :value="$invoice->invoice_number" :labelClass="'col-sm-3'" required />
-                                <x-form.input name="street" :label="__('Straße')" :value="$invoice->street" :labelClass="'col-sm-3'" required />
-                                <x-form.input name="city" :label="__('Stadt')" :value="$invoice->city" :labelClass="'col-sm-3'" required />
-                                <x-form.input name="phone" :label="__('Tel.')" :value="$invoice->phone" :labelClass="'col-sm-3'" />
-                                <x-form.flat-pickr name="invoice_date" :label="__('Rechnungsdatum')" :value="$invoice->invoice_date" :labelClass="'col-sm-3'" :week-numbers="true" :allow-input="true" required />
-                            </div>
-
-                            <div class="col-sm-6">
-                                <x-form.input name="name" :label="__('Name')"  :value="$invoice->name" :labelClass="'col-sm-3'" required />
-                                <x-form.input name="house_number" :label="__('Haus Nr.')" :value="$invoice->house_number" :labelClass="'col-sm-3'" required />
-                                <x-form.input name="postcode" :label="__('PLZ')" :value="$invoice->postcode" :labelClass="'col-sm-3'" required />
-                                <x-form.input name="mobile" :label="__('Mobil')" :value="$invoice->mobile" :labelClass="'col-sm-3'" />
-                                <x-form.input name="value_added_tax" :label="__('MwSt in %')" :value="$invoice->value_added_tax" :trailingAddon="'%'" :labelClass="'col-sm-3'" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-12 mb-4">
-                <div class="card border-light shadow-sm components-section">
-                    <div class="card-header">
-                        {{ __('Leistungen') }}
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <x-form.clone-repeater id="repeaterPanel" name="services" :label="__('Leistungen')" :labelClass="'col-sm-3'" :heading="'Leistungen'" >
-                                    @if($invoice->services?->count() > 0)
-                                        <x-slot name="existingItems">
-                                            @foreach($invoice->services as $key => $service)
-                                                <div class="items" data-group="services" id="services">
-                                                    <div class="row">
-                                                        <div class="col-12 mb-2">
-                                                            <div class="card border-light shadow-sm components-section">
-                                                                <div class="card-body">
-                                                                    <div class="item-content col-12">
-                                                                        <x-form.input data-name="id" data-skip-name="false" type="hidden" name="services.{{ $key }}.id" :value="$service->id" />
-                                                                        <x-form.select data-name="service_type" data-skip-name="false" name="services.{{ $key }}.service_type" class="" :label="__('Leistungstyp')" :value="$service->service_type?->value" :options="$serviceTypeOptions" :labelClass="'col-sm-3'" />
-                                                                        <x-form.input data-name="service_title" data-skip-name="false" name="services.{{ $key }}.service_title" :label="__('Andere Leistung')" :value="$service->service_title" class="" :labelClass="'col-sm-3'" />
-                                                                        <x-form.textarea data-name="description" data-skip-name="false" name="services.{{ $key }}.description" :label="__('Beschreibung')" :value="$service->description" class="" :labelClass="'col-sm-3'" />
-                                                                        <x-form.vanilla-datepicker data-name="service_date" name="service_date" :label="__('Leistungsdatum')" :value="formatDate($service->service_date)" :labelClass="'col-sm-3'" required />
-                                                                        <x-form.select data-name="quantity" data-skip-name="false" name="services.{{ $key }}.quantity" class="" :label="__('Menge')" :value="$service->quantity?->value" :options="$quantityOptions" :labelClass="'col-sm-3'" />
-                                                                        <x-form.input data-name="unit_price" data-skip-name="false" name="services.{{ $key }}.unit_price" :label="__('Basis-Preis in €')" :value="$service->unit_price" :trailingAddon="'€'" class="" :labelClass="'col-sm-3'" required />
-                                                                    </div>
-                                                                </div>
-                                                                <div class="card-footer">
-                                                                    <div class="float-end repeater-remove-btn">
-                                                                        <button type="button" class="btn btn-danger remove-btn" title="{{ __('Löschen') }}">
-                                                                            <i class="fas fa-trash"></i>
-                                                                        </button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            @endforeach
-                                        </x-slot>
-                                   @endif
-                                   @if(is_null($invoice->services) || $invoice->services?->count() === 0)
-                                        <x-slot name="customItems">
-                                            <div class="items" data-group="services" id="services">
-                                                <div class="row">
-                                                    <div class="col-12 mb-2">
-                                                        <div class="card border-light shadow-sm components-section">
-                                                            <div class="card-body">
-                                                                <div class="item-content col-12">
-                                                                    <x-form.select data-name="service_type" data-skip-name="false" name="service_type" class="" :label="__('Leistungstyp')" :options="$serviceTypeOptions" :labelClass="'col-sm-3'" />
-                                                                    <x-form.input data-name="service_title" data-skip-name="false" name="service_title" :label="__('Andere Leistung')" class="" :labelClass="'col-sm-3'" />
-                                                                    <x-form.textarea data-name="description" data-skip-name="false" name="description" :label="__('Beschreibung')" class="" :labelClass="'col-sm-3'" />
-                                                                    {{--                                                                <x-form.flat-pickr name="service_date" :label="__('Leistungsdatum')" :value="Carbon\Carbon::now()" :labelClass="'col-sm-3'" :week-numbers="true" :allow-input="true" required />--}}
-                                                                    <x-form.vanilla-datepicker
-                                                                        data-name="service_date"
-                                                                        name="service_date"
-                                                                        :label="__('Leistungsdatum')"
-                                                                        :value="now()->format('d.m.Y')"
-                                                                        :labelClass="'col-sm-3'"
-                                                                        required
-                                                                    />
-                                                                    <x-form.select data-name="quantity" data-skip-name="false" name="quantity" class="" :label="__('Menge')" :options="$quantityOptions" :labelClass="'col-sm-3'" />
-                                                                    <x-form.input data-name="unit_price" data-skip-name="false" name="unit_price" :label="__('Basis-Preis in €')" :trailingAddon="'€'" class="" :labelClass="'col-sm-3'" required />
-                                                                </div>
-                                                            </div>
-                                                            <div class="card-footer">
-                                                                <div class="float-end repeater-remove-btn">
-                                                                    <button type="button" class="btn btn-danger remove-btn" title="{{ __('Löschen') }}">
-                                                                        <i class="fas fa-trash"></i>
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </x-slot>
-                                   @endif
-                                </x-form.clone-repeater>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-footer border-success p-2 footer-light">
-                        <button type="submit" id="btnFormSubmit" class="btn btn-secondary float-end">{{ __('Speichern') }}</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </x-form.form>
+            Livewire.on('invoiceTravelExpenseCopied', params => {
+                closeAll();
+                setTimeout(() => {
+                    openOne(params.lastIndex);
+                }, 300);
+            })
+        })
+    </script>
 @endsection
 
 
