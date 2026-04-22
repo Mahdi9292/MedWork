@@ -99,6 +99,40 @@ class Invoice extends BaseModel
         return $netAmount;
     }
 
+    public function totalNetItemAmount(): float|int
+    {
+        $netAmount = 0;
+
+        foreach ($this->invoiceItems as $invoiceItem) {
+            // if no value, take it as 1 (neutral) in calculation
+            $quantity = $invoiceItem->quantity?->value ?: 1;
+
+            // Quantity-Type Employee has no quantity
+            if($this->invoice_type == InvoiceType::QT_EMPLOYEE){
+                $quantity = 1;
+            }
+            $netAmount += parseNumber($invoiceItem->unit_price) * $quantity;
+        }
+
+        return $netAmount;
+    }
+
+    public function totalNetTravelExpenseAmount(): float|int
+    {
+        $netAmount = 0;
+        foreach ($this->invoiceTravelExpenses as $invoiceTravelExpense) {
+
+            if(!$invoiceTravelExpense->distance || !$invoiceTravelExpense->price_per_km){
+                continue;
+            }
+
+            $distance = parseNumber($invoiceTravelExpense->distance);
+            $kmPrice = parseNumber($invoiceTravelExpense->price_per_km);
+            $netAmount += $distance * $kmPrice;
+        }
+        return $netAmount;
+    }
+
     /**
      * Get the Invoice Tax Price.
      */

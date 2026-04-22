@@ -64,10 +64,47 @@
 
         <tr>
             <td colspan="{{ $hasDescription ? 6 : 5 }}" class="text-end pe-2 p-1 fw-bold">Gesamt Netto</td>
-            <td class="text-end pe-2 p-1 fw-bold">{{ formatNumber($invoice->getTotalNetAmount()) }} €</td>
+            <td class="text-end pe-2 p-1 fw-bold">{{ formatNumber($invoice->totalNetItemAmount()) }} €</td>
         </tr>
         </tbody>
     </table>
+
+    @if(count($invoice->invoiceTravelExpenses) > 1)
+        <div class="mb-2 mt-5">Fahrkosten:</div>
+        <table class="table-border w-100p font-size-9">
+            <thead>
+            <tr>
+                <th class="w-5p p-1 text-center">Pos.</th>
+                <th class="w-5p p-1 text-center">Von</th>
+                <th class="p-1 text-center">Nach</th>
+                <th class="p-1 text-center">Fahrtart</th>
+                <th class="w-15p p-1 text-center">Datum</th>
+                <th class="w-10p p-1 text-center">Strecke(KM)</th>
+                <th class="w-10p p-1 text-center">Preis pro KM</th>
+                <th class="w-10p p-1 text-center">Gesamtpreis</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach($invoice->invoiceTravelExpenses as $index=>$travelExpense)
+                <tr>
+                    <td class="text-center p-1">{{ $index+1 }}</td>
+                    <td class="ps-2 p-1">{{ $travelExpense->start_location }}</td>
+                    <td class="ps-2 p-1">{{ $travelExpense->destination }}</td>
+                    <td class="ps-2 p-1">{{ $travelExpense->trip_type?->label() }}</td>
+                    <td class="text-center p-1">{{ formatDate($travelExpense->travel_date)}}</td>
+                    <td class="text-center p-1">{{ $travelExpense->distance }} KM</td>
+                    <td class="text-center p-1">{{ $travelExpense->price_per_km }} €</td>
+                    <td class="text-end pe-2 p-1">{{ formatNumber(parseNumber($travelExpense->price_per_km) * parseNumber($travelExpense->distance))}} €</td>
+                </tr>
+            @endforeach
+
+            <tr>
+                <td colspan="{{ 7 }}" class="text-end pe-2 p-1 fw-bold">Gesamt Netto</td>
+                <td class="text-end pe-2 p-1 fw-bold">{{ formatNumber($invoice->totalNetTravelExpenseAmount()) }} €</td>
+            </tr>
+            </tbody>
+        </table>
+    @endif
 
     <div class="mt-4 float-start" style="width: 250px;">
         <table class="w-100p border-0 font-size-10">
