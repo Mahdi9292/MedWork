@@ -21,6 +21,8 @@ class InvoiceManageForm extends Form
     public $invoice_number;
     #[Validate('nullable')]
     public $invoice_type;
+    #[Validate('nullable')]
+    public $invoice_type_other;
     #[Validate('nullable|date')]
     public $issue_date;
     #[Validate('nullable')]
@@ -85,6 +87,7 @@ class InvoiceManageForm extends Form
         // Invoice
         $this->invoice_number = $invoice->invoice_number;
         $this->invoice_type = $invoice->invoice_type;
+        $this->invoice_type_other = $invoice->invoice_type_other;
         $this->issue_date = $invoice->issue_date ?? now();
         $this->value_added_tax = $invoice->value_added_tax;
         $this->total_amount = $invoice->total_amount ?? $invoice->getTotalGrossAmount();

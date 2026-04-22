@@ -17,6 +17,7 @@ return new class extends Migration
 
             $table->string('invoice_number')->nullable();
             $table->enum('invoice_type', ['person', 'hour', 'employee'])->nullable();
+            $table->string('invoice_type_other', 191)->nullable();
             $table->string('receiver_name', 191)->nullable();
             $table->string('receiver_additional_name', 191)->nullable();
             $table->string('receiver_address', 255)->nullable();

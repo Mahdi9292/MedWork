@@ -28,10 +28,10 @@ class InvoiceService extends BaseService
 
 
         // page count
-        $totalPages = $invoice->services()->count()+1;
+        $totalPages = $invoice->invoiceItems()->count()+1;
 
-        // Check if at least one service has a description
-        $hasDescription = $invoice->services?->contains(fn($s) => !empty($s->description));
+        // Check if at least one item has a description
+        $hasDescription = $invoice->invoiceItems?->contains(fn($s) => !empty($s->description));
 
         // Offer Cover page
         $mainPage = $this->generatePdf('templates.pdf.invoice_slip',
