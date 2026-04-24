@@ -6,6 +6,7 @@
     <style>
         @page {
             size: auto;
+            margin-left: 1.5cm;
             header: page-header;
             footer: page-footer;
         }
@@ -13,7 +14,8 @@
         @page :first {
             header: page-header;
             margin-header:5mm;
-            margin-top: 55mm;
+            margin-top: 45mm;
+            margin-left: 1.5cm;
             font-family: frutiger;
         }
     </style>
@@ -23,15 +25,25 @@
 @include('templates.pdf.header')
 @include('templates.pdf.footer')
 
-<div class="mt-4">
-    <div class="mb-4">
-        Rechnung an: {{ $invoice->receiver_name }}<br>
-        {{$invoice->receiver_street}} {{$invoice->receiver_house_number}}<br>
-        {{$invoice->receiver_postcode}} {{$invoice->receiver_city}}<br><br>
-        <strong>Rechnung Nr.: {{ $invoice->invoice_number }}</strong>
+<div class="mt-2">
+    <div style="margin-bottom: 0;">
+        <div>
+            {{ $invoice->receiver_name }}<br>
+            {{$invoice->receiver_street}} {{$invoice->receiver_house_number}}<br>
+            {{$invoice->receiver_postcode}} {{$invoice->receiver_city}}<br>
+        </div>
+        <table style="text-align: right; width: 100%; border: 0;">
+            <tr>
+                <td ><strong>Rechnung Nr.: {{ $invoice->invoice_number }}</strong></td>
+            </tr>
+            <tr>
+                <td>Rechnungsdatum: {{ formatDate($invoice->issue_date) }}</td>
+            </tr>
+        </table>
     </div>
 
-    <div class="mb-2">Leistungen:</div>
+
+    <div class="mb-2 mt-10">Leistungen:</div>
 
     <table class="table-border w-100p font-size-9">
         <thead>
