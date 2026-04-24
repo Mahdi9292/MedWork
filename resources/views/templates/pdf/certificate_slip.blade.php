@@ -5,18 +5,17 @@
     <style>
         @page {
             size: auto;
+            margin-left: 1.5cm;
             header: page-header;
             footer: page-footer;
-            /* Increase these if overlapping persists */
-            margin-top: 60mm;
-            margin-bottom: 10mm;
-            margin-header: 10mm;
-            margin-footer: 2mm;
         }
 
         @page :first {
-            /* Keep specific first-page logic if needed */
-            margin-top: 46mm;
+            header: page-header;
+            margin-header:5mm;
+            margin-top: 45mm;
+            margin-left: 1.5cm;
+            font-family: frutiger;
         }
         table {
             page-break-inside: auto;
@@ -41,9 +40,15 @@
 @include('templates.pdf.footer')
 
 <div class="content">
-    <div class="text-center mt-1"> {{ $isEmployer ? 'Arbeitgeber/in' : 'Arbeitnehmer/in' }}</div>
     <div class="title-section mt-4">
-        <div class="font-size-13 fw-bold mb-1">{{__('Vorsorgebescheinigung')}}</div>
+        <div class="mb-1">
+            <span class="font-size-13 fw-bold">
+                {{__('Vorsorgebescheinigung')}}
+            </span>
+
+                <em>{{ $isEmployer ? '(Arbeitgeber/in)' : '(Arbeitnehmer/in)' }}</em>
+
+        </div>
         <div class="font-size-8">
            <em>{{__('nach § 6 Absatz 3 Nr. 3 der Verordnung zur arbeitsmedizinischen Vorsorge')}}</em>
         </div>
