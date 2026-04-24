@@ -69,7 +69,7 @@
         </tbody>
     </table>
 
-    @if(count($invoice->invoiceTravelExpenses) > 1)
+    @if(count($invoice->invoiceTravelExpenses) > 0)
         <div class="mb-2 mt-5">Fahrkosten:</div>
         <table class="table-border w-100p font-size-9">
             <thead>
