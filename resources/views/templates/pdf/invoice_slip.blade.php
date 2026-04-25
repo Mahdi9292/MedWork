@@ -56,9 +56,9 @@
                     <td class="font-size-8 {{$item->description?'': 'text-center'}}">{{ $item->description ?: '—' }}</td>
                 @endif
                 <td class="text-center p-1">{{ formatDate($item->serving_date)}}</td>
-                <td class="text-center p-1">{{ $item->quantity?->label() ?: 1 }} </td>
+                <td class="text-center p-1">{{ $item->quantity ?: 1 }} </td>
                 <td class="text-center p-1">{{ $item->unit_price }} €</td>
-                <td class="text-end pe-2 p-1">{{ formatNumber(parseNumber($item->unit_price) * ($item->quantity?->value ?: 1))}} €</td>
+                <td class="text-end pe-2 p-1">{{ formatNumber(parseNumber($item->unit_price) * ($item->quantity ?: 1))}} €</td>
             </tr>
         @endforeach
 

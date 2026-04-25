@@ -56,9 +56,10 @@ return new class extends Migration
             $table->string('item_type_other', 255)->nullable();
             $table->date('serving_date')->nullable();
 
-            $table->enum('quantity', [1, 2, 3, 4, 5, 6, 7, 8, 9, 10])->nullable();
-
+            $table->integer('quantity')->nullable();
+            $table->decimal('amount', 8, 2)->nullable();
             $table->string('employee_name', 255)->nullable();
+
             $table->text('description')->nullable();
 
             $table->decimal('unit_price', 10, 2)->default(0);

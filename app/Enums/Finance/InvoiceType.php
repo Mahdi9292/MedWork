@@ -12,6 +12,7 @@ enum InvoiceType: string implements HasOptionsInterface
     case QT_PERSON = 'person'; // Person
     case QT_HOUR = 'hour'; // Stunde
     case QT_EMPLOYEE = 'employee'; // Mitarbeiter
+    case QT_OTHER = 'other'; // Mitarbeiter
 
 
     public function label(): string
@@ -20,6 +21,7 @@ enum InvoiceType: string implements HasOptionsInterface
             InvoiceType::QT_PERSON => 'Person/en',
             InvoiceType::QT_HOUR => 'Stunde/n',
             InvoiceType::QT_EMPLOYEE => 'Mitarbeiter/in',
+            InvoiceType::QT_OTHER => 'Andere',
         };
     }
 }

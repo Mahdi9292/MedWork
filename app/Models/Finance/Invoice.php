@@ -75,13 +75,20 @@ class Invoice extends BaseModel
         $netAmount = 0;
 
         foreach ($this->invoiceItems as $invoiceItem) {
-            // if no value, take it as 1 (neutral) in calculation
-            $quantity = $invoiceItem->quantity?->value ?: 1;
 
-            // Quantity-Type Employee has no quantity
+            // By Default
+            $quantity = parseNumber($invoiceItem->amount) ?: 1;
+
+            // Quantity-Type Person
+            if($this->invoice_type == InvoiceType::QT_PERSON){
+                $quantity = $invoiceItem->quantity ?: 1;
+            }
+
+            // Quantity-Type Employee -> no quantity or amount
             if($this->invoice_type == InvoiceType::QT_EMPLOYEE){
                 $quantity = 1;
             }
+            
             $netAmount += parseNumber($invoiceItem->unit_price) * $quantity;
         }
 
@@ -110,6 +117,8 @@ class Invoice extends BaseModel
             // Quantity-Type Employee has no quantity
             if($this->invoice_type == InvoiceType::QT_EMPLOYEE){
                 $quantity = 1;
+            } elseif ($this->invoice_type == InvoiceType::QT_HOUR) {
+                $quantity = parseNumber($invoiceItem->hours) ?: 1;
             }
             $netAmount += parseNumber($invoiceItem->unit_price) * $quantity;
         }
