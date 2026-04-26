@@ -97,27 +97,7 @@ class Invoice extends BaseModel
         $netAmount = 0;
 
         foreach ($this->invoiceItems as $invoiceItem) {
-
-            // By Default
-            $quantity = parseNumber($invoiceItem->amount) ?: 1;
-
-            if($this->invoice_type == InvoiceType::QT_HOUR){
-                $rawAmount = parseNumber($invoiceItem->amount);
-                $quantity = $this->parseTimeToDecimal($rawAmount);
-
-            }
-
-            // Quantity-Type Person
-            if($this->invoice_type == InvoiceType::QT_PERSON){
-                $quantity = $invoiceItem->quantity ?: 1;
-            }
-
-            // Quantity-Type Employee -> no quantity or amount
-            if($this->invoice_type == InvoiceType::QT_EMPLOYEE){
-                $quantity = 1;
-            }
-
-            $netAmount += parseNumber($invoiceItem->unit_price) * $quantity;
+            $netAmount += $invoiceItem->getNetPrice();
         }
 
         foreach ($this->invoiceTravelExpenses as $invoiceTravelExpense) {
@@ -139,16 +119,7 @@ class Invoice extends BaseModel
         $netAmount = 0;
 
         foreach ($this->invoiceItems as $invoiceItem) {
-            // if no value, take it as 1 (neutral) in calculation
-            $quantity = $invoiceItem->quantity?->value ?: 1;
-
-            // Quantity-Type Employee has no quantity
-            if($this->invoice_type == InvoiceType::QT_EMPLOYEE){
-                $quantity = 1;
-            } elseif ($this->invoice_type == InvoiceType::QT_HOUR) {
-                $quantity = parseNumber($invoiceItem->hours) ?: 1;
-            }
-            $netAmount += parseNumber($invoiceItem->unit_price) * $quantity;
+            $netAmount += $invoiceItem->getNetPrice();
         }
 
         return $netAmount;

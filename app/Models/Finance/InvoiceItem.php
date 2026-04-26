@@ -56,4 +56,29 @@ class InvoiceItem extends BaseModel
     {
         return $this->belongsTo(InvoiceItemType::class, 'item_type_id');
     }
+
+    public function getCalculatedQuantity(): float
+    {
+        $invoiceType = $this->invoice?->invoice_type;
+
+        if ($invoiceType == InvoiceType::QT_EMPLOYEE) {
+            return 1;
+        }
+
+        if ($invoiceType == InvoiceType::QT_PERSON) {
+            return $this->quantity ?: 1;
+        }
+
+        if ($invoiceType == InvoiceType::QT_HOUR) {
+            $rawAmount = parseNumber($this->amount);
+            return $this->invoice->parseTimeToDecimal($rawAmount);
+        }
+
+        return parseNumber($this->amount) ?: 1;
+    }
+
+    public function getNetPrice(): float
+    {
+        return parseNumber($this->unit_price) * $this->getCalculatedQuantity();
+    }
 }

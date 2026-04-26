@@ -56,9 +56,19 @@
                     <td class="font-size-8 {{$item->description?'': 'text-center'}}">{{ $item->description ?: '—' }}</td>
                 @endif
                 <td class="text-center p-1">{{ formatDate($item->serving_date)}}</td>
-                <td class="text-center p-1">{{ $item->quantity ?: 1 }} </td>
+
+                @if($invoice->invoice_type == \App\Enums\Finance\InvoiceType::QT_EMPLOYEE)
+                    <td class="text-center p-1">{{ $item->employee_name ?: '' }} </td>
+
+                @elseif($invoice->invoice_type == \App\Enums\Finance\InvoiceType::QT_PERSON)
+                    <td class="text-center p-1">{{ $item->quantity ?: '' }} </td>
+
+                @else
+                    <td class="text-center p-1">{{ formatNumber(parseNumber($item->amount))}} </td>
+                @endif
+
                 <td class="text-center p-1">{{ $item->unit_price }} €</td>
-                <td class="text-end pe-2 p-1">{{ formatNumber(parseNumber($item->unit_price) * ($item->quantity ?: 1))}} €</td>
+                <td class="text-end pe-2 p-1">{{ formatNumber($item->getNetPrice()) }} €</td>
             </tr>
         @endforeach
 
