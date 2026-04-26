@@ -51,6 +51,12 @@ class Invoice extends BaseModel
             }
             $invoice->invoice_number = $date . $nextSequence;
         });
+
+        static::saving(function (Invoice $invoice) {
+            if($invoice->invoice_type != InvoiceType::QT_OTHER){
+               $invoice->invoice_type_other = null;
+            }
+        });
     }
 
     #region: relations
@@ -67,6 +73,22 @@ class Invoice extends BaseModel
     #endregion
 
     #region: functions
+
+    /**
+     * $time format is like decimal: 1,15 - 2,45 - 8,00 - 2,25
+     * Parse the time to decimal
+     */
+    public function parseTimeToDecimal(?float $time): float
+    {
+        if ($time === null) {
+            return 0;
+        }
+
+        $hours = floor($time);
+        $minutes = round(($time - $hours) * 100);
+        return $hours + ($minutes / 60);
+    }
+
     /**
      * Get the Invoice Total Net Price.
      */
@@ -79,6 +101,12 @@ class Invoice extends BaseModel
             // By Default
             $quantity = parseNumber($invoiceItem->amount) ?: 1;
 
+            if($this->invoice_type == InvoiceType::QT_HOUR){
+                $rawAmount = parseNumber($invoiceItem->amount);
+                $quantity = $this->parseTimeToDecimal($rawAmount);
+
+            }
+
             // Quantity-Type Person
             if($this->invoice_type == InvoiceType::QT_PERSON){
                 $quantity = $invoiceItem->quantity ?: 1;
@@ -88,7 +116,7 @@ class Invoice extends BaseModel
             if($this->invoice_type == InvoiceType::QT_EMPLOYEE){
                 $quantity = 1;
             }
-            
+
             $netAmount += parseNumber($invoiceItem->unit_price) * $quantity;
         }
 
