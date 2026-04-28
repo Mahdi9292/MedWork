@@ -1,3 +1,6 @@
+
+@php use App\Enums\Finance\InvoiceType; @endphp
+
 <div>
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
         <div class="d-block mb-4 mb-md-0">
@@ -97,7 +100,9 @@
                                 <x-form.input name="invoiceManageForm.value_added_tax" wire:model="invoiceManageForm.value_added_tax" :label="__('MwSt in %')" :trailingAddon="'%'" :labelClass="'col-sm-4'" />
                                 <x-form.flat-pickr name="invoiceManageForm.issue_date" wire:model="invoiceManageForm.issue_date" :label="__('Erstellungsdatum')" :labelClass="'col-sm-4'" :week-numbers="true" :allow-input="true" />
                                 <x-form.select name="invoiceManageForm.invoice_type" wire:model.live="invoiceManageForm.invoice_type" :label="__('Rechnungstyp')" :options="$invoiceTypeOptions" :labelClass="'col-sm-4'"  />
-                                <x-form.input name="invoiceManageForm.invoice_type_other" wire:model="invoiceManageForm.invoice_type_other" :label="__('Andere Rechnungstyp')" :labelClass="'col-sm-4'" />
+                                @if($invoiceManageForm->invoice_type == InvoiceType::QT_OTHER->value || $invoiceManageForm->invoice_type == InvoiceType::QT_OTHER)
+                                    <x-form.input name="invoiceManageForm.invoice_type_other" wire:model.live="invoiceManageForm.invoice_type_other" :label="__('Andere Rechnungstyp')" :labelClass="'col-sm-4'" />
+                                @endif
                             </div>
                         </div>
 
@@ -158,10 +163,15 @@
                                         <div class="col-sm-10">
                                             <x-form.select name="inputs.{{$inputId}}.item_type_id" wire:model.live="inputs.{{$inputId}}.item_type_id" :label="__('Leistungstyp')" :options="$itemTypeOptions" :labelClass="'col-sm-3'"  />
                                             <x-form.input name="inputs.{{$inputId}}.item_type_other" wire:model="inputs.{{$inputId}}.item_type_other" :label="__('Sonstiger Leistungstyp')" :labelClass="'col-sm-3'" />
-                                            @if($invoiceManageForm->invoice_type == \App\Enums\Finance\InvoiceType::QT_EMPLOYEE->value)
-                                                <x-form.input name="inputs.{{$inputId}}.employee_name" wire:live="inputs.{{$inputId}}.employee_name" :label="__('Mitarbeiter/in')" :labelClass="'col-sm-3'" />
+
+                                            @if($invoiceManageForm->invoice_type == InvoiceType::QT_EMPLOYEE->value || $invoiceManageForm->invoice_type == InvoiceType::QT_EMPLOYEE)
+                                                <x-form.input name="inputs.{{$inputId}}.employee_name" wire:model.live="inputs.{{$inputId}}.employee_name" :label="__('Mitarbeiter/in')" :labelClass="'col-sm-3'" />
+
+                                            @elseif($invoiceManageForm->invoice_type == InvoiceType::QT_PERSON->value || $invoiceManageForm->invoice_type == InvoiceType::QT_PERSON)
+                                                <x-form.input name="inputs.{{$inputId}}.quantity" wire:model.live="inputs.{{$inputId}}.quantity" :label="__('Personen')" :labelClass="'col-sm-3'"  />
+
                                             @else
-                                                <x-form.select name="inputs.{{$inputId}}.quantity" wire:model.live="inputs.{{$inputId}}.quantity" :label="__('Menge')" :options="$quantityOptions" :labelClass="'col-sm-3'"  />
+                                                <x-form.input name="inputs.{{$inputId}}.amount" wire:model.live="inputs.{{$inputId}}.amount" label="{{ $invoiceManageForm->invoice_type_other ? 'Menge' : 'Stunde' }}" :labelClass="'col-sm-3'" />
                                             @endif
                                             <x-form.input name="inputs.{{$inputId}}.description" wire:model="inputs.{{$inputId}}.description" :label="__('Beschreibung')" :labelClass="'col-sm-3'" />
                                             <x-form.input name="inputs.{{$inputId}}.unit_price" wire:model="inputs.{{$inputId}}.unit_price" :trailingAddon="'€'" :label="__('Einzelpreis (€)')" :labelClass="'col-sm-3'" />

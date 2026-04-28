@@ -51,6 +51,12 @@ class Invoice extends BaseModel
             }
             $invoice->invoice_number = $date . $nextSequence;
         });
+
+        static::saving(function (Invoice $invoice) {
+            if($invoice->invoice_type != InvoiceType::QT_OTHER){
+               $invoice->invoice_type_other = null;
+            }
+        });
     }
 
     #region: relations
@@ -67,6 +73,22 @@ class Invoice extends BaseModel
     #endregion
 
     #region: functions
+
+    /**
+     * $time format is like decimal: 1,15 - 2,45 - 8,00 - 2,25
+     * Parse the time to decimal
+     */
+    public function parseTimeToDecimal(?float $time): float
+    {
+        if ($time === null) {
+            return 0;
+        }
+
+        $hours = floor($time);
+        $minutes = round(($time - $hours) * 100);
+        return $hours + ($minutes / 60);
+    }
+
     /**
      * Get the Invoice Total Net Price.
      */
@@ -75,14 +97,7 @@ class Invoice extends BaseModel
         $netAmount = 0;
 
         foreach ($this->invoiceItems as $invoiceItem) {
-            // if no value, take it as 1 (neutral) in calculation
-            $quantity = $invoiceItem->quantity?->value ?: 1;
-
-            // Quantity-Type Employee has no quantity
-            if($this->invoice_type == InvoiceType::QT_EMPLOYEE){
-                $quantity = 1;
-            }
-            $netAmount += parseNumber($invoiceItem->unit_price) * $quantity;
+            $netAmount += $invoiceItem->getNetPrice();
         }
 
         foreach ($this->invoiceTravelExpenses as $invoiceTravelExpense) {
@@ -104,14 +119,7 @@ class Invoice extends BaseModel
         $netAmount = 0;
 
         foreach ($this->invoiceItems as $invoiceItem) {
-            // if no value, take it as 1 (neutral) in calculation
-            $quantity = $invoiceItem->quantity?->value ?: 1;
-
-            // Quantity-Type Employee has no quantity
-            if($this->invoice_type == InvoiceType::QT_EMPLOYEE){
-                $quantity = 1;
-            }
-            $netAmount += parseNumber($invoiceItem->unit_price) * $quantity;
+            $netAmount += $invoiceItem->getNetPrice();
         }
 
         return $netAmount;
