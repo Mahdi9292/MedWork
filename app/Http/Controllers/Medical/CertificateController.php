@@ -146,7 +146,7 @@ class CertificateController extends BaseMedicalController
     /**
      * show certificate pdf
      */
-    public function printCertificate(Certificate $certificate = null, string $downloadType = Certificate::DOWNLOAD_TYPE_ZIP)
+    public function printCertificate(Certificate $certificate = null, string $downloadType = Certificate::DOWNLOAD_TYPE_EMPLOYEE)
     {
         //  $this->authorize('print', Certificate::class);
         try {

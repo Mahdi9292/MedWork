@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html>
 <head>
     <link href="{{ asset('assets/css/pdf.css') }}" rel="stylesheet">

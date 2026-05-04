@@ -39,33 +39,63 @@
 @include('templates.pdf.header')
 @include('templates.pdf.footer')
 
-<div class="content">
-    <div class="title-section mt-4">
+<div class="content mt-2">
+
+    <div style="margin-bottom: 0;">
+        <div class="font-size-10">
+            {{$certificate->employer_name}}<br>
+            {{$certificate->employee_salutation?->label()}} {{$certificate->employee_first_name}} {{$certificate->employee_last_name}}<br>
+            @if($certificate->employer_address)
+                {{ $certificate->employer_address }}<br>
+            @else
+                {{ $certificate->employer_street }} {{ $certificate->employer_house_number }}<br>
+                {{ $certificate->employer_postcode }} {{ $certificate->employer_city }}<br>
+            @endif
+        </div>
+        <table style="text-align: right; width: 100%; border: 0;" class="font-size-9">
+            <tr>
+                <td ><strong>{{__('Bescheinigung Nr.')}}: {{ $certificate->certificate_number }}</strong></td>
+            </tr>
+            <tr>
+                <td>{{ __('Datum') }}: {{ formatDate($certificate->issue_date) }}</td>
+            </tr>
+            <tr>
+                <td>{{ __('Ort') }}: {{ $certificate->issue_location ?: __('Brake') }}</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="title-section mt-10">
         <div class="mb-1">
-            <span class="font-size-13 fw-bold">
+            <span class="font-size-12 fw-bold">
                 {{__('Vorsorgebescheinigung')}}
             </span>
-
-                <em>{{ $isEmployer ? '(Arbeitgeber/in)' : '(Arbeitnehmer/in)' }}</em>
-
+            <em>{{ $isEmployer ? '(Arbeitgeber/in)' : '(Arbeitnehmer/in)' }}</em>
         </div>
         <div class="font-size-8">
-           <em>{{__('nach § 6 Absatz 3 Nr. 3 der Verordnung zur arbeitsmedizinischen Vorsorge')}}</em>
-        </div>
-        <div class="font-size-9 text-end mt-2">
-            {{__('Bescheinigung Nr.')}}: {{ $certificate->certificate_number }} <br>
-            {{ __('Datum') }}: {{ formatDate($certificate->issue_date) }}<br>
-            {{ __('Ort') }}: {{ $certificate->issue_location ?: __('Brake') }}
+            <em>{{__('nach § 6 Absatz 3 Nr. 3 der Verordnung zur arbeitsmedizinischen Vorsorge')}}</em>
         </div>
     </div>
 
-    <div class="mb-4 font-size-9">
-        {{ $certificate->employee_salutation ? ($certificate->employee_salutation == \App\Enums\Medical\SalutationType::ST_MR ? __('Proband') : __('Probandin')) : __('Proband/in') }}<br>
-        <span class="fw-bold">{{$certificate->employee_salutation?->label()}} {{$certificate->employee_first_name}} {{$certificate->employee_last_name}}</span><br>
-        {{__('Geburtsdatum')}}: {{ formatDate($certificate->employee_birthday) }}<br>
-        {{__('beschäftigt bei')}}: {{$certificate->employer_name}}<br>
-        {{__('Anschrift des Arbeitgebers')}}: {{ $certificate->employer_address ?: $certificate->employer_street . ' ' . $certificate->employer_house_number . ', ' . $certificate->employer_postcode . ' ' . $certificate->employer_city}}<br><br>
-        <span class="fw-bold">{{__('Untersuchungsdatum')}}: {{ formatDate($certificate->examination_date) }}</span>
+    <div class="mt-4 mb-4">
+        <table class="font-size-9" style="width: 100%; border: 0;">
+            <tr>
+                <td style="width: 150px;" class="fw-bold">{{ $certificate->employee_salutation ? ($certificate->employee_salutation == \App\Enums\Medical\SalutationType::ST_MR ? __('Proband') : __('Probandin')) : __('Proband/in') }}:</td>
+                <td>{{$certificate->employee_salutation?->label()}} {{$certificate->employee_first_name}} {{$certificate->employee_last_name}}</td>
+            </tr>
+            <tr>
+                <td class="fw-bold">{{__('Geburtsdatum')}}:</td>
+                <td>{{ formatDate($certificate->employee_birthday) }}</td>
+            </tr>
+            <tr>
+                <td class="fw-bold">{{__('beschäftigt bei')}}:</td>
+                <td>{{$certificate->employer_name}}</td>
+            </tr>
+            <tr>
+                <td class="fw-bold">{{__('Untersuchungsdatum')}}:</td>
+                <td>{{ formatDate($certificate->examination_date) }}</td>
+            </tr>
+        </table>
     </div>
 
     <div class="mb-1 fw-bold font-size-10">{{__('Vorsorgen')}}:</div>
@@ -116,7 +146,7 @@
 
             @if($certificate->signed)
                 <div style="position: relative; z-index: 2; margin-top: -80px;">
-                    <img src="{{ asset('assets/img/brand/stamp_and_signature.jpg') }}" style="width: 160px; transform: rotate(-2deg); opacity: 0.9; mix-blend-mode: multiply; pointer-events: none;">
+                    <img src="{{ asset('assets/img/brand/stamp_and_signature.png') }}" style="width: 160px; transform: rotate(-2deg); opacity: 0.9; mix-blend-mode: multiply; pointer-events: none;">
                 </div>
             @endif
         </div>
