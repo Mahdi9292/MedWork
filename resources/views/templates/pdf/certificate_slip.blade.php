@@ -6,6 +6,9 @@
         @page {
             size: auto;
             margin-left: 1.5cm;
+            margin-header:5mm;
+            margin-top: 45mm;
+            font-family: frutiger;
             header: page-header;
             footer: page-footer;
         }
@@ -14,6 +17,7 @@
             header: page-header;
             margin-header:5mm;
             margin-top: 45mm;
+            margin-bottom: 20mm;
             margin-left: 1.5cm;
             font-family: frutiger;
         }
@@ -134,21 +138,21 @@
             @endif
             </ul>
         </div>
-    </div>
 
-    <div class="mt-15 font-size-9" style="width: 100%; clear: both; page-break-inside: avoid;">
-        <div style="width: 50%; margin-left: auto; margin-right: 0; text-align: center; color: #2e5da7; font-weight: bold; line-height: 1.2;">
+        <div class="mt-10 font-size-9" style="width: 100%; clear: both; page-break-inside: avoid;">
+            <div style="width: 50%; margin-left: auto; margin-right: 0; text-align: center; color: #2e5da7; font-weight: bold; line-height: 1.2;">
 
-            <div style="position: relative; z-index: 1;">
-                <div>{{__('Unterschrift: Dr. med. Majid Taghvaei')}}</div>
-                <div>{{__('Facharzt für Arbeitsmedizin')}}</div>
-            </div>
-
-            @if($certificate->signed)
-                <div style="position: relative; z-index: 2; margin-top: -80px;">
-                    <img src="{{ asset('assets/img/brand/stamp_and_signature.png') }}" style="width: 160px; transform: rotate(-2deg); opacity: 0.9; mix-blend-mode: multiply; pointer-events: none;">
+                <div style="position: relative; z-index: 1; margin-bottom: -80px">
+                    <div>{{__('Unterschrift: Dr. med. Majid Taghvaei')}}</div>
+                    <div>{{__('Facharzt für Arbeitsmedizin')}}</div>
                 </div>
-            @endif
+
+                @if($certificate->signed)
+                    <div style="position: relative; z-index: 2; ">
+                        <img src="{{ asset('assets/img/brand/stamp_and_signature.png') }}" style="width: 160px; transform: rotate(-2deg); opacity: 0.9; mix-blend-mode: multiply; pointer-events: none;">
+                    </div>
+                @endif
+            </div>
         </div>
     </div>
 </div>
