@@ -43,31 +43,57 @@
 @include('templates.pdf.header')
 @include('templates.pdf.footer')
 
-<div class="content mt-2">
-
-    <div style="margin-bottom: 0;">
-        <div class="font-size-10">
-            {{$certificate->employer_name}}<br>
-            {{$certificate->employee_salutation?->label()}} {{$certificate->employee_first_name}} {{$certificate->employee_last_name}}<br>
-            @if($certificate->employer_address)
-                {{ $certificate->employer_address }}<br>
-            @else
-                {{ $certificate->employer_street }} {{ $certificate->employer_house_number }}<br>
-                {{ $certificate->employer_postcode }} {{ $certificate->employer_city }}<br>
-            @endif
-        </div>
-        <table style="text-align: right; width: 100%; border: 0;" class="font-size-9">
-            <tr>
-                <td ><strong>{{__('Bescheinigung Nr.')}}: {{ $certificate->certificate_number }}</strong></td>
-            </tr>
-            <tr>
-                <td>{{ __('Datum') }}: {{ formatDate($certificate->issue_date) }}</td>
-            </tr>
-            <tr>
-                <td>{{ __('Ort') }}: {{ $certificate->issue_location ?: __('Brake') }}</td>
-            </tr>
-        </table>
-    </div>
+<div class="content mt-1">
+    <table style="width: 100%; border: 0; margin-bottom: 0;">
+        <tr>
+            <td style="width: 55%; vertical-align: top;">
+                <table>
+                    <tr>
+                        <td>
+                            <strong>
+                                @if(!$isEmployer) {{ __('Persönlich/Vertraulich') }} - <em>{{__('Arbeitnehmer/in') }}</em>
+                                @else {{ __('Bescheinigung für den Arbeitgeber') }}
+                                @endif
+                            </strong>
+                        </td><br><br>
+                    </tr>
+                    <tr>
+                        <td>
+                            @if($isEmployer)
+                                <span class="fw-bold">{{ __('Beschäftigte Person') }}:</span>
+                            @endif
+                            <span> {{$certificate->employee_salutation?->label()}} {{$certificate->employee_first_name}} {{$certificate->employee_last_name}}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="font-size-8">
+                            <span class="fw-bold">{{__('beschäftigt bei')}}:</span>
+                            <span> {{$certificate->employer_name}}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="font-size-8">
+                            <span class="fw-bold">{{__('Anschrift des Arbeitgebers')}}:</span>
+                            <span> {{$certificate->employer_address}}</span>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td style="width: 45%; vertical-align: top;">
+                <table style="text-align: right; width: 100%; border: 0;" class="font-size-9">
+                    <tr>
+                        <td><strong>{{__('Bescheinigung Nr.')}}: {{ $certificate->certificate_number }}</strong></td>
+                    </tr>
+                    <tr>
+                        <td>{{ __('Datum') }}: {{ formatDate($certificate->issue_date) }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ __('Ort') }}: {{ $certificate->issue_location ?: __('Brake') }}</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
 
     <div class="title-section mt-10">
         <div class="mb-1">
@@ -90,10 +116,6 @@
             <tr>
                 <td class="fw-bold">{{__('Geburtsdatum')}}:</td>
                 <td>{{ formatDate($certificate->employee_birthday) }}</td>
-            </tr>
-            <tr>
-                <td class="fw-bold">{{__('beschäftigt bei')}}:</td>
-                <td>{{$certificate->employer_name}}</td>
             </tr>
             <tr>
                 <td class="fw-bold">{{__('Untersuchungsdatum')}}:</td>
