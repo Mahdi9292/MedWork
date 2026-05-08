@@ -95,8 +95,8 @@
         </tr>
     </table>
 
-    <div class="title-section mt-10">
-        <div class="mb-1">
+    <div class="title-section mt-10 mb-0">
+        <div class="mb-0">
             <span class="font-size-12 fw-bold">
                 {{__('Vorsorgebescheinigung')}}
             </span>
@@ -105,9 +105,12 @@
         <div class="font-size-8">
             <em>{{__('nach § 6 Absatz 3 Nr. 3 der Verordnung zur arbeitsmedizinischen Vorsorge')}}</em>
         </div>
+        <div style="margin-top: 2mm; margin-left: -1.5cm; margin-bottom: -8px">
+            —
+        </div>
     </div>
 
-    <div class="mt-4 mb-4">
+    <div class="mb-4">
         <table class="font-size-9" style="width: 100%; border: 0;">
             <tr>
                 <td style="width: 150px;" class="fw-bold">{{ $certificate->employee_salutation ? ($certificate->employee_salutation == \App\Enums\Medical\SalutationType::ST_MR ? __('Proband') : __('Probandin')) : __('Proband/in') }}:</td>
