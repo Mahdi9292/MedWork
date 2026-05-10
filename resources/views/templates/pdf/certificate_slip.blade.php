@@ -5,18 +5,21 @@
     <style>
         @page {
             size: auto;
+            margin-left: 1.5cm;
+            margin-header:5mm;
+            margin-top: 45mm;
+            font-family: frutiger;
             header: page-header;
             footer: page-footer;
-            /* Increase these if overlapping persists */
-            margin-top: 60mm;
-            margin-bottom: 10mm;
-            margin-header: 10mm;
-            margin-footer: 2mm;
         }
 
         @page :first {
-            /* Keep specific first-page logic if needed */
-            margin-top: 46mm;
+            header: page-header;
+            margin-header:5mm;
+            margin-top: 45mm;
+            margin-bottom: 20mm;
+            margin-left: 1.5cm;
+            font-family: frutiger;
         }
         table {
             page-break-inside: auto;
@@ -40,27 +43,88 @@
 @include('templates.pdf.header')
 @include('templates.pdf.footer')
 
-<div class="content">
-    <div class="text-center mt-1"> {{ $isEmployer ? 'Arbeitgeber/in' : 'Arbeitnehmer/in' }}</div>
-    <div class="title-section mt-4">
-        <div class="font-size-13 fw-bold mb-1">{{__('Vorsorgebescheinigung')}}</div>
-        <div class="font-size-8">
-           <em>{{__('nach § 6 Absatz 3 Nr. 3 der Verordnung zur arbeitsmedizinischen Vorsorge')}}</em>
+<div class="content mt-1">
+    <table style="width: 100%; border: 0; margin-bottom: 0;">
+        <tr>
+            <td style="width: 55%; vertical-align: top;">
+                <table>
+                    <tr>
+                        <td>
+                            <strong>
+                                @if(!$isEmployer) {{ __('Persönlich/Vertraulich') }} - <em>{{__('Arbeitnehmer/in') }}</em>
+                                @else {{ __('Bescheinigung für den Arbeitgeber') }}
+                                @endif
+                            </strong>
+                        </td><br><br>
+                    </tr>
+                    <tr>
+                        <td>
+                            @if($isEmployer)
+                                <span class="fw-bold">{{ __('Beschäftigte Person') }}:</span>
+                            @endif
+                            <span> {{$certificate->employee_salutation?->label()}} {{$certificate->employee_first_name}} {{$certificate->employee_last_name}}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="font-size-8">
+                            <span class="fw-bold">{{__('beschäftigt bei')}}:</span>
+                            <span> {{$certificate->employer_name}}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="font-size-8">
+                            <span class="fw-bold">{{__('Anschrift des Arbeitgebers')}}:</span>
+                            <span> {{$certificate->employer_address}}</span>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td style="width: 45%; vertical-align: top;">
+                <table style="text-align: right; width: 100%; border: 0;" class="font-size-9">
+                    <tr>
+                        <td><strong>{{__('Bescheinigung Nr.')}}: {{ $certificate->certificate_number }}</strong></td>
+                    </tr>
+                    <tr>
+                        <td>{{ __('Datum') }}: {{ formatDate($certificate->issue_date) }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ __('Ort') }}: {{ $certificate->issue_location ?: __('Brake') }}</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+
+    <div class="title-section mt-10 mb-0">
+        <div class="mb-0">
+            <span class="font-size-12 fw-bold">
+                {{__('Vorsorgebescheinigung')}}
+            </span>
+            <em>{{ $isEmployer ? '(Arbeitgeber/in)' : '(Arbeitnehmer/in)' }}</em>
         </div>
-        <div class="font-size-9 text-end mt-2">
-            {{__('Bescheinigung Nr.')}}: {{ $certificate->certificate_number }} <br>
-            {{ __('Datum') }}: {{ formatDate($certificate->issue_date) }}<br>
-            {{ __('Ort') }}: {{ $certificate->issue_location ?: __('Brake') }}
+        <div class="font-size-8">
+            <em>{{__('nach § 6 Absatz 3 Nr. 3 der Verordnung zur arbeitsmedizinischen Vorsorge')}}</em>
+        </div>
+        <div style="margin-top: 2mm; margin-left: -1.5cm; margin-bottom: -8px">
+            —
         </div>
     </div>
 
-    <div class="mb-4 font-size-9">
-        {{ $certificate->employee_salutation ? ($certificate->employee_salutation == \App\Enums\Medical\SalutationType::ST_MR ? __('Proband') : __('Probandin')) : __('Proband/in') }}<br>
-        <span class="fw-bold">{{$certificate->employee_salutation?->label()}} {{$certificate->employee_first_name}} {{$certificate->employee_last_name}}</span><br>
-        {{__('Geburtsdatum')}}: {{ formatDate($certificate->employee_birthday) }}<br>
-        {{__('beschäftigt bei')}}: {{$certificate->employer_name}}<br>
-        {{__('Anschrift des Arbeitgebers')}}: {{ $certificate->employer_address ?: $certificate->employer_street . ' ' . $certificate->employer_house_number . ', ' . $certificate->employer_postcode . ' ' . $certificate->employer_city}}<br><br>
-        <span class="fw-bold">{{__('Untersuchungsdatum')}}: {{ formatDate($certificate->examination_date) }}</span>
+    <div class="mb-4">
+        <table class="font-size-9" style="width: 100%; border: 0;">
+            <tr>
+                <td style="width: 150px;" class="fw-bold">{{ $certificate->employee_salutation ? ($certificate->employee_salutation == \App\Enums\Medical\SalutationType::ST_MR ? __('Proband') : __('Probandin')) : __('Proband/in') }}:</td>
+                <td>{{$certificate->employee_salutation?->label()}} {{$certificate->employee_first_name}} {{$certificate->employee_last_name}}</td>
+            </tr>
+            <tr>
+                <td class="fw-bold">{{__('Geburtsdatum')}}:</td>
+                <td>{{ formatDate($certificate->employee_birthday) }}</td>
+            </tr>
+            <tr>
+                <td class="fw-bold">{{__('Untersuchungsdatum')}}:</td>
+                <td>{{ formatDate($certificate->examination_date) }}</td>
+            </tr>
+        </table>
     </div>
 
     <div class="mb-1 fw-bold font-size-10">{{__('Vorsorgen')}}:</div>
@@ -99,21 +163,21 @@
             @endif
             </ul>
         </div>
-    </div>
 
-    <div class="mt-15 font-size-9" style="width: 100%; clear: both; page-break-inside: avoid;">
-        <div style="width: 50%; margin-left: auto; margin-right: 0; text-align: center; color: #2e5da7; font-weight: bold; line-height: 1.2;">
+        <div class="mt-10 font-size-9" style="width: 100%; clear: both; page-break-inside: avoid;">
+            <div style="width: 50%; margin-left: auto; margin-right: 0; text-align: center; color: #2e5da7; font-weight: bold; line-height: 1.2;">
 
-            <div style="position: relative; z-index: 1;">
-                <div>{{__('Unterschrift: Dr. med. Majid Taghvaei')}}</div>
-                <div>{{__('Facharzt für Arbeitsmedizin')}}</div>
-            </div>
-
-            @if($certificate->signed)
-                <div style="position: relative; z-index: 2; margin-top: -80px;">
-                    <img src="{{ asset('assets/img/brand/stamp_and_signature.jpg') }}" style="width: 160px; transform: rotate(-2deg); opacity: 0.9; mix-blend-mode: multiply; pointer-events: none;">
+                <div style="position: relative; z-index: 1; margin-bottom: -80px">
+                    <div>{{__('Unterschrift: Dr. med. Majid Taghvaei')}}</div>
+                    <div>{{__('Facharzt für Arbeitsmedizin')}}</div>
                 </div>
-            @endif
+
+                @if($certificate->signed)
+                    <div style="position: relative; z-index: 2; ">
+                        <img src="{{ asset('assets/img/brand/stamp_and_signature.png') }}" style="width: 160px; transform: rotate(-2deg); opacity: 0.9; mix-blend-mode: multiply; pointer-events: none;">
+                    </div>
+                @endif
+            </div>
         </div>
     </div>
 </div>
